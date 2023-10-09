@@ -5,16 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <FrameLayout
+        android:id="@+id/mainFrame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainFrame_layout"
-        />
+        android:layout_marginBottom="80dp"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/nav_view"
         android:layout_gravity="bottom"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
