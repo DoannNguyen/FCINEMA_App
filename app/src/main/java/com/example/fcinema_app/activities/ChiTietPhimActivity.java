@@ -17,9 +17,10 @@ import com.example.fcinema_app.models.PhimModel;
 public class ChiTietPhimActivity extends AppCompatActivity {
 
     ImageView mImageView;
-    TextView tvTenPhim, tvGiaPhim;
+    TextView tvTenPhim, tvGiaPhim, tvTheLoai, tvQuocGia, tvNamSX, tvThoiLuong, tvNgonNgu, tvDaoDien,
+            tvNgayChieu, tvCaChieu, tvPhongchieu, tvMoTa;
     androidx.appcompat.widget.Toolbar mToolbar;
-    Button  btn;
+    Button  btnChonSuatChieu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,17 @@ public class ChiTietPhimActivity extends AppCompatActivity {
         tvTenPhim = findViewById(R.id.tvTenPhimCTP);
         tvGiaPhim = findViewById(R.id.tvGiaPhimCTP);
         mImageView = findViewById(R.id.img_postterCTP);
-        mToolbar = findViewById(R.id.toolbar);
-        btn = findViewById(R.id.btnChonSUatChieu);
+        tvTheLoai = findViewById(R.id.tvTheLoaiCTP);
+        tvQuocGia = findViewById(R.id.tvQuocGiaCTP);
+        tvNamSX = findViewById(R.id.tvNamCTP);
+        tvThoiLuong = findViewById(R.id.tvThoiLongCTP);
+        tvNgonNgu = findViewById(R.id.tvNgonNguCTP);
+        tvDaoDien = findViewById(R.id.tvDaoDienCTP);
+        tvNgayChieu = findViewById(R.id.tvNgayChieuCTP);
+        tvCaChieu = findViewById(R.id.tvCaChieuCTP);
+        tvPhongchieu = findViewById(R.id.tvPhongChieuCTP);
+        mToolbar = findViewById(R.id.toolbarCTV);
+        btnChonSuatChieu = findViewById(R.id.btnChonSUatChieu);
 
         mToolbar.setNavigationIcon(R.drawable.back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -45,9 +55,18 @@ public class ChiTietPhimActivity extends AppCompatActivity {
             tvTenPhim.setText(phimModel.getTenPhim());
             tvGiaPhim.setText(phimModel.getGiaPhim());
             mImageView.setImageResource(phimModel.getImage());
+            tvTheLoai.setText((phimModel.getTheLoai()));
+            tvQuocGia.setText(phimModel.getNuocSX());
+            tvNamSX.setText(phimModel.getNamSX());
+            tvThoiLuong.setText(phimModel.getThoiLuong());
+            tvNgonNgu.setText(phimModel.getNgonNgu());
+            tvDaoDien.setText(phimModel.getDaoDien());
+            tvNgayChieu.setText(phimModel.getNgayChieu());
+            tvCaChieu.setText(phimModel.getCaChieu());
+            tvPhongchieu.setText(phimModel.getTenPhong());
         }
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnChonSuatChieu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ChiTietPhimActivity.this,MuaVeActivity.class);

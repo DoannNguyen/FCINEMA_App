@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class PhimModel implements Serializable {
     int image;
     String idPhim, tenPhim, ngonNgu, moTa, hangSX, nuocSX, namSX, thoiLuong, daoDien, trangThai;
-    String ngayChieu, caChieu, giaPhim, tenPhong;
+    String ngayChieu, caChieu, giaPhim, tenPhong, theLoai;
 
-    public PhimModel(int image, String idPhim, String tenPhim, String ngonNgu, String moTa, String hangSX, String nuocSX, String namSX, String thoiLuong, String daoDien, String trangThai, String ngayChieu, String caChieu, String giaPhim, String tenPhong) {
+    public PhimModel(int image, String idPhim, String tenPhim, String ngonNgu, String moTa, String hangSX, String nuocSX, String namSX, String thoiLuong, String daoDien, String trangThai, String ngayChieu, String caChieu, String giaPhim, String tenPhong, String theLoai) {
         this.image = image;
         this.idPhim = idPhim;
         this.tenPhim = tenPhim;
@@ -23,6 +23,15 @@ public class PhimModel implements Serializable {
         this.caChieu = caChieu;
         this.giaPhim = giaPhim;
         this.tenPhong = tenPhong;
+        this.theLoai = theLoai;
+    }
+
+    public String getTheLoai() {
+        return theLoai;
+    }
+
+    public void setTheLoai(String theLoai) {
+        this.theLoai = theLoai;
     }
 
     public PhimModel() {

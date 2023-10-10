@@ -4,6 +4,13 @@
     <item
         android:title="Search"
         android:icon="@drawable/baseline_search_24"
+        android:id="@+id/navSearch"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:title="notification"
+        android:icon="@drawable/bell"
+        android:id="@+id/navNotification"
         app:showAsAction="ifRoom"
         />
 </menu>

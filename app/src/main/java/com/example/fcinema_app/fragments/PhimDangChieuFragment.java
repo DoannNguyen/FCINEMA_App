@@ -6,9 +6,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,6 +28,8 @@ import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.activities.ChiTietPhimActivity;
+import com.example.fcinema_app.activities.ThongBaoActivity;
+import com.example.fcinema_app.activities.TimKiemActivity;
 import com.example.fcinema_app.adapters.PhimAdapter;
 import com.example.fcinema_app.models.PhimModel;
 
@@ -35,10 +41,10 @@ public class PhimDangChieuFragment extends Fragment {
 
         ImageSlider mSlider;
         List<SlideModel> mList;
-        LinearLayout buttonContainer;
         List<PhimModel> mModelList;
         PhimAdapter mAdapter;
         GridView mGridView;
+        androidx.appcompat.widget.Toolbar mToolbar;
 
     public PhimDangChieuFragment() {
         // Required empty public constructor
@@ -66,14 +72,30 @@ public class PhimDangChieuFragment extends Fragment {
         mList = new ArrayList<>();
         mModelList = new ArrayList<>();
 
+        mToolbar = view.findViewById(R.id.toolbarPDC);
         mGridView = view.findViewById(R.id.gridview);
         mSlider = view.findViewById(R.id.image_slider);
+
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.navSearch){
+                    startActivity(new Intent(getContext(), TimKiemActivity.class));
+                    return  true;
+                }
+                if(item.getItemId() == R.id.navNotification){
+                    startActivity(new Intent(getContext(), ThongBaoActivity.class));
+                    return  true;
+                }
+                return false;
+            }
+        });
 
         for (int i = 0; i < 6; i++){
             mList.add(new SlideModel(R.drawable.poster, ScaleTypes.FIT));
             PhimModel model = new PhimModel(R.drawable.poster,""+i,"kí sinh trùng"+(i+1),
                     "viétub","mota","hangSX","HAN QUOC","2019","2h20p",
-                    "BONG JONG-HO","DANG CHIEU","20/12/2023","CA3","75000","PHONG 1");
+                    "BONG JONG-HO","DANG CHIEU","20/12/2023","CA3","75000","PHONG 1", "Kinh di");
             mModelList.add(model);
         }
         mSlider.setImageList(mList);
@@ -90,5 +112,4 @@ public class PhimDangChieuFragment extends Fragment {
         });
 
     }
-
 }

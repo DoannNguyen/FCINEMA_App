@@ -7,18 +7,15 @@ import android.view.View;
 
 import com.example.fcinema_app.R;
 
-public class ThanhToanActivity extends AppCompatActivity {
+public class TimKiemActivity extends AppCompatActivity {
 
-    androidx.appcompat.widget.Toolbar mToolbar;
-
+    private androidx.appcompat.widget.Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thanh_toan);
+        setContentView(R.layout.activity_tim_kiem);
 
-        mToolbar = findViewById(R.id.toolbarTT);
-
-
+        mToolbar = findViewById(R.id.toolbarSearch);
         mToolbar.setNavigationIcon(R.drawable.back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

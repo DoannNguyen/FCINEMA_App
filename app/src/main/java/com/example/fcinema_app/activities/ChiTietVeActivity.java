@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.fcinema_app.R;
@@ -14,6 +15,7 @@ import com.example.fcinema_app.models.PhimSapChieuModel;
 public class ChiTietVeActivity extends AppCompatActivity {
 
     private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, caChieu, soGhe, hinhThucTT, tongTT;
+    private androidx.appcompat.widget.Toolbar mToolbar;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -32,6 +34,15 @@ public class ChiTietVeActivity extends AppCompatActivity {
         soGhe = findViewById(R.id.sogheCTV);
         hinhThucTT = findViewById(R.id.thanhtoanCTV);
         tongTT = findViewById(R.id.tongTTCTV);
+        mToolbar = findViewById(R.id.toolbarCTV);
+
+        mToolbar.setNavigationIcon(R.drawable.back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         Intent intent = getIntent();
         LichSuVeModel lichSuVeModel = (LichSuVeModel) intent.getSerializableExtra("LCV");

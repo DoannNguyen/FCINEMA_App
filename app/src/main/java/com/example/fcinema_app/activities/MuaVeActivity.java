@@ -2,6 +2,7 @@ package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,15 +16,26 @@ import com.example.fcinema_app.R;
 public class MuaVeActivity extends AppCompatActivity {
 
     GridLayout mGridView;
-    Button btn;
+    Button btnMuaVe;
+    androidx.appcompat.widget.Toolbar mToolbar;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mua_ve);
 
         mGridView = findViewById(R.id.gridButtonContainer);
-        btn = findViewById(R.id.btnXacNhan);
+        btnMuaVe = findViewById(R.id.btnXacNhan);
+        mToolbar = findViewById(R.id.toolbarDV);
+
+        mToolbar.setNavigationIcon(R.drawable.back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         for (int i = 0 ; i <= 15 ; i++){
             ToggleButton button = new ToggleButton(MuaVeActivity.this);
@@ -35,7 +47,7 @@ public class MuaVeActivity extends AppCompatActivity {
             mGridView.addView(button);
         }
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnMuaVe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MuaVeActivity.this, ThanhToanActivity.class));

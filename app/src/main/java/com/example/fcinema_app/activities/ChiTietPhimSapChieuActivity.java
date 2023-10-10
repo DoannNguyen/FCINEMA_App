@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
 
     private ImageView image;
     private TextView tenPhim, theLoai, quocGia, namSX, thoiLuong, ngonNgu, daoDien, moTa;
+    private androidx.appcompat.widget.Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,15 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
         ngonNgu = findViewById(R.id.NgonNguCTPSC);
         daoDien = findViewById(R.id.NgonNguCTPSC);
         moTa = findViewById(R.id.motaCTPSC);
+        mToolbar = findViewById(R.id.toolbarPSC);
+
+        mToolbar.setNavigationIcon(R.drawable.back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         Intent intent = getIntent();
         PhimSapChieuModel phimSapChieuModel = (PhimSapChieuModel) intent.getSerializableExtra("phimSC");

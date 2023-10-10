@@ -8,7 +8,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarDV"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:text="Ten phim"
+                android:id="@+id/tvTenPhimDV"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -62,6 +63,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
                             android:text="Ngày chiếu: "
+                            android:id="@+id/tvNgayChieuDV"
                             android:textSize="16dp"
                             android:textStyle="italic" />
 
@@ -94,6 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/tvCaChieuDV"
                             android:text="Hàn Quốc"
                             android:textSize="16dp"
                             android:textStyle="bold" />
@@ -125,6 +128,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/tvThoiLuongDV"
                             android:text="2h20p"
                             android:textSize="16dp"
                             android:textStyle="bold" />
@@ -149,6 +153,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/tvPhongChieuDV"
                             android:text="B1"
                             android:textSize="16dp"
                             android:textStyle="bold" />
@@ -156,50 +161,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="10dp"
-                android:background="@android:color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:text="Chọn ca chiếu"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ca 1" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ca 2" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ca 3" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ca 4" />
-            </RadioGroup>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -258,7 +219,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
-                        android:text="Tổng tiền vé"
+                        android:text="tiền vé"
                         android:textSize="18dp"
                         />
                     <TextView
@@ -286,6 +247,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
                         android:text="75000 đ"
+                        android:id="@+id/tvTienveDV"
                         android:layout_marginEnd="18dp"
                         android:textSize="18dp"
                         android:layout_gravity="right"
@@ -295,6 +257,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
                         android:text="2"
+                        android:id="@+id/tvSoLuongDV"
                         android:layout_marginEnd="18dp"
                         android:layout_gravity="right"
                         android:textSize="18dp"
@@ -304,6 +267,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
                         android:text="150 000"
+                        android:id="@+id/tvTongThanhToanDV"
                         android:textSize="20dp"
                         android:layout_marginEnd="18dp"
                         android:layout_gravity="right"
