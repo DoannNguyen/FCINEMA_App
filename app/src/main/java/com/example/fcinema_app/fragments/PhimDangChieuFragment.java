@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,8 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -27,6 +30,8 @@ import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.fcinema_app.R;
+import com.example.fcinema_app.Utils.APIClient;
+import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.activities.ChiTietPhimActivity;
 import com.example.fcinema_app.activities.ThongBaoActivity;
 import com.example.fcinema_app.activities.TimKiemActivity;
@@ -36,15 +41,20 @@ import com.example.fcinema_app.models.PhimModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class PhimDangChieuFragment extends Fragment {
 
-        ImageSlider mSlider;
-        List<SlideModel> mList;
-        List<PhimModel> mModelList;
-        PhimAdapter mAdapter;
-        GridView mGridView;
-        androidx.appcompat.widget.Toolbar mToolbar;
+        private ImageSlider mSlider;
+        private List<SlideModel> mList;
+        private List<PhimModel> mModelList=new ArrayList<>();
+         private PhimAdapter mAdapter;
+        private  GridView mGridView;
+        private androidx.appcompat.widget.Toolbar mToolbar;
+        private APIInterface mAPIInterface;
 
     public PhimDangChieuFragment() {
         // Required empty public constructor
@@ -93,14 +103,12 @@ public class PhimDangChieuFragment extends Fragment {
 
         for (int i = 0; i < 6; i++){
             mList.add(new SlideModel(R.drawable.poster, ScaleTypes.FIT));
-            PhimModel model = new PhimModel(R.drawable.poster,""+i,"kí sinh trùng"+(i+1),
-                    "viétub","mota","hangSX","HAN QUOC","2019","2h20p",
-                    "BONG JONG-HO","DANG CHIEU","20/12/2023","CA3","75000","PHONG 1", "Kinh di");
-            mModelList.add(model);
         }
-        mSlider.setImageList(mList);
+        getAllPhim();
         mAdapter = new PhimAdapter(getContext(),mModelList);
         mGridView.setAdapter(mAdapter);
+
+        mSlider.setImageList(mList);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,5 +119,28 @@ public class PhimDangChieuFragment extends Fragment {
             }
         });
 
+    }
+    private void getAllPhim(){
+        mAPIInterface = APIClient.getClient().create(APIInterface.class);
+        Call<List<PhimModel>> call = mAPIInterface.getAllPhimDC();
+        call.enqueue(new Callback<List<PhimModel>>() {
+            @Override
+            public void onResponse(Call<List<PhimModel>> call, Response<List<PhimModel>> response) {
+                if(response.isSuccessful()){
+                    mModelList.clear();
+                    mModelList.addAll(response.body());
+                    mAdapter.notifyDataSetChanged();
+
+                }else{
+                    Log.e("TAG", "onResponse: error " );
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<PhimModel>> call, Throwable t) {
+
+            }
+        });
     }
 }

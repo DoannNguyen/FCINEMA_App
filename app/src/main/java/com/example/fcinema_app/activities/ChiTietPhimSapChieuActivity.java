@@ -23,11 +23,11 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
         image = findViewById(R.id.imageCTPSC);
         tenPhim = findViewById(R.id.tenPhimCTPSC);
         theLoai = findViewById(R.id.theLoaiCTPSC);
-        quocGia = findViewById(R.id.theLoaiCTPSC);
+        quocGia = findViewById(R.id.QuocGiaCTPSC);
         namSX = findViewById(R.id.NamCTPSC);
         thoiLuong = findViewById(R.id.ThoiLuongCTPSC);
         ngonNgu = findViewById(R.id.NgonNguCTPSC);
-        daoDien = findViewById(R.id.NgonNguCTPSC);
+        daoDien = findViewById(R.id.DaoDienCTPSC);
         moTa = findViewById(R.id.motaCTPSC);
         mToolbar = findViewById(R.id.toolbarPSC);
 
@@ -43,7 +43,7 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
         PhimSapChieuModel phimSapChieuModel = (PhimSapChieuModel) intent.getSerializableExtra("phimSC");
 
         if(phimSapChieuModel != null){
-            image.setImageResource(phimSapChieuModel.getImage());
+//            image.setImageResource(phimSapChieuModel.getImage());
             tenPhim.setText(phimSapChieuModel.getTenPhim());
             theLoai.setText(phimSapChieuModel.getTheLoai());
             quocGia.setText(phimSapChieuModel.getQuocGia());

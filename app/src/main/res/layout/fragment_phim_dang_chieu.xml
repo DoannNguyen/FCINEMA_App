@@ -1,94 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".fragments.PhimDangChieuFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarPDC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbarPDC"
-            app:menu="@menu/toolbar_menu"
-            >
+            app:menu="@menu/toolbar_menu">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="10dp"
                     android:text="FCINEMA"
                     android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginVertical="5dp"
-                    />
+                    android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chào người dùng"/>
+                    android:text="Chào người dùng" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phim đang chiêu"
-            android:textStyle="bold"
-            android:textSize="20dp"
             android:layout_marginHorizontal="18dp"
             android:layout_marginVertical="5dp"
-            />
+            android:text="Phim đang chiêu"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp"
             app:cardBackgroundColor="@color/white"
-            android:layout_margin="10dp">
+            app:cardCornerRadius="10dp">
+
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/image_slider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:iss_auto_cycle="true"
-                app:iss_period="1000"
                 app:iss_delay="10000"
-                app:iss_text_align="CENTER"/>
+                app:iss_period="1000"
+                app:iss_text_align="CENTER" />
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thể loại"
-            android:textStyle="bold"
-            android:textSize="20dp"
             android:layout_marginHorizontal="18dp"
             android:layout_marginVertical="5dp"
-            />
+            android:text="Thể loại"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:scrollbars="none"
             android:layout_marginHorizontal="10dp"
-            >
+            android:fillViewport="true"
+            android:scrollbars="none">
+
             <LinearLayout
                 android:id="@+id/buttonContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp">
+
                 <Button
+                    android:id="@+id/btnTatCa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tất cả"
-                    android:id="@+id/btnTatCa"
-                    android:layout_marginHorizontal="2.5dp"/>
+                    android:layout_marginHorizontal="2.5dp"
+                    android:text="Tất cả" />
 
                 <Button
                     android:id="@+id/btnHanhDong"
@@ -100,18 +105,20 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kinh dị"
-                    android:layout_marginHorizontal="2.5dp"/>
+                    android:layout_marginHorizontal="2.5dp"
+                    android:text="Kinh dị" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hoạt hình"
-                    android:layout_marginHorizontal="2.5dp"/>
+                    android:layout_marginHorizontal="2.5dp"
+                    android:text="Hoạt hình" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Thần thoại"
-                    android:layout_marginHorizontal="2.5dp"/>
+                    android:layout_marginHorizontal="2.5dp"
+                    android:text="Thần thoại" />
             </LinearLayout>
         </HorizontalScrollView>
         <GridView
@@ -119,9 +126,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"
-            android:numColumns="3"
+            android:minHeight="500dp"
             android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"/>
+            android:numColumns="3"
+            android:overScrollMode="never" />
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

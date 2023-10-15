@@ -27,6 +27,7 @@
         android:fontFamily="@font/merienda_regular"
         android:text="Mua vé, Trải nghiệm, Thư giãn"
         android:textSize="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />

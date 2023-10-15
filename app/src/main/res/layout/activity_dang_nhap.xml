@@ -43,7 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/edEmailDangNhap"
-                android:hint="Email"/>
+                android:hint="Email"
+                android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -74,14 +75,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/tvQuenMatKhau"
             android:text="Quên mật khẩu"
             android:textAlignment="center"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginVertical="10dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:layout_width="wrap_content"

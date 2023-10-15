@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhimAdapter extends BaseAdapter {
@@ -37,24 +39,28 @@ public class PhimAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     private class PhimViewHolder{
         ImageView mImageView;
+        TextView tv;
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         PhimViewHolder holder = null;
         if(view == null){
             holder = new PhimViewHolder();
-            view = LayoutInflater.from(mContext).inflate(R.layout.grid_item, null);
+            view = LayoutInflater.from(mContext).inflate(R.layout.grid_item, viewGroup,false);
             holder.mImageView = view.findViewById(R.id.image);
             view.setTag(holder);
         }else{
             holder = (PhimViewHolder) view.getTag();
         }
-            holder.mImageView.setImageResource(mList.get(i).getImage());
+            if(mList.get(i).getImage() == null || mList.get(i).getImage().isEmpty()){
+                holder.mImageView.setImageResource(R.drawable.poster);
+            }
+
         return view;
     }
 }

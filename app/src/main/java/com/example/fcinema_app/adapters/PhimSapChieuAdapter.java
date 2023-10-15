@@ -55,7 +55,9 @@ public class PhimSapChieuAdapter  extends BaseAdapter {
         }else{
             holder = (ViewHolder) view.getTag();
         }
-            holder.image.setImageResource(list.get(i).getImage());
+            if(list.get(i).getImage() == null){
+                holder.image.setImageResource(R.drawable.poster);
+            }
 
         return view;
     }

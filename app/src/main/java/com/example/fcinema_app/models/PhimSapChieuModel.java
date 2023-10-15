@@ -1,16 +1,34 @@
 package com.example.fcinema_app.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.sql.Blob;
 
 public class PhimSapChieuModel implements Serializable {
-
-    private int image;
-    private String tenPhim, theLoai, quocGia, namSX, thoiLuong, ngonNgu, daoDien, moTa;
+   // @SerializedName("anh")
+    private Blob image;
+    @SerializedName("tenPhim")
+    private String tenPhim;
+    @SerializedName("tenTheLoai")
+    private String theLoai;
+    @SerializedName("nuocSX")
+    private String quocGia;
+    @SerializedName("namSX")
+    private String namSX;
+    @SerializedName("thoiLuong")
+    private String thoiLuong;
+    @SerializedName("ngonNgu")
+    private String ngonNgu;
+    @SerializedName("daoDien")
+    private String daoDien;
+    @SerializedName("moTa")
+    private String moTa;
 
     public PhimSapChieuModel() {
     }
 
-    public PhimSapChieuModel(int image, String tenPhim, String theLoai, String quocGia, String namSX, String thoiLuong, String ngonNgu, String daoDien, String moTa) {
+    public PhimSapChieuModel(Blob image, String tenPhim, String theLoai, String quocGia, String namSX, String thoiLuong, String ngonNgu, String daoDien, String moTa) {
         this.image = image;
         this.tenPhim = tenPhim;
         this.theLoai = theLoai;
@@ -22,11 +40,11 @@ public class PhimSapChieuModel implements Serializable {
         this.moTa = moTa;
     }
 
-    public int getImage() {
+    public Blob getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(Blob image) {
         this.image = image;
     }
 
