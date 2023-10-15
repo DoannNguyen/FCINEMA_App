@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     android:scrollbars="none"
     tools:context=".activities.XacNhanMailActivity">
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/toolbarXacNhanEmail"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            app:srcCompat="@drawable/back"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbarQMK">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,26 +22,24 @@
             android:textStyle="bold"
             android:textSize="18dp" />
     </androidx.appcompat.widget.Toolbar>
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-72dp"
-        tools:layout_editor_absoluteY="-192dp">
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_margin="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
+                android:gravity="center"
                 android:text="Nhập email để nhận mã OTP lấy lại mật khẩu"
                 android:textSize="17dp"
-                android:textStyle="bold"
-                android:gravity="center"/>
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,24 +48,24 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:passwordToggleEnabled="true"
                     app:layout_constraintTop_toBottomOf="@+id/edEmail">
+
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edXacNhanEmail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/edXacNhanEmail"
                         android:hint="Email"
-                        android:inputType="textPassword"/>
+                        android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnSaveChangePassword"
+                android:id="@+id/btnSendOPT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:text="Gửi"
                 app:iconTint="@color/black" />
         </LinearLayout>
-    </ScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</LinearLayout>

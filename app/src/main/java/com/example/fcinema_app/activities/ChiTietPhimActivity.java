@@ -14,6 +14,8 @@ import android.widget.Toolbar;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimModel;
 
+import java.text.SimpleDateFormat;
+
 public class ChiTietPhimActivity extends AppCompatActivity {
 
     ImageView mImageView;
@@ -21,6 +23,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
             tvNgayChieu, tvCaChieu, tvPhongchieu, tvMoTa;
     androidx.appcompat.widget.Toolbar mToolbar;
     Button  btnChonSuatChieu;
+    private SimpleDateFormat mSimpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,11 @@ public class ChiTietPhimActivity extends AppCompatActivity {
         tvNgayChieu = findViewById(R.id.tvNgayChieuCTP);
         tvCaChieu = findViewById(R.id.tvCaChieuCTP);
         tvPhongchieu = findViewById(R.id.tvPhongChieuCTP);
+        tvMoTa = findViewById(R.id.tvMotaCTP);
         mToolbar = findViewById(R.id.toolbarCTV);
         btnChonSuatChieu = findViewById(R.id.btnChonSUatChieu);
+
+        mSimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         mToolbar.setNavigationIcon(R.drawable.back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -54,16 +60,17 @@ public class ChiTietPhimActivity extends AppCompatActivity {
         if(phimModel != null){
             tvTenPhim.setText(phimModel.getTenPhim());
             tvGiaPhim.setText(phimModel.getGiaPhim());
-            mImageView.setImageResource(phimModel.getImage());
+//            mImageView.setImageResource(phimModel.getImage());
             tvTheLoai.setText((phimModel.getTheLoai()));
             tvQuocGia.setText(phimModel.getNuocSX());
             tvNamSX.setText(phimModel.getNamSX());
             tvThoiLuong.setText(phimModel.getThoiLuong());
             tvNgonNgu.setText(phimModel.getNgonNgu());
             tvDaoDien.setText(phimModel.getDaoDien());
-            tvNgayChieu.setText(phimModel.getNgayChieu());
+            tvNgayChieu.setText(mSimpleDateFormat.format(phimModel.getNgayChieu()));
             tvCaChieu.setText(phimModel.getCaChieu());
             tvPhongchieu.setText(phimModel.getTenPhong());
+            tvMoTa.setText(phimModel.getMoTa());
         }
 
         btnChonSuatChieu.setOnClickListener(new View.OnClickListener() {

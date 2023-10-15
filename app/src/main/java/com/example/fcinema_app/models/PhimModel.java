@@ -1,13 +1,45 @@
 package com.example.fcinema_app.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.Date;
 
 public class PhimModel implements Serializable {
-    int image;
-    String idPhim, tenPhim, ngonNgu, moTa, hangSX, nuocSX, namSX, thoiLuong, daoDien, trangThai;
-    String ngayChieu, caChieu, giaPhim, tenPhong, theLoai;
+    @SerializedName("anh")
+    String image;
+    @SerializedName("idPhim")
+    String idPhim;
+    @SerializedName("tenPhim")
+    String tenPhim;
+    @SerializedName("ngonNgu")
+    String ngonNgu;
+    @SerializedName("moTa")
+    String moTa;
+    @SerializedName("hangSX")
+    String hangSX;
+    @SerializedName("nuocSX")
+    String nuocSX;
+    @SerializedName("namSX")
+    String namSX;
+    @SerializedName("thoiLuong")
+    String thoiLuong;
+    @SerializedName("daoDien")
+    String daoDien;
+    @SerializedName("trangThai")
+    String trangThai;
+    @SerializedName("ngayChieu")
+    Date ngayChieu;
+    @SerializedName("caChieu")
+    String caChieu;
+    @SerializedName("giaPhim")
+    String giaPhim;
+    @SerializedName("tenPhongChieu")
+    String tenPhong;
+    @SerializedName("tenTheLoai")
+    String theLoai;
 
-    public PhimModel(int image, String idPhim, String tenPhim, String ngonNgu, String moTa, String hangSX, String nuocSX, String namSX, String thoiLuong, String daoDien, String trangThai, String ngayChieu, String caChieu, String giaPhim, String tenPhong, String theLoai) {
+    public PhimModel(String image, String idPhim, String tenPhim, String ngonNgu, String moTa, String hangSX, String nuocSX, String namSX, String thoiLuong, String daoDien, String trangThai, Date ngayChieu, String caChieu, String giaPhim, String tenPhong, String theLoai) {
         this.image = image;
         this.idPhim = idPhim;
         this.tenPhim = tenPhim;
@@ -37,11 +69,11 @@ public class PhimModel implements Serializable {
     public PhimModel() {
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -125,11 +157,11 @@ public class PhimModel implements Serializable {
         this.trangThai = trangThai;
     }
 
-    public String getNgayChieu() {
+    public Date getNgayChieu() {
         return ngayChieu;
     }
 
-    public void setNgayChieu(String ngayChieu) {
+    public void setNgayChieu(Date ngayChieu) {
         this.ngayChieu = ngayChieu;
     }
 

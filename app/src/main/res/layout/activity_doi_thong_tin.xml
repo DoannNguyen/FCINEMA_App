@@ -9,12 +9,8 @@
     tools:context=".activities.DoiThongTinActivity">
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/toolbarDoiThongTin"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            app:srcCompat="@drawable/back"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbarDTT">
 
         <TextView
             android:layout_width="wrap_content"
