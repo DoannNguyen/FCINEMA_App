@@ -11,9 +11,12 @@ import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.LichSuVeModel;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class LichSuVeAdapter extends BaseAdapter {
+
+    private SimpleDateFormat mSimpleDateFormat;
 
     @Override
     public int getCount() {
@@ -47,7 +50,7 @@ public class LichSuVeAdapter extends BaseAdapter {
             holder.maVe = view.findViewById(R.id.maVeLSVItem);
             holder.trangThai = view.findViewById(R.id.daTTLSCItem);
             holder.tenPhim = view.findViewById(R.id.tenPhimLSVItem);
-            holder.soluongVe = view.findViewById(R.id.sogheLSVItem);
+            holder.soluongVe = view.findViewById(R.id.soluongveLSVItem);
             holder.ngayChieu = view.findViewById(R.id.ngaychieuLSVItem);
             holder.gioChieu = view.findViewById(R.id.giochieuLSVItem);
             holder.soGhe = view.findViewById(R.id.sogheLSVItem);
@@ -56,10 +59,12 @@ public class LichSuVeAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
          holder.maVe.setText(list.get(i).getMaVe());
-        holder.trangThai.setText(list.get(i).getTrangThai());
+        if(list.get(i).getTrangThai() == 1){
+            holder.trangThai.setText("Chưa thanh toán");
+        }
         holder.tenPhim.setText(list.get(i).getTenPhim());
         holder.soluongVe.setText(list.get(i).getSoluongVe());
-        holder.ngayChieu.setText(list.get(i).getNgayChieu());
+        holder.ngayChieu.setText(mSimpleDateFormat.format(list.get(i).getNgayChieu()));
         holder.gioChieu.setText(list.get(i).getThoiGian());
         holder.soGhe.setText(list.get(i).getSoGhe());
 
@@ -75,6 +80,7 @@ public class LichSuVeAdapter extends BaseAdapter {
     public LichSuVeAdapter(Context context, List<LichSuVeModel> list) {
         this.context = context;
         this.list = list;
+        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
 }

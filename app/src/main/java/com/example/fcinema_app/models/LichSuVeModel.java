@@ -1,16 +1,38 @@
 package com.example.fcinema_app.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.Date;
 
 public class LichSuVeModel implements Serializable {
-    private String tenPhim, giaVe, trangThai, thoiGian, maVe, ngayChieu, phongChieu, caChieu, soGhe, hinhThucTT, tongTT, soluongVe;
-
+    @SerializedName("tenPhim")
+    private String tenPhim;
+    @SerializedName("giaPhim")
+    private String giaVe;
+    @SerializedName("trangThai")
+    private int trangThai;
+    @SerializedName("caChieu")
+    private String thoiGian;
+    @SerializedName("idVe")
+    private String maVe;
+    @SerializedName("ngayChieu")
+    private Date ngayChieu;
+    @SerializedName("tenPhongChieu")
+    private String phongChieu;
+    @SerializedName("tenGhe")
+    private String soGhe;
+    private String hinhThucTT;
+    @SerializedName("tongTien")
+    private String tongTT;
+    @SerializedName("soVe")
+    private String soluongVe;
 
 
     public LichSuVeModel() {
     }
 
-    public LichSuVeModel(String tenPhim, String giaVe, String trangThai, String thoiGian, String maVe, String ngayChieu, String phongChieu, String caChieu, String soGhe, String hinhThucTT, String tongTT, String soluongVe) {
+    public LichSuVeModel(String tenPhim, String giaVe, int trangThai, String thoiGian, String maVe, Date ngayChieu, String phongChieu, String soGhe, String hinhThucTT, String tongTT, String soluongVe) {
         this.tenPhim = tenPhim;
         this.giaVe = giaVe;
         this.trangThai = trangThai;
@@ -18,7 +40,7 @@ public class LichSuVeModel implements Serializable {
         this.maVe = maVe;
         this.ngayChieu = ngayChieu;
         this.phongChieu = phongChieu;
-        this.caChieu = caChieu;
+
         this.soGhe = soGhe;
         this.hinhThucTT = hinhThucTT;
         this.tongTT = tongTT;
@@ -41,11 +63,11 @@ public class LichSuVeModel implements Serializable {
         this.giaVe = giaVe;
     }
 
-    public String getTrangThai() {
+    public int getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(String trangThai) {
+    public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -65,11 +87,11 @@ public class LichSuVeModel implements Serializable {
         this.maVe = maVe;
     }
 
-    public String getNgayChieu() {
+    public Date getNgayChieu() {
         return ngayChieu;
     }
 
-    public void setNgayChieu(String ngayChieu) {
+    public void setNgayChieu(Date ngayChieu) {
         this.ngayChieu = ngayChieu;
     }
 
@@ -79,14 +101,6 @@ public class LichSuVeModel implements Serializable {
 
     public void setPhongChieu(String phongChieu) {
         this.phongChieu = phongChieu;
-    }
-
-    public String getCaChieu() {
-        return caChieu;
-    }
-
-    public void setCaChieu(String caChieu) {
-        this.caChieu = caChieu;
     }
 
     public String getSoGhe() {

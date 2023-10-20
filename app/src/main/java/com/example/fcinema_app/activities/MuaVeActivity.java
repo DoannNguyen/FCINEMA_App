@@ -9,27 +9,39 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.fcinema_app.R;
+import com.example.fcinema_app.Utils.APIClient;
+import com.example.fcinema_app.Utils.APIInterface;
+import com.example.fcinema_app.models.GheDat;
 import com.example.fcinema_app.models.PhimModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class MuaVeActivity extends AppCompatActivity {
 
     private GridLayout mGridView;
     private Button btnMuaVe;
     private androidx.appcompat.widget.Toolbar mToolbar;
-    private TextView tvTenPhim, tvNgayChieu, tvCaChieu, tvThoiLuong, tvPhongChieu, tvTienVe, tvSoLuong;
+    private TextView tvTenPhim, tvNgayChieu, tvCaChieu, tvThoiLuong, tvPhongChieu, tvTienVe, tvSoLuong, tvTongThanhToan;
     private SimpleDateFormat mSimpleDateFormat;
     private int clickedButtonCount = 0;
+    private int tongTT = 0;
     private PhimModel model;
+    private ArrayList<Integer> in;
+    private ArrayList<String> in2;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +57,11 @@ public class MuaVeActivity extends AppCompatActivity {
         tvPhongChieu = findViewById(R.id.tvPhongChieuDV);
         tvTienVe = findViewById(R.id.tvTienveDV);
         tvSoLuong = findViewById(R.id.tvSoLuongDV);
+        tvTongThanhToan = findViewById(R.id.tvTongThanhToanDV);
 
         mSimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        in = new ArrayList<>();
+        in2 = new ArrayList<>();
 
         mToolbar.setNavigationIcon(R.drawable.back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -59,6 +74,9 @@ public class MuaVeActivity extends AppCompatActivity {
         for (int i = 0 ; i <= 15 ; i++){
             ToggleButton button = new ToggleButton(MuaVeActivity.this);
             button.setText(String.valueOf(i));
+            button.setTextOn(String.valueOf(i));
+            button.setTextOff(String.valueOf(i));
+            button.setBackgroundResource(R.drawable.custom_toggle_button);
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
             params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
@@ -77,10 +95,23 @@ public class MuaVeActivity extends AppCompatActivity {
             tvTienVe.setText(model.getGiaPhim());
         }
 
+        getVeDat();
+
         btnMuaVe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MuaVeActivity.this, ThanhToanActivity.class));
+                Intent intent = new Intent(getApplicationContext(), ThanhToanActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("phim", model);
+                bundle.putInt("soLuongVe", clickedButtonCount);
+                bundle.putIntegerArrayList("ghe", in);
+                intent.putExtra("value", bundle);
+                if(clickedButtonCount != 0){
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(MuaVeActivity.this, "Bạn phải chọn ghế trước khi xác nhận", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -93,22 +124,44 @@ public class MuaVeActivity extends AppCompatActivity {
             this.buttonIndex = index;
         }
 
+        @SuppressLint("ResourceAsColor")
         @Override
         public void onClick(View view) {
-            // Xử lý sự kiện khi nút ToggleButton được nhấn
+
             ToggleButton button = (ToggleButton) view;
             boolean isChecked = button.isChecked();
-            // Thực hiện các tác vụ cần thiết dựa trên trạng thái của nút
-            // và cung cấp thông tin về buttonIndex để xác định nút cụ thể đã được nhấn
+
             if(isChecked){
                 clickedButtonCount++;
-                Toast.makeText(MuaVeActivity.this, ""+buttonIndex, Toast.LENGTH_SHORT).show();
+                in.add(buttonIndex);
                 tvSoLuong.setText(""+clickedButtonCount);
-
+                tongTT = clickedButtonCount*Integer.parseInt(model.getGiaPhim());
+                tvTongThanhToan.setText(""+tongTT);
             }else{
+                in.remove(Integer.valueOf(buttonIndex));
                 clickedButtonCount--;
                 tvSoLuong.setText(""+clickedButtonCount);
+                tongTT = clickedButtonCount*Integer.parseInt(model.getGiaPhim());
+                tvTongThanhToan.setText(""+tongTT);
             }
         }
     }
+    private void getVeDat(){
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<List<GheDat>> call = apiInterface.getGheDat(model.getIdLichChieu());
+        call.enqueue(new Callback<List<GheDat>>() {
+            @Override
+            public void onResponse(Call<List<GheDat>> call, retrofit2.Response<List<GheDat>> response) {
+                if(response.isSuccessful()){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GheDat>> call, Throwable t) {
+                Log.e("TAG", "onFailure: "+t.getMessage() );
+            }
+        });
+    }
+
 }

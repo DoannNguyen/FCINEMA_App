@@ -15,21 +15,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center"
+                android:layout_gravity="center_horizontal"
                 >
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Mã vé"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"
                     android:id="@+id/maVeLSVItem"
+                    android:maxLines="1"
                     />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Đã thanh toán"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:id="@+id/daTTLSCItem"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -46,6 +47,7 @@
             android:textSize="18dp"
             android:textStyle="bold"
             android:id="@+id/tenPhimLSVItem"
+            android:gravity="center"
             android:layout_gravity="center"/>
         <TextView
             android:layout_width="wrap_content"

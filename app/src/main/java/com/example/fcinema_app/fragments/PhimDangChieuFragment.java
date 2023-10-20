@@ -102,7 +102,7 @@ public class PhimDangChieuFragment extends Fragment {
         });
 
         for (int i = 0; i < 6; i++){
-            mList.add(new SlideModel(R.drawable.poster, ScaleTypes.FIT));
+            mList.add(new SlideModel(R.drawable.poster, ScaleTypes.CENTER_INSIDE));
         }
         getAllPhim();
         mAdapter = new PhimAdapter(getContext(),mModelList);

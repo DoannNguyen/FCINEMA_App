@@ -114,6 +114,7 @@
                     android:textSize="18dp"
                     android:layout_gravity="right"
                     android:textStyle="bold"
+                    android:maxLines="1"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -213,6 +214,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text="Tiền mặt"
+               android:checked="true"
                android:id="@+id/rdoTienMat"
                android:layout_marginStart="10dp"
                android:layout_weight="1"
@@ -292,6 +294,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:id="@+id/btnXacNhanDatVe"
         android:text="Xác nhận thanh toán"
         />
 
