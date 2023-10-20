@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.fcinema_app.R;
+import com.example.fcinema_app.Utils.APIClient;
+import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.activities.ChiTietVeActivity;
 import com.example.fcinema_app.adapters.LichSuVeAdapter;
 import com.example.fcinema_app.models.LichSuVeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LichSuVeFragment extends Fragment {
@@ -53,12 +60,7 @@ public class LichSuVeFragment extends Fragment {
 
         listView = view.findViewById(R.id.listview);
         list = new ArrayList<>();
-
-        for (int i = 0; i < 8 ; i++ ){
-            LichSuVeModel model = new LichSuVeModel("Rambo"+i, "50.000", "Đã thanh toan", "10h-12h", "VIET01", "20-12-2023", "01", "Ca3", "C14", "Tiền mặt", "50.000", "01");
-            list.add(model);
-
-        }
+        getVeDat();
         lichSuVeAdapter = new LichSuVeAdapter(getContext(),list);
         listView.setAdapter(lichSuVeAdapter);
 
@@ -72,5 +74,26 @@ public class LichSuVeFragment extends Fragment {
         });
 
 
+    }
+    private void getVeDat() {
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<List<LichSuVeModel>> call = apiInterface.getVeDat();
+        call.enqueue(new Callback<List<LichSuVeModel>>() {
+            @Override
+            public void onResponse(Call<List<LichSuVeModel>> call, Response<List<LichSuVeModel>> response) {
+                if(response.isSuccessful()){
+                    list.clear();
+                    list.addAll(response.body());
+                    lichSuVeAdapter.notifyDataSetChanged();
+                }else{
+                    Log.e("TAG", "onResponse: " );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LichSuVeModel>> call, Throwable t) {
+                Log.e("TAG", "onFailure: "+t.getMessage() );
+            }
+        });
     }
 }

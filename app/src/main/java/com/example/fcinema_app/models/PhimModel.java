@@ -38,6 +38,18 @@ public class PhimModel implements Serializable {
     String tenPhong;
     @SerializedName("tenTheLoai")
     String theLoai;
+    @SerializedName("idLichChieu")
+    int idLichChieu;
+    @SerializedName("idPhongChieu")
+    int idPhongChieu;
+
+    public int getIdPhongChieu() {
+        return idPhongChieu;
+    }
+
+    public void setIdPhongChieu(int idPhongChieu) {
+        this.idPhongChieu = idPhongChieu;
+    }
 
     public PhimModel(String image, String idPhim, String tenPhim, String ngonNgu, String moTa, String hangSX, String nuocSX, String namSX, String thoiLuong, String daoDien, String trangThai, Date ngayChieu, String caChieu, String giaPhim, String tenPhong, String theLoai) {
         this.image = image;
@@ -187,5 +199,13 @@ public class PhimModel implements Serializable {
 
     public void setTenPhong(String tenPhong) {
         this.tenPhong = tenPhong;
+    }
+
+    public int getIdLichChieu() {
+        return idLichChieu;
+    }
+
+    public void setIdLichChieu(int idLichChieu) {
+        this.idLichChieu = idLichChieu;
     }
 }

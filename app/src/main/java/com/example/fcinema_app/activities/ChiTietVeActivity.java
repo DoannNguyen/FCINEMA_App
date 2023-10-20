@@ -12,10 +12,13 @@ import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 
+import java.text.SimpleDateFormat;
+
 public class ChiTietVeActivity extends AppCompatActivity {
 
-    private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, caChieu, soGhe, hinhThucTT, tongTT;
+    private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, soGhe, hinhThucTT, tongTT;
     private androidx.appcompat.widget.Toolbar mToolbar;
+    private SimpleDateFormat mSimpleDateFormat;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -30,11 +33,12 @@ public class ChiTietVeActivity extends AppCompatActivity {
         maVe = findViewById(R.id.maveCTV);
         phongChieu = findViewById(R.id.phongchieuCTV);
         ngayChieu = findViewById(R.id.ngaychieuCTV);
-        caChieu = findViewById(R.id.cachieuCTV);
         soGhe = findViewById(R.id.sogheCTV);
         hinhThucTT = findViewById(R.id.thanhtoanCTV);
         tongTT = findViewById(R.id.tongTTCTV);
         mToolbar = findViewById(R.id.toolbarCTV);
+
+        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         mToolbar.setNavigationIcon(R.drawable.back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -49,14 +53,18 @@ public class ChiTietVeActivity extends AppCompatActivity {
         if (lichSuVeModel != null){
             tenPhim.setText(lichSuVeModel.getTenPhim());
             giaTien.setText(lichSuVeModel.getGiaVe());
-            trangThai.setText((lichSuVeModel.getTrangThai()));
+            if(lichSuVeModel.getTrangThai() == 1){
+                trangThai.setText("Chưa thanh toán");
+                hinhThucTT.setText("Tiền mặt");
+            }else{
+                trangThai.setText("Đã thanh toán");
+                hinhThucTT.setText("Zalopay");
+            }
             thoiGian.setText(lichSuVeModel.getThoiGian());
             maVe.setText(lichSuVeModel.getMaVe());
             phongChieu.setText(lichSuVeModel.getPhongChieu());
-            ngayChieu.setText(lichSuVeModel.getNgayChieu());
-            caChieu.setText(lichSuVeModel.getCaChieu());
+            ngayChieu.setText(mSimpleDateFormat.format(lichSuVeModel.getNgayChieu()));
             soGhe.setText(lichSuVeModel.getSoGhe());
-            hinhThucTT.setText(lichSuVeModel.getHinhThucTT());
             tongTT.setText(lichSuVeModel.getTongTT());
         }
     }

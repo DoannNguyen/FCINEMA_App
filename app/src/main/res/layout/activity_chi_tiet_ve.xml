@@ -147,12 +147,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:textSize="20dp"
-                android:text="Ca chiếu"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:textSize="20dp"
                 android:text="Số ghế"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -199,15 +193,6 @@
                 android:textSize="20dp"
                 android:id="@+id/phongchieuCTV"
                 android:text="Phòng 01"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="15dp"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:id="@+id/cachieuCTV"
-                android:text="Ca1"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
