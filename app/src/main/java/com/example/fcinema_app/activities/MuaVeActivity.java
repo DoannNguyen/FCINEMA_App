@@ -39,7 +39,8 @@ public class MuaVeActivity extends AppCompatActivity {
     private int tongTT = 0;
     private PhimModel model;
     private ArrayList<Integer> in;
-    private ArrayList<String> in2;
+    private ArrayList<Integer> in2;
+    private List<ToggleButton> toggleButtonList ;
 
     @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
@@ -62,6 +63,7 @@ public class MuaVeActivity extends AppCompatActivity {
         mSimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         in = new ArrayList<>();
         in2 = new ArrayList<>();
+        toggleButtonList = new ArrayList<>();
 
         mToolbar.setNavigationIcon(R.drawable.back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -70,20 +72,6 @@ public class MuaVeActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        for (int i = 0 ; i <= 15 ; i++){
-            ToggleButton button = new ToggleButton(MuaVeActivity.this);
-            button.setText(String.valueOf(i));
-            button.setTextOn(String.valueOf(i));
-            button.setTextOff(String.valueOf(i));
-            button.setBackgroundResource(R.drawable.custom_toggle_button);
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
-            params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
-            button.setLayoutParams(params);
-            button.setOnClickListener(new ToggleButtonClickListener(i));
-            mGridView.addView(button);
-        }
 
         model = (PhimModel) getIntent().getSerializableExtra("phim");
         if(model != null){
@@ -95,6 +83,26 @@ public class MuaVeActivity extends AppCompatActivity {
             tvTienVe.setText(model.getGiaPhim());
         }
 
+        for (int i = 0 ; i <= 15 ; i++){
+            ToggleButton button = new ToggleButton(MuaVeActivity.this);
+            button.setText(String.valueOf(i));
+            button.setTextOn(String.valueOf(i));
+            button.setTextOff(String.valueOf(i));
+
+            button.setBackgroundResource(R.drawable.custom_toggle_button);
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
+            params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
+            button.setLayoutParams(params);
+            button.setOnClickListener(new ToggleButtonClickListener(i));
+            mGridView.addView(button);
+            toggleButtonList.add(button);
+        }
+
+//        for (int i = 0; i < toggleButtonList.size(); i++) {
+//            ToggleButton toggleButton = toggleButtonList.get(i);
+//            int index = i + 1; // Giả sử index bắt đầu từ 1
+//        }
         getVeDat();
 
         btnMuaVe.setOnClickListener(new View.OnClickListener() {
@@ -118,8 +126,6 @@ public class MuaVeActivity extends AppCompatActivity {
     }
     private class ToggleButtonClickListener implements View.OnClickListener {
         private int buttonIndex;
-
-
         public ToggleButtonClickListener(int index) {
             this.buttonIndex = index;
         }
@@ -153,7 +159,25 @@ public class MuaVeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<GheDat>> call, retrofit2.Response<List<GheDat>> response) {
                 if(response.isSuccessful()){
+                   for(int i = 0 ; i < response.body().size() ; i++){
+                       String data = response.body().get(i).getTenGhe().replace("[","").replace("]","");
+                       String[] array = data.split(",");
+                       for(int j = 0; j < array.length ; j++){
+                            in2.add(Integer.parseInt(array[j].trim()));
+                       }
+                   }
+                    for (int i = 0; i < toggleButtonList.size(); i++) {
+                        ToggleButton toggleButton = toggleButtonList.get(i);
+                        int index = i + 1; // Giả sử index bắt đầu từ 1
 
+                        if (in2.contains(i)) {
+                            toggleButton.setEnabled(false);
+                            toggleButton.setChecked(true);
+                        } else {
+                            toggleButton.setEnabled(true);
+                        }
+                    }
+                    Log.e("TAG", "onResponse: "+in2.size());
                 }
             }
 

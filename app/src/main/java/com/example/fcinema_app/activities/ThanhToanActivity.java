@@ -3,11 +3,15 @@ package com.example.fcinema_app.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +19,7 @@ import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
+import com.example.fcinema_app.models.CreateOrder;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.RequestData;
 import com.example.fcinema_app.models.VeModel;
@@ -22,6 +27,8 @@ import com.example.fcinema_app.models.ViTriGheModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -33,6 +40,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class ThanhToanActivity extends AppCompatActivity {
 
@@ -44,11 +55,19 @@ public class ThanhToanActivity extends AppCompatActivity {
     private Button btnXacNhan;
     private Gson mGson;
     private JsonArray jsonArray;
+    private RadioButton rdoTienMat, rdoZalopay;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanh_toan);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(553, Environment.SANDBOX);
 
         tvTenPhim =findViewById(R.id.tvTenPhimXNDV);
         tvThoiLuong = findViewById(R.id.tvThoiLuongXNDV);
@@ -60,6 +79,21 @@ public class ThanhToanActivity extends AppCompatActivity {
         tvSoLuong = findViewById(R.id.tvSoLuongXNDV);
         tvTongTT = findViewById(R.id.tvTongThanhToanXNDV);
         btnXacNhan = findViewById(R.id.btnXacNhanDatVe);
+        rdoTienMat = findViewById(R.id.rdoTienMat);
+        rdoZalopay = findViewById(R.id.rdoZaloPay);
+
+        CreateOrder orderApi = new CreateOrder();
+
+        try {
+            JSONObject data = orderApi.createOrder("100000");
+            String code = data.getString("returncode");
+            if (code.equals("1")) {
+                token = data.getString("zptranstoken").toString();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -99,8 +133,9 @@ public class ThanhToanActivity extends AppCompatActivity {
         veModel.setTongTien((soLuongGhe*Integer.parseInt(model.getGiaPhim())));
         veModel.setNgayTT(mSimpleDateFormat.format(Calendar.getInstance().getTime()));
         veModel.setIdLichChieu(model.getIdLichChieu());
+        veModel.setTrangThai(1);
 
-         viTriGheModel = new ViTriGheModel();
+        viTriGheModel = new ViTriGheModel();
         viTriGheModel.setTenGhe(stringBuilder.toString());
         viTriGheModel.setIdPhongChieu(model.getIdPhongChieu());
         viTriGheModel.setIdVe(veModel.getIdVe());
@@ -119,7 +154,13 @@ public class ThanhToanActivity extends AppCompatActivity {
         btnXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddVeAndViTriGhe();
+                if(rdoTienMat.isChecked()){
+                    AddVeAndViTriGhe();
+                }
+                if(rdoZalopay.isChecked()){
+//                    Toast.makeText(ThanhToanActivity.this, "thah toán qua zalopay", Toast.LENGTH_SHORT).show();
+                    PayByZalopay();
+                }
             }
         });
     }
@@ -143,5 +184,35 @@ public class ThanhToanActivity extends AppCompatActivity {
                 Log.e("TAG", "onFailure: "+t.getMessage());
             }
         });
+    }
+
+    private void PayByZalopay(){
+        ZaloPaySDK.getInstance().payOrder(ThanhToanActivity.this, token, "demozpdk://app", new PayOrderListener() {
+            @Override
+            public void onPaymentSucceeded(String s, String s1, String s2) {
+                Toast.makeText(getApplicationContext(), "thanh cong", Toast.LENGTH_SHORT).show();
+                veModel.setTrangThai(0);
+                AddVeAndViTriGhe();
+            }
+
+            @Override
+            public void onPaymentCanceled(String s, String s1) {
+
+                Toast.makeText(getApplicationContext(), "huy", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+
+                Toast.makeText(getApplicationContext(), "loi", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 }
