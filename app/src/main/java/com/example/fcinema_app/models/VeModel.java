@@ -24,6 +24,8 @@ public class VeModel implements Serializable {
     private int idLichChieu;
     @SerializedName("idTT")
     private int idTT;
+    @SerializedName("trangThai")
+    private int trangThai;
 
     public VeModel() {
     }
@@ -35,6 +37,14 @@ public class VeModel implements Serializable {
         this.tongTien = tongTien;
         this.ngayTT = ngayTT;
         this.idLichChieu = idLichChieu;
+    }
+
+    public int getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(int trangThai) {
+        this.trangThai = trangThai;
     }
 
     public String getIdVe() {

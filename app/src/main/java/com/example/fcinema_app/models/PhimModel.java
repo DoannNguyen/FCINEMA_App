@@ -3,6 +3,7 @@ package com.example.fcinema_app.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
 
 public class PhimModel implements Serializable {

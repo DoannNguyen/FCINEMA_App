@@ -62,6 +62,9 @@ public class LichSuVeAdapter extends BaseAdapter {
         if(list.get(i).getTrangThai() == 1){
             holder.trangThai.setText("Chưa thanh toán");
         }
+        if(list.get(i).getTrangThai() == 0){
+            holder.trangThai.setText("Đã thanh toán");
+        }
         holder.tenPhim.setText(list.get(i).getTenPhim());
         holder.soluongVe.setText(list.get(i).getSoluongVe());
         holder.ngayChieu.setText(mSimpleDateFormat.format(list.get(i).getNgayChieu()));
