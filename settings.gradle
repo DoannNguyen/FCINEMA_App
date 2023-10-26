@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FCINEMA_App"
 include ':app'
+include ':mylibrary'
