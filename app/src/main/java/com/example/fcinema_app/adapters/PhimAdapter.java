@@ -1,6 +1,9 @@
 package com.example.fcinema_app.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +60,13 @@ public class PhimAdapter extends BaseAdapter {
         }else{
             holder = (PhimViewHolder) view.getTag();
         }
-            if(mList.get(i).getImage() == null || mList.get(i).getImage().isEmpty()){
-                holder.mImageView.setImageResource(R.drawable.poster);
-            }
-
+        if(mList.get(i).getImage().length() == 0){
+            holder.mImageView.setImageResource(R.drawable.poster);
+        }else{
+            byte[] decodedString = Base64.decode(mList.get(i).getImage(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.mImageView.setImageBitmap(decodedByte);
+        }
         return view;
     }
 }

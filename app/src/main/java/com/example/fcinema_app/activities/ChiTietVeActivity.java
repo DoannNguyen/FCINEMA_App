@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fcinema_app.R;
+import com.example.fcinema_app.adapters.LichSuVeAdapter;
 import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 
@@ -64,12 +65,13 @@ public class ChiTietVeActivity extends AppCompatActivity {
             maVe.setText(lichSuVeModel.getMaVe());
             phongChieu.setText(lichSuVeModel.getPhongChieu());
             ngayChieu.setText(mSimpleDateFormat.format(lichSuVeModel.getNgayChieu()));
-            soGhe.setText(lichSuVeModel.getSoGhe());
             Float tongTien= Float.valueOf(lichSuVeModel.getTongTT());
 
             String formatTongTien = decimalFormat.format(tongTien);
 
             tongTT.setText(formatTongTien+" đ");
+            soGhe.setText((lichSuVeModel.getSoGhe().replace("\"","")));
+
         }
 
         findViewById(R.id.imgBackFromDetailVe).setOnClickListener(v -> {

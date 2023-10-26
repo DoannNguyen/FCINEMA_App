@@ -8,10 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.fcinema_app.R;
+import com.example.fcinema_app.activities.MuaVeActivity;
 import com.example.fcinema_app.models.LichSuVeModel;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LichSuVeAdapter extends BaseAdapter {
@@ -71,7 +73,8 @@ public class LichSuVeAdapter extends BaseAdapter {
         holder.tvNgayChieu.setText(mSimpleDateFormat.format(list.get(i).getNgayChieu()));
         holder.tvNgayMua.setText(mSimpleDateFormat.format(list.get(i).getNgayMua()));
         holder.tvCaChieu.setText(list.get(i).getCaChieu());
-        holder.tvTenGhe.setText(list.get(i).getSoGhe());
+
+        holder.soGhe.setText(list.get(i).getSoGhe().replace("\"",""));
 
 
         return view;
@@ -87,5 +90,18 @@ public class LichSuVeAdapter extends BaseAdapter {
         this.list = list;
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
+
+//    public static String ConverterChair(String data){
+//        String newData = data.replace("[","").replace("]","");
+//        String[] convert = newData.split(",");
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (String value : convert){
+//            stringBuilder.append(MuaVeActivity.ConverterChairName(Integer.parseInt(value)) +",");
+//        }
+//        if(stringBuilder.length() > 0){
+//            stringBuilder.setLength(stringBuilder.length() - 1);
+//        }
+//        return stringBuilder.toString();
+//    }
 
 }

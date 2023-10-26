@@ -1,6 +1,10 @@
 package com.example.fcinema_app.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +59,12 @@ public class PhimSapChieuAdapter  extends BaseAdapter {
         }else{
             holder = (ViewHolder) view.getTag();
         }
-            if(list.get(i).getImage() == null){
+            if(list.get(i).getImage().length() == 0){
                 holder.image.setImageResource(R.drawable.poster);
+            }else{
+                byte[] decodedString = Base64.decode(list.get(i).getImage(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.image.setImageBitmap(decodedByte);
             }
 
         return view;

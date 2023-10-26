@@ -2,6 +2,7 @@ package com.example.fcinema_app.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -41,8 +42,11 @@ import com.example.fcinema_app.adapters.PhimAdapter;
 import com.example.fcinema_app.models.NguoiDung;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.RequestData;
+import com.example.fcinema_app.models.PhimSapChieuModel;
+import com.example.fcinema_app.models.TheLoaiModel;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,6 +64,8 @@ public class PhimDangChieuFragment extends Fragment {
         private TextView tvHelloUser;
         private androidx.appcompat.widget.Toolbar mToolbar;
         private APIInterface mAPIInterface;
+        private LinearLayout mLayout;
+        private List<TheLoaiModel> mList2;
 
     public PhimDangChieuFragment() {
         // Required empty public constructor
@@ -85,11 +91,15 @@ public class PhimDangChieuFragment extends Fragment {
 
         mList = new ArrayList<>();
         mModelList = new ArrayList<>();
+        mList2 = new ArrayList<>();
 
         mToolbar = view.findViewById(R.id.toolbarPDC);
         mGridView = view.findViewById(R.id.gridview);
         mSlider = view.findViewById(R.id.image_slider);
         tvHelloUser=view.findViewById(R.id.tvHelloUser);
+        mLayout = view.findViewById(R.id.buttonContainer2);
+        mAPIInterface = APIClient.getClient().create(APIInterface.class);
+        getTheLoai();
 
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -127,7 +137,6 @@ public class PhimDangChieuFragment extends Fragment {
 
     }
     private void getAllPhim(){
-        mAPIInterface = APIClient.getClient().create(APIInterface.class);
         Call<List<PhimModel>> call = mAPIInterface.getAllPhimDC();
         call.enqueue(new Callback<List<PhimModel>>() {
             @Override
@@ -145,7 +154,64 @@ public class PhimDangChieuFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<PhimModel>> call, Throwable t) {
+                Log.e("TAG", "onFailure: "+t.getMessage() );
+            }
+        });
+    }
 
+    private void getTheLoai(){
+        Call<List<TheLoaiModel>> call = mAPIInterface.getTheLoai();
+        call.enqueue(new Callback<List<TheLoaiModel>>() {
+            @Override
+            public void onResponse(Call<List<TheLoaiModel>> call, Response<List<TheLoaiModel>> response) {
+                if(response.isSuccessful()){
+                    mList2.clear();
+                    mList2.addAll(response.body());
+                    for(int i = 0 ; i <= mList2.size() ; i ++){
+                        Button button = new Button(getContext());
+                        if((i - 1) < 0){
+                            button.setText("Tất cả");
+                        }else{
+                            button.setText(mList2.get(i - 1).getTenTheLoai());
+                        }
+                        int finalI = i;
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if((finalI - 1) < 0){
+                                    getAllPhim();
+                                }else{
+                                    getPhimByTheLoai(Integer.parseInt(mList2.get(finalI - 1).getId()));
+                                }
+                            }
+                        });
+                        mLayout.addView(button);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TheLoaiModel>> call, Throwable t) {
+                Log.e("TAG", "onFailure: "+t.getMessage() );
+            }
+        });
+    }
+
+    private void getPhimByTheLoai( int id){
+        Call<List<PhimModel>> call = mAPIInterface.getPhimDCbyTheLoai(id);
+        call.enqueue(new Callback<List<PhimModel>>() {
+            @Override
+            public void onResponse(Call<List<PhimModel>> call, Response<List<PhimModel>> response) {
+                if(response.isSuccessful()){
+                    mModelList.clear();
+                    mModelList.addAll(response.body());
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PhimModel>> call, Throwable t) {
+                Log.e("TAG", "onFailure: "+t.getMessage() );
             }
         });
     }
