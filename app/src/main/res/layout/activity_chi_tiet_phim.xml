@@ -8,6 +8,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
         android:id="@+id/toolbarCTV"
         >
         <TextView
@@ -41,36 +42,38 @@
                     android:layout_height="match_parent"
                     android:id="@+id/img_postterCTP"/>
             </androidx.cardview.widget.CardView>
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ten phim"
                 android:id="@+id/tvTenPhimCTP"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="750000"
-                android:id="@+id/tvGiaPhimCTP"
-                android:textSize="20dp"
-                android:textStyle="bold"
                 android:layout_gravity="center"
-                />
+                android:layout_marginTop="10dp"
+                android:text="ten phim"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvGiaPhimCTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="750000"
+                android:textSize="16dp"
+                android:textStyle="bold" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/black"
                 android:layout_margin="10dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
                 android:text="Thông tin phim"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:layout_marginStart="18dp"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,10 +233,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
                 android:text="Thông tin chiếu"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:layout_marginStart="18dp"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -323,13 +326,14 @@
                 android:layout_height="1dp"
                 android:background="@android:color/black"
                 android:layout_margin="10dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
                 android:text="Mô tả"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:layout_marginStart="18dp"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -339,12 +343,15 @@
                 />
         </LinearLayout>
     </ScrollView>
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="Chọn suất chiếu"
         android:id="@+id/btnChonSUatChieu"
-        />
+        android:layout_width="343dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="5dp"
+        android:background="@drawable/border_shape"
+        android:text="Chọn suất chiếu"
+        android:textAllCaps="true" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
