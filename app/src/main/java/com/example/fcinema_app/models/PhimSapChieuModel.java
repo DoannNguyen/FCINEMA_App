@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.sql.Blob;
 
 public class PhimSapChieuModel implements Serializable {
-   // @SerializedName("anh")
-    private Blob image;
+    @SerializedName("anh")
+    private String image;
     @SerializedName("tenPhim")
     private String tenPhim;
     @SerializedName("tenTheLoai")
@@ -28,7 +28,7 @@ public class PhimSapChieuModel implements Serializable {
     public PhimSapChieuModel() {
     }
 
-    public PhimSapChieuModel(Blob image, String tenPhim, String theLoai, String quocGia, String namSX, String thoiLuong, String ngonNgu, String daoDien, String moTa) {
+    public PhimSapChieuModel(String image, String tenPhim, String theLoai, String quocGia, String namSX, String thoiLuong, String ngonNgu, String daoDien, String moTa) {
         this.image = image;
         this.tenPhim = tenPhim;
         this.theLoai = theLoai;
@@ -40,11 +40,11 @@ public class PhimSapChieuModel implements Serializable {
         this.moTa = moTa;
     }
 
-    public Blob getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

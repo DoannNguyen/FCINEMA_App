@@ -5,6 +5,7 @@ import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 import com.example.fcinema_app.models.RequestData;
+import com.example.fcinema_app.models.TheLoaiModel;
 
 import java.util.List;
 
@@ -27,8 +28,14 @@ public interface APIInterface {
     @POST("ve")
     Call<ResponseBody> addDevice(@Body RequestData requestData);
     //lấy toàn bộ vé đã đặt
-    @GET("ve")
+    @GET("ve/dsve")
     Call<List<LichSuVeModel>> getVeDat();
     @GET("ghe/{id}")
     Call<List<GheDat>> getGheDat(@Path("id") int id);
+    @GET("theLoai")
+    Call<List<TheLoaiModel>> getTheLoai();
+    @GET("phimSC/{id}")
+    Call<List<PhimSapChieuModel>> getPhimSCbyTheLoai(@Path("id")int id);
+    @GET("phimDC/{id}")
+    Call<List<PhimModel>> getPhimDCbyTheLoai(@Path("id")int id);
 }
