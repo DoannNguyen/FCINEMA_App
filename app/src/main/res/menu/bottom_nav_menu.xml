@@ -9,13 +9,13 @@
         />
     <item
         android:title="Phim sắp chiêu"
-        android:icon="@drawable/reel"
+        android:icon="@drawable/movie"
         android:id="@+id/nav_reel"
         app:showAsAction="ifRoom"
         />
     <item
         android:title="Lịch sử đặt vé"
-        android:icon="@drawable/ticket"
+        android:icon="@drawable/history"
         android:id="@+id/nav_history"
         app:showAsAction="ifRoom"
         />
