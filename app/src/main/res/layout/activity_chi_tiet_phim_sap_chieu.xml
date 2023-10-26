@@ -10,6 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
         android:id="@+id/toolbarPSC"
         >
         <TextView
@@ -18,7 +19,7 @@
             android:text="Chi Tiết Phim Sắp Chiếu"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="16dp"
             />
     </androidx.appcompat.widget.Toolbar>
     <ImageView

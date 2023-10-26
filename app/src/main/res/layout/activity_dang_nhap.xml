@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/img"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -13,78 +14,95 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="177dp"
-        android:fontFamily="@font/merienda_black"
-        android:textStyle="bold"
+        android:fontFamily="@font/notable"
         android:text="FICNEMA"
-        android:textSize="32dp"
         android:textAlignment="center"
+        android:textSize="16dp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/merienda_regular"
+        android:fontFamily="@font/merienda_one"
         android:text="Mua vé, Trải nghiệm, Thư giãn."
-        android:textSize="20dp"
         android:textAlignment="center"
+        android:textSize="16dp"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:layout_margin="20dp">
+        tools:layout_editor_absoluteX="20dp"
+        tools:ignore="MissingConstraints">
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edEmailDangNhap"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/edEmailDangNhap"
                 android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:layout_constraintTop_toBottomOf="@+id/edEmail">
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/edEmail"
+            app:passwordToggleEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edPassDangNhap"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/edPassDangNhap"
                 android:hint="Mật khẩu"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <CheckBox
+            android:id="@+id/ckRemember"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Lưu thông tin?">
 
         </CheckBox>
+
         <Button
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/btnLogin"
-            android:text="Đăng Nhập"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
             android:background="@drawable/border_shape"
-            android:layout_marginTop="10dp" />
+            android:text="Đăng Nhập" />
+
         <TextView
+            android:id="@+id/tvQuenMatKhau"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvQuenMatKhau"
+            android:layout_marginVertical="10dp"
+            android:layout_marginTop="20dp"
             android:text="Quên mật khẩu"
-            android:textAlignment="center"
-            android:layout_marginVertical="10dp"/>
+            android:textAlignment="center" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,40 +110,55 @@
                 android:text="Chưa có tài khoản?" />
 
             <TextView
+                android:id="@+id/tvDangKyNgay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvDangKyNgay"
                 android:text=" Đăng ký ngay!"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+
             <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
-
-            <ImageView
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/fb"
+                android:layout_marginTop="10dp"
+                app:dividerColor="@color/blackone"
+                app:dividerInsetEnd="16dp" />
 
-                />
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="213dp"
+                android:text="Hoặc đăng nhập bằng" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:dividerColor="@color/blackone"
+                app:dividerInsetStart="16dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgLogingWithGG"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:src="@drawable/gg" />
-        </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

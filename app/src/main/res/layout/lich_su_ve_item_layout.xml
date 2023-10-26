@@ -1,96 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     android:orientation="horizontal">
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_weight="1"
-        >
+        app:cardCornerRadius="3dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/border_item"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvmaVeLSVItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="Mã vé"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvNgayChieuLSV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="YYYYmmdd"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCaChieuLSV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ca chiếu"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/daTTLSCItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Đã thanh toán"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_gravity="center_horizontal"
-                >
+                android:padding="10dp">
+
                 <TextView
+                    android:id="@+id/tvTenPhimLSVItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Mã vé"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    android:id="@+id/maVeLSVItem"
-                    android:maxLines="1"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Đã thanh toán"
-                    android:textSize="16dp"
-                    android:id="@+id/daTTLSCItem"
-                    android:textStyle="bold"/>
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Rambo"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rambo"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:id="@+id/tenPhimLSVItem"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Số lượng vé"
-            android:textSize="18dp"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2"
-            android:textSize="18dp"
-            android:id="@+id/soluongveLSVItem"
-            android:layout_gravity="center"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20-12-2023"
-            android:textSize="18dp"
-            android:id="@+id/ngaychieuLSVItem"
-            android:layout_gravity="right"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10h - 12h"
-            android:textSize="18dp"
-            android:id="@+id/giochieuLSVItem"
-            android:layout_gravity="right"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="c14, c15"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:id="@+id/sogheLSVItem"
-            android:layout_gravity="right"/>
-    </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tvNgayMuaSVItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="20-12-2023"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/sogheLSVItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="c14, c15"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/soluongveLSVItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

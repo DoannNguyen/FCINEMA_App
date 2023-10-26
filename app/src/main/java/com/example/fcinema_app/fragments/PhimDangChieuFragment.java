@@ -30,14 +30,18 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
+import com.example.fcinema_app.Utils.NguoiDungCallback;
 import com.example.fcinema_app.activities.ChiTietPhimActivity;
 import com.example.fcinema_app.activities.ThongBaoActivity;
 import com.example.fcinema_app.activities.TimKiemActivity;
 import com.example.fcinema_app.adapters.PhimAdapter;
+import com.example.fcinema_app.models.NguoiDung;
 import com.example.fcinema_app.models.PhimModel;
+import com.example.fcinema_app.models.RequestData;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 import com.example.fcinema_app.models.TheLoaiModel;
 
@@ -57,6 +61,7 @@ public class PhimDangChieuFragment extends Fragment {
         private List<PhimModel> mModelList=new ArrayList<>();
          private PhimAdapter mAdapter;
         private  GridView mGridView;
+        private TextView tvHelloUser;
         private androidx.appcompat.widget.Toolbar mToolbar;
         private APIInterface mAPIInterface;
         private LinearLayout mLayout;
@@ -77,7 +82,6 @@ public class PhimDangChieuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_phim_dang_chieu, container, false);
     }
 
@@ -92,6 +96,7 @@ public class PhimDangChieuFragment extends Fragment {
         mToolbar = view.findViewById(R.id.toolbarPDC);
         mGridView = view.findViewById(R.id.gridview);
         mSlider = view.findViewById(R.id.image_slider);
+        tvHelloUser=view.findViewById(R.id.tvHelloUser);
         mLayout = view.findViewById(R.id.buttonContainer2);
         mAPIInterface = APIClient.getClient().create(APIInterface.class);
         getTheLoai();
@@ -128,6 +133,7 @@ public class PhimDangChieuFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        getNguoiDung();
 
     }
     private void getAllPhim(){
@@ -209,4 +215,30 @@ public class PhimDangChieuFragment extends Fragment {
             }
         });
     }
+
+    private void getNguoiDung(){
+        MainActivity activity=(MainActivity) getActivity();
+        activity.getNguoiDungByEmail(new NguoiDungCallback() {
+            @Override
+            public void onNguoiDungReceived(NguoiDung nguoiDung) {
+                if(!nguoiDung.getHoTen().isEmpty() && nguoiDung.getHoTen()!=null){
+                    tvHelloUser.setText("Xin chào "+nguoiDung.getHoTen());
+                }else{
+                    tvHelloUser.setText("Xin chào");
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+            }
+        });
+    }
+
+    private String getEmail(){
+        MainActivity activity=(MainActivity) getActivity();
+        String id=activity.getEmail();
+        return id;
+    }
+
 }

@@ -2,7 +2,22 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FCINEMA_App" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/blackone</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:navigationBarColor">?android:attr/colorPrimaryDark</item>
+        <item name="android:windowBackground">?android:attr/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/blackone</item>
+        <item name="android:colorFocusedHighlight">@color/white</item>
+
+
+
     </style>
 
     <style name="Theme.FCINEMA_App" parent="Base.Theme.FCINEMA_App" />

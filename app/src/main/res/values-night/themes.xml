@@ -2,6 +2,20 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FCINEMA_App" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/blackone</item>
+        <item name="colorPrimaryDark">@color/blackone</item>
+        <item name="colorSecondary">@color/blackone</item>
+        <item name="colorOnPrimary">@color/blackone</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorSecondaryVariant">?attr/colorPrimary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/grayone</item>
+        <item name="android:navigationBarColor">?android:attr/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+
     </style>
+
 </resources>

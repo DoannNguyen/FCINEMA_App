@@ -40,7 +40,7 @@ public class LichSuVeAdapter extends BaseAdapter {
     }
 
     public class ViewHolder{
-        TextView maVe, trangThai, tenPhim, soluongVe, ngayChieu, gioChieu, soGhe;
+        TextView tvMaVe, tvTrangThai, tvTenPhim, tvSoLuongVe, tvNgayChieu, tvCaChieu, tvTenGhe,tvNgayMua;
     }
 
     @Override
@@ -49,28 +49,31 @@ public class LichSuVeAdapter extends BaseAdapter {
         if(view == null ){
             view = LayoutInflater.from(context).inflate(R.layout.lich_su_ve_item_layout, null);
             holder = new ViewHolder();
-            holder.maVe = view.findViewById(R.id.maVeLSVItem);
-            holder.trangThai = view.findViewById(R.id.daTTLSCItem);
-            holder.tenPhim = view.findViewById(R.id.tenPhimLSVItem);
-            holder.soluongVe = view.findViewById(R.id.soluongveLSVItem);
-            holder.ngayChieu = view.findViewById(R.id.ngaychieuLSVItem);
-            holder.gioChieu = view.findViewById(R.id.giochieuLSVItem);
-            holder.soGhe = view.findViewById(R.id.sogheLSVItem);
+            holder.tvMaVe = view.findViewById(R.id.tvmaVeLSVItem);
+            holder.tvTrangThai = view.findViewById(R.id.daTTLSCItem);
+            holder.tvTenPhim = view.findViewById(R.id.tvTenPhimLSVItem);
+            holder.tvSoLuongVe = view.findViewById(R.id.soluongveLSVItem);
+            holder.tvNgayChieu = view.findViewById(R.id.tvNgayChieuLSV);
+            holder.tvNgayMua=view.findViewById(R.id.tvNgayMuaSVItem);
+            holder.tvTenGhe = view.findViewById(R.id.sogheLSVItem);
+            holder.tvCaChieu=view.findViewById(R.id.tvCaChieuLSV);
             view.setTag(holder);
         }else {
             holder = (ViewHolder) view.getTag();
         }
-         holder.maVe.setText(list.get(i).getMaVe());
+         holder.tvMaVe.setText(list.get(i).getMaVe());
         if(list.get(i).getTrangThai() == 1){
-            holder.trangThai.setText("Chưa thanh toán");
+            holder.tvTrangThai.setText("Chưa thanh toán");
         }
         if(list.get(i).getTrangThai() == 0){
-            holder.trangThai.setText("Đã thanh toán");
+            holder.tvTrangThai.setText("Đã thanh toán");
         }
-        holder.tenPhim.setText(list.get(i).getTenPhim());
-        holder.soluongVe.setText(list.get(i).getSoluongVe());
-        holder.ngayChieu.setText(mSimpleDateFormat.format(list.get(i).getNgayChieu()));
-        holder.gioChieu.setText(list.get(i).getThoiGian());
+        holder.tvTenPhim.setText(list.get(i).getTenPhim());
+        holder.tvSoLuongVe.setText("Số ghế: "+list.get(i).getSoluongVe());
+        holder.tvNgayChieu.setText(mSimpleDateFormat.format(list.get(i).getNgayChieu()));
+        holder.tvNgayMua.setText(mSimpleDateFormat.format(list.get(i).getNgayMua()));
+        holder.tvCaChieu.setText(list.get(i).getCaChieu());
+
         holder.soGhe.setText(list.get(i).getSoGhe().replace("\"",""));
 
 

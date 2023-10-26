@@ -6,15 +6,33 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.fcinema_app.Utils.APIClient;
+import com.example.fcinema_app.Utils.APIInterface;
+import com.example.fcinema_app.Utils.NguoiDungCallback;
+import com.example.fcinema_app.activities.DangKyActivity;
 import com.example.fcinema_app.fragments.CaiDatFragment;
 import com.example.fcinema_app.fragments.LichSuVeFragment;
 import com.example.fcinema_app.fragments.PhimDangChieuFragment;
 import com.example.fcinema_app.fragments.PhimSapChieuFragment;
+import com.example.fcinema_app.models.NguoiDung;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +66,18 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        getEmail();
+        getNguoiDungByEmail(new NguoiDungCallback() {
+            @Override
+            public void onNguoiDungReceived(NguoiDung nguoiDung) {
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+            }
+        });
     }
 
     private void ReplaceFragment(Fragment fragment){
@@ -55,5 +85,33 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.mainFrame_layout,fragment);
         fragmentTransaction.commit();
+    }
+    public void getNguoiDungByEmail(final NguoiDungCallback callback){
+        APIInterface apiInterface= APIClient.getClient().create(APIInterface.class);
+        Call<NguoiDung> call=apiInterface.getNguoiDungByEmail(getEmail());
+        NguoiDung nguoiDung=new NguoiDung();
+        call.enqueue(new Callback<NguoiDung>() {
+            @Override
+            public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
+                if (response.isSuccessful()) {
+                    NguoiDung nguoiDung = response.body();
+                    callback.onNguoiDungReceived(nguoiDung);
+                } else {
+                    callback.onError("Lỗi");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NguoiDung> call, Throwable t) {
+                Log.i("Lỗi", t.getMessage());
+
+            }
+        });
+
+    }
+    public String getEmail(){
+        Intent ilogin=getIntent();
+        String email=ilogin.getStringExtra("email");
+        return email;
     }
 }

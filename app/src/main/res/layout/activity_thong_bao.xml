@@ -10,6 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryDark"
         android:id="@+id/toolbar"
         >
         <TextView
