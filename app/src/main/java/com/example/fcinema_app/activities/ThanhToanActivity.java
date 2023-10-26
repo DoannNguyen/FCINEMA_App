@@ -84,20 +84,6 @@ public class ThanhToanActivity extends AppCompatActivity {
         rdoTienMat = findViewById(R.id.rdoTienMat);
         rdoZalopay = findViewById(R.id.rdoZaloPay);
 
-        CreateOrder orderApi = new CreateOrder();
-
-        try {
-            JSONObject data = orderApi.createOrder("100000");
-            String code = data.getString("returncode");
-            if (code.equals("1")) {
-                token = data.getString("zptranstoken").toString();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Bundle bundle = getIntent().getBundleExtra("value");
@@ -126,6 +112,18 @@ public class ThanhToanActivity extends AppCompatActivity {
            tvSoLuong.setText(""+soLuongGhe);
            tvTongTT.setText(""+(soLuongGhe*Integer.parseInt(model.getGiaPhim())));
        }
+
+        CreateOrder orderApi = new CreateOrder();
+        try {
+            JSONObject data = orderApi.createOrder(""+(soLuongGhe*Integer.parseInt(model.getGiaPhim())));
+            String code = data.getString("returncode");
+            if (code.equals("1")) {
+                token = data.getString("zptranstoken").toString();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
        veModel = new VeModel();
        veModel.setIdVe("VIE"+ new Date().getTime());
