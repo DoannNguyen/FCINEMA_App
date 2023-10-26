@@ -6,17 +6,20 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class ChiTietVeActivity extends AppCompatActivity {
 
     private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, soGhe, hinhThucTT, tongTT;
+
     private androidx.appcompat.widget.Toolbar mToolbar;
     private SimpleDateFormat mSimpleDateFormat;
 
@@ -40,32 +43,37 @@ public class ChiTietVeActivity extends AppCompatActivity {
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
         Intent intent = getIntent();
         LichSuVeModel lichSuVeModel = (LichSuVeModel) intent.getSerializableExtra("LCV");
         if (lichSuVeModel != null){
             tenPhim.setText(lichSuVeModel.getTenPhim());
-            giaTien.setText(lichSuVeModel.getGiaVe());
+            Float giaVe= Float.valueOf(lichSuVeModel.getGiaVe());
+            String formatGiaVe = decimalFormat.format(giaVe);
+
+            giaTien.setText(formatGiaVe+" đ");
             if(lichSuVeModel.getTrangThai() == 1){
                 trangThai.setText("Chưa thanh toán");
-                hinhThucTT.setText("Tiền mặt");
             }else{
                 trangThai.setText("Đã thanh toán");
-                hinhThucTT.setText("Zalopay");
             }
-            thoiGian.setText(lichSuVeModel.getThoiGian());
+            hinhThucTT.setText(lichSuVeModel.getPhuongThucTT());
+            thoiGian.setText(lichSuVeModel.getCaChieu());
             maVe.setText(lichSuVeModel.getMaVe());
             phongChieu.setText(lichSuVeModel.getPhongChieu());
             ngayChieu.setText(mSimpleDateFormat.format(lichSuVeModel.getNgayChieu()));
             soGhe.setText(lichSuVeModel.getSoGhe());
-            tongTT.setText(lichSuVeModel.getTongTT());
+            Float tongTien= Float.valueOf(lichSuVeModel.getTongTT());
+
+            String formatTongTien = decimalFormat.format(tongTien);
+
+            tongTT.setText(formatTongTien+" đ");
         }
+
+        findViewById(R.id.imgBackFromDetailVe).setOnClickListener(v -> {
+            finish();
+        });
     }
 }

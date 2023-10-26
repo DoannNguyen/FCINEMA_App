@@ -13,11 +13,13 @@ public class LichSuVeModel implements Serializable {
     @SerializedName("trangThai")
     private int trangThai;
     @SerializedName("caChieu")
-    private String thoiGian;
+    private String caChieu;
     @SerializedName("idVe")
     private String maVe;
     @SerializedName("ngayChieu")
     private Date ngayChieu;
+    @SerializedName("ngayMua")
+    private Date ngayMua;
     @SerializedName("tenPhongChieu")
     private String phongChieu;
     @SerializedName("tenGhe")
@@ -27,16 +29,19 @@ public class LichSuVeModel implements Serializable {
     private String tongTT;
     @SerializedName("soVe")
     private String soluongVe;
+    @SerializedName("phuongThucTT")
+    private String phuongThucTT;
+
 
 
     public LichSuVeModel() {
     }
 
-    public LichSuVeModel(String tenPhim, String giaVe, int trangThai, String thoiGian, String maVe, Date ngayChieu, String phongChieu, String soGhe, String hinhThucTT, String tongTT, String soluongVe) {
+    public LichSuVeModel(String tenPhim, String giaVe, int trangThai, String caChieu, String maVe, Date ngayChieu,Date ngayMua, String phongChieu, String soGhe, String hinhThucTT, String tongTT, String soluongVe,String phuongThucTT) {
         this.tenPhim = tenPhim;
         this.giaVe = giaVe;
         this.trangThai = trangThai;
-        this.thoiGian = thoiGian;
+        this.caChieu = caChieu;
         this.maVe = maVe;
         this.ngayChieu = ngayChieu;
         this.phongChieu = phongChieu;
@@ -45,6 +50,7 @@ public class LichSuVeModel implements Serializable {
         this.hinhThucTT = hinhThucTT;
         this.tongTT = tongTT;
         this.soluongVe = soluongVe;
+        this.phuongThucTT=phuongThucTT;
     }
 
     public String getTenPhim() {
@@ -71,12 +77,13 @@ public class LichSuVeModel implements Serializable {
         this.trangThai = trangThai;
     }
 
-    public String getThoiGian() {
-        return thoiGian;
+
+    public String getCaChieu() {
+        return caChieu;
     }
 
-    public void setThoiGian(String thoiGian) {
-        this.thoiGian = thoiGian;
+    public void setCaChieu(String caChieu) {
+        this.caChieu = caChieu;
     }
 
     public String getMaVe() {
@@ -133,5 +140,21 @@ public class LichSuVeModel implements Serializable {
 
     public void setSoluongVe(String soluongVe) {
         this.soluongVe = soluongVe;
+    }
+
+    public Date getNgayMua() {
+        return ngayMua;
+    }
+
+    public void setNgayMua(Date ngayMua) {
+        this.ngayMua = ngayMua;
+    }
+
+    public String getPhuongThucTT() {
+        return phuongThucTT;
+    }
+
+    public void setPhuongThucTT(String phuongThucTT) {
+        this.phuongThucTT = phuongThucTT;
     }
 }
