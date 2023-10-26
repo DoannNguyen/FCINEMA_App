@@ -21,6 +21,6 @@ public class ManHinhChaoActivity extends AppCompatActivity {
                 startActivity(new Intent(ManHinhChaoActivity.this, DangNhapActivity.class));
                 finish();
             }
-        }, 1500);
+        }, 2000);
     }
 }
