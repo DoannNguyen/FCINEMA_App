@@ -5,9 +5,9 @@ import com.google.gson.JsonArray;
 public class RequestData {
     private VeModel mVeModel;
     private ViTriGheModel mViTriGheModel;
-    private JsonArray mJsonArray;
+    private String mJsonArray;
 
-    public RequestData(VeModel veModel, ViTriGheModel viTriGheModel, JsonArray jsonArray) {
+    public RequestData(VeModel veModel, ViTriGheModel viTriGheModel, String jsonArray) {
         mVeModel = veModel;
         mViTriGheModel = viTriGheModel;
         mJsonArray = jsonArray;

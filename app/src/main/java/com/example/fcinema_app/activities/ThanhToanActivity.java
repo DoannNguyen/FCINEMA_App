@@ -57,6 +57,8 @@ public class ThanhToanActivity extends AppCompatActivity {
     private JsonArray jsonArray;
     private RadioButton rdoTienMat, rdoZalopay;
     String token;
+    String[] jsonObject;
+    StringBuilder stringBuilder = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,17 +104,16 @@ public class ThanhToanActivity extends AppCompatActivity {
         PhimModel model = (PhimModel) bundle.getSerializable("phim");
         int soLuongGhe = (Integer) bundle.getInt("soLuongVe");
         ArrayList<Integer> ghe = bundle.getIntegerArrayList("ghe");
-        StringBuilder stringBuilder = new StringBuilder();
         jsonArray = new JsonArray();
         for (Integer value : ghe) {
-            stringBuilder.append(value).append(", ");
-            jsonArray.add(value);
+            stringBuilder.append(MuaVeActivity.ConverterChairName(value)).append(", ");
+            jsonArray.add(MuaVeActivity.ConverterChairName(value));
         }
-
         if (stringBuilder.length() > 0) {
             stringBuilder.setLength(stringBuilder.length() - 2);
+            jsonObject = stringBuilder.toString().split(", ");
         }
-        Log.e("TAG", "onCreate: "+jsonArray );
+        Log.e("TAG", "onCreate: "+ stringBuilder.toString());
 
        if(model != null && soLuongGhe != 0){
            tvTenPhim.setText(model.getTenPhim());
@@ -166,7 +167,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     }
 
     private void AddVeAndViTriGhe(){
-        RequestData requestData = new RequestData(veModel, viTriGheModel, jsonArray);
+        RequestData requestData = new RequestData(veModel, viTriGheModel, stringBuilder.toString());
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<ResponseBody> call = apiInterface.addDevice(requestData);
         call.enqueue(new Callback<ResponseBody>() {

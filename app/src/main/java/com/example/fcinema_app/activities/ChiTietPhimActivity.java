@@ -3,7 +3,10 @@ package com.example.fcinema_app.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -60,7 +63,9 @@ public class ChiTietPhimActivity extends AppCompatActivity {
         if(phimModel != null){
             tvTenPhim.setText(phimModel.getTenPhim());
             tvGiaPhim.setText(phimModel.getGiaPhim());
-//            mImageView.setImageResource(phimModel.getImage());
+            byte[] decodedString = Base64.decode(phimModel.getImage(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            mImageView.setImageBitmap(decodedByte);
             tvTheLoai.setText((phimModel.getTheLoai()));
             tvQuocGia.setText(phimModel.getNuocSX());
             tvNamSX.setText(phimModel.getNamSX());

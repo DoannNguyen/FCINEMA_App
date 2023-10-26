@@ -3,12 +3,13 @@ package com.example.fcinema_app.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.nio.Buffer;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PhimModel implements Serializable {
-    @SerializedName("anh")
-    String image;
+    @SerializedName("anh") String image;
     @SerializedName("idPhim")
     String idPhim;
     @SerializedName("tenPhim")
@@ -69,6 +70,29 @@ public class PhimModel implements Serializable {
         this.giaPhim = giaPhim;
         this.tenPhong = tenPhong;
         this.theLoai = theLoai;
+    }
+
+    private class anh{
+        @SerializedName("type")
+        private String type;
+        @SerializedName("data")
+        private ArrayList<Integer> mArrayList;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public ArrayList<Integer> getArrayList() {
+            return mArrayList;
+        }
+
+        public void setArrayList(ArrayList<Integer> arrayList) {
+            mArrayList = arrayList;
+        }
     }
 
     public String getTheLoai() {

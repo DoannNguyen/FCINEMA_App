@@ -82,43 +82,11 @@
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/buttonContainer"
+                android:id="@+id/buttonContainer2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:paddingHorizontal="5dp">
-
-                <Button
-                    android:id="@+id/btnTatCa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="2.5dp"
-                    android:text="Tất cả" />
-
-                <Button
-                    android:id="@+id/btnHanhDong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="2.5dp"
-                    android:text="Hành động" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="2.5dp"
-                    android:text="Kinh dị" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="2.5dp"
-                    android:text="Hoạt hình" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="2.5dp"
-                    android:text="Thần thoại" />
             </LinearLayout>
         </HorizontalScrollView>
         <GridView

@@ -85,10 +85,9 @@ public class MuaVeActivity extends AppCompatActivity {
 
         for (int i = 0 ; i <= 15 ; i++){
             ToggleButton button = new ToggleButton(MuaVeActivity.this);
-            button.setText(String.valueOf(i));
-            button.setTextOn(String.valueOf(i));
-            button.setTextOff(String.valueOf(i));
-
+            button.setText(ConverterChairName(i));
+            button.setTextOn(ConverterChairName(i));
+            button.setTextOff(ConverterChairName(i));
             button.setBackgroundResource(R.drawable.custom_toggle_button);
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
@@ -159,13 +158,16 @@ public class MuaVeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<GheDat>> call, retrofit2.Response<List<GheDat>> response) {
                 if(response.isSuccessful()){
+                    Log.e("TAG", "onResponse: "+response.body().get(0).getTenGhe() );
+
                    for(int i = 0 ; i < response.body().size() ; i++){
-                       String data = response.body().get(i).getTenGhe().replace("[","").replace("]","");
-                       String[] array = data.split(",");
-                       for(int j = 0; j < array.length ; j++){
-                            in2.add(Integer.parseInt(array[j].trim()));
-                       }
+                       String[] data = response.body().get(i).getTenGhe().replace("\"","").split(", ");
+                       Log.e("TAG", "onResponse: "+data.length );
+                        for(int j = 0; j < data.length ; j++){
+                            in2.add(ConverterIndexChair(data[j]));
+                        }
                    }
+                    Log.e("TAG", "onResponse: "+in2 );
                     for (int i = 0; i < toggleButtonList.size(); i++) {
                         ToggleButton toggleButton = toggleButtonList.get(i);
                         int index = i + 1; // Giả sử index bắt đầu từ 1
@@ -186,6 +188,39 @@ public class MuaVeActivity extends AppCompatActivity {
                 Log.e("TAG", "onFailure: "+t.getMessage() );
             }
         });
+    }
+
+    public static String ConverterChairName(int i){
+        if(i/4 < 1){
+            return "A"+(i%4 + 1);
+        }
+        if(1 <= (i/4) && (i/4) < 2){
+            return "B"+(i%4 + 1);
+        }
+        if(2 <= (i/4) && (i/4) < 3){
+            return "C"+(i%4 + 1);
+        }
+        if(3 <= (i/4) && (i/4) < 4){
+            return "D"+(i%4 + 1);
+        }
+        return null;
+    }
+
+    private int ConverterIndexChair(String chair){
+        int D = 0;
+        if((chair.charAt(0)) == 'A'){
+            D += Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
+        }
+        if((chair.charAt(0)) == 'B'){
+            D = 4 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
+        }
+        if((chair.charAt(0)) == 'C'){
+            D = 8 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
+        }
+        if((chair.charAt(0)) == 'D'){
+            D = 12 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
+        }
+        return D;
     }
 
 }
