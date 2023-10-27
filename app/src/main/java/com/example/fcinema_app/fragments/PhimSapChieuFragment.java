@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import com.example.fcinema_app.R;
@@ -23,7 +21,6 @@ import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.activities.ChiTietPhimSapChieuActivity;
 import com.example.fcinema_app.adapters.PhimSapChieuAdapter;
-import com.example.fcinema_app.adapters.TheLoaiAdapter;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 import com.example.fcinema_app.models.TheLoaiModel;
 
