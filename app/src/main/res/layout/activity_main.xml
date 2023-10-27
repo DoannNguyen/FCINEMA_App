@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?attr/colorPrimaryDark"
-        app:itemIconTint="?attr/colorPrimary"
         app:itemActiveIndicatorStyle="?attr/colorPrimary"
         app:itemTextColor="?attr/colorPrimary"
         app:menu="@menu/bottom_nav_menu" />
