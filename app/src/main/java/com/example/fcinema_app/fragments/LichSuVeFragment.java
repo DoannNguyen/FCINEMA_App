@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
@@ -31,10 +33,12 @@ import retrofit2.Response;
 
 public class LichSuVeFragment extends Fragment {
 
-    ListView listView;
-    List<LichSuVeModel> list;
+    private ListView listView;
+    private List<LichSuVeModel> list;
 
-    LichSuVeAdapter lichSuVeAdapter;
+    private LichSuVeAdapter lichSuVeAdapter;
+
+    private TextView tvNoItem;
 
     public LichSuVeFragment() {
         // Required empty public constructor
@@ -59,6 +63,7 @@ public class LichSuVeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         listView = view.findViewById(R.id.listview);
+        tvNoItem = view.findViewById(R.id.tvNoItem);
         list = new ArrayList<>();
         getVeDat();
         lichSuVeAdapter = new LichSuVeAdapter(getContext(),list);
@@ -77,14 +82,18 @@ public class LichSuVeFragment extends Fragment {
     }
     private void getVeDat() {
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<List<LichSuVeModel>> call = apiInterface.getVeDat();
+        Call<List<LichSuVeModel>> call = apiInterface.getVeDat(getEmail());
         call.enqueue(new Callback<List<LichSuVeModel>>() {
             @Override
             public void onResponse(Call<List<LichSuVeModel>> call, Response<List<LichSuVeModel>> response) {
                 if(response.isSuccessful()){
-                    list.clear();
-                    list.addAll(response.body());
-                    lichSuVeAdapter.notifyDataSetChanged();
+                    if(response.body().size() != 0){
+                        tvNoItem.setVisibility(View.GONE);
+                        list.clear();
+                        assert response.body() != null;
+                        list.addAll(response.body());
+                        lichSuVeAdapter.notifyDataSetChanged();
+                    }
                 }else{
                     Log.e("TAG", "onResponse: " );
                 }
@@ -95,5 +104,12 @@ public class LichSuVeFragment extends Fragment {
                 Log.e("TAG", "onFailure: "+t.getMessage() );
             }
         });
+    }
+    private String getEmail(){
+        MainActivity activity = (MainActivity) getActivity();
+        if(activity != null){
+           return activity.getEmail();
+        }
+        return null;
     }
 }

@@ -110,6 +110,7 @@ public class MuaVeActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ThanhToanActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("phim", model);
+                bundle.putString("email", getIntent().getStringExtra("email"));
                 bundle.putInt("soLuongVe", clickedButtonCount);
                 bundle.putIntegerArrayList("ghe", in);
                 intent.putExtra("value", bundle);
@@ -158,7 +159,6 @@ public class MuaVeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<GheDat>> call, retrofit2.Response<List<GheDat>> response) {
                 if(response.isSuccessful()){
-                    Log.e("TAG", "onResponse: "+response.body().get(0).getTenGhe() );
 
                    for(int i = 0 ; i < response.body().size() ; i++){
                        String[] data = response.body().get(i).getTenGhe().replace("\"","").split(", ");
@@ -167,10 +167,8 @@ public class MuaVeActivity extends AppCompatActivity {
                             in2.add(ConverterIndexChair(data[j]));
                         }
                    }
-                    Log.e("TAG", "onResponse: "+in2 );
                     for (int i = 0; i < toggleButtonList.size(); i++) {
                         ToggleButton toggleButton = toggleButtonList.get(i);
-                        int index = i + 1; // Giả sử index bắt đầu từ 1
 
                         if (in2.contains(i)) {
                             toggleButton.setEnabled(false);

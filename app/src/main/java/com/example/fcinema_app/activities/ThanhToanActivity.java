@@ -56,9 +56,10 @@ public class ThanhToanActivity extends AppCompatActivity {
     private Gson mGson;
     private JsonArray jsonArray;
     private RadioButton rdoTienMat, rdoZalopay;
-    String token;
-    String[] jsonObject;
-    StringBuilder stringBuilder = new StringBuilder();
+    private String token;
+    private String[] jsonObject;
+    private StringBuilder stringBuilder = new StringBuilder();
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getBundleExtra("value");
         PhimModel model = (PhimModel) bundle.getSerializable("phim");
         int soLuongGhe = (Integer) bundle.getInt("soLuongVe");
+        email = bundle.getString("email");
         ArrayList<Integer> ghe = bundle.getIntegerArrayList("ghe");
         jsonArray = new JsonArray();
         for (Integer value : ghe) {
@@ -133,6 +135,8 @@ public class ThanhToanActivity extends AppCompatActivity {
         veModel.setNgayTT(mSimpleDateFormat.format(Calendar.getInstance().getTime()));
         veModel.setIdLichChieu(model.getIdLichChieu());
         veModel.setTrangThai(1);
+        veModel.setPhuongThucTT("Tiền mặt");
+        veModel.setEmail(email);
 
         viTriGheModel = new ViTriGheModel();
         viTriGheModel.setTenGhe(stringBuilder.toString());
@@ -172,7 +176,9 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    Intent intent = new Intent(ThanhToanActivity.this, MainActivity.class);
+                    Toast.makeText(ThanhToanActivity.this, "Đặt vé thành công", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ThanhToanActivity.this,MainActivity.class);
+                    intent.putExtra("email", email);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
@@ -191,6 +197,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             public void onPaymentSucceeded(String s, String s1, String s2) {
                 Toast.makeText(getApplicationContext(), "thanh cong", Toast.LENGTH_SHORT).show();
                 veModel.setTrangThai(0);
+                veModel.setPhuongThucTT("ZaloPay");
                 AddVeAndViTriGhe();
             }
 

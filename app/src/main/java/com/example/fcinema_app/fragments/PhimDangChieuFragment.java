@@ -130,6 +130,7 @@ public class PhimDangChieuFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getContext(), ChiTietPhimActivity.class);
                 intent.putExtra("phim", mModelList.get(i));
+                intent.putExtra("email", getEmail());
                 startActivity(intent);
             }
         });

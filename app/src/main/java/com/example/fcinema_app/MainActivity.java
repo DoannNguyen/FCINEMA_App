@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.Utils.NguoiDungCallback;
 import com.example.fcinema_app.activities.DangKyActivity;
+import com.example.fcinema_app.activities.ThanhToanActivity;
 import com.example.fcinema_app.fragments.CaiDatFragment;
 import com.example.fcinema_app.fragments.LichSuVeFragment;
 import com.example.fcinema_app.fragments.PhimDangChieuFragment;
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
     public void getNguoiDungByEmail(final NguoiDungCallback callback){
         APIInterface apiInterface= APIClient.getClient().create(APIInterface.class);
         Call<NguoiDung> call=apiInterface.getNguoiDungByEmail(getEmail());
-        NguoiDung nguoiDung=new NguoiDung();
         call.enqueue(new Callback<NguoiDung>() {
             @Override
             public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
