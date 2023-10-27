@@ -74,7 +74,7 @@ public class LichSuVeAdapter extends BaseAdapter {
         holder.tvNgayMua.setText(mSimpleDateFormat.format(list.get(i).getNgayMua()));
         holder.tvCaChieu.setText(list.get(i).getCaChieu());
 
-        holder.soGhe.setText(list.get(i).getSoGhe().replace("\"",""));
+        holder.tvTenGhe.setText(list.get(i).getSoGhe().replace("\"",""));
 
 
         return view;
