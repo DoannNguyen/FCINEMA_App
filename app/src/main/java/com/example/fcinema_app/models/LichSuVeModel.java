@@ -24,15 +24,12 @@ public class LichSuVeModel implements Serializable {
     private String phongChieu;
     @SerializedName("tenGhe")
     private String soGhe;
-    private String hinhThucTT;
     @SerializedName("tongTien")
     private String tongTT;
     @SerializedName("soVe")
     private String soluongVe;
     @SerializedName("phuongThucTT")
     private String phuongThucTT;
-
-
 
     public LichSuVeModel() {
     }
@@ -47,7 +44,6 @@ public class LichSuVeModel implements Serializable {
         this.phongChieu = phongChieu;
 
         this.soGhe = soGhe;
-        this.hinhThucTT = hinhThucTT;
         this.tongTT = tongTT;
         this.soluongVe = soluongVe;
         this.phuongThucTT=phuongThucTT;
@@ -116,14 +112,6 @@ public class LichSuVeModel implements Serializable {
 
     public void setSoGhe(String soGhe) {
         this.soGhe = soGhe;
-    }
-
-    public String getHinhThucTT() {
-        return hinhThucTT;
-    }
-
-    public void setHinhThucTT(String hinhThucTT) {
-        this.hinhThucTT = hinhThucTT;
     }
 
     public String getTongTT() {

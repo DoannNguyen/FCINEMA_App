@@ -14,11 +14,6 @@ import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.models.NguoiDung;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

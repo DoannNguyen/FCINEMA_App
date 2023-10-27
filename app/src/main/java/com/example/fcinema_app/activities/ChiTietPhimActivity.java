@@ -83,6 +83,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ChiTietPhimActivity.this,MuaVeActivity.class);
                 intent.putExtra("phim", phimModel);
+                intent.putExtra("email", getIntent().getSerializableExtra("email"));
                 startActivity(intent);
             }
         });

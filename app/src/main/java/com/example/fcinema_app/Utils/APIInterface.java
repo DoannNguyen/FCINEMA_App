@@ -60,9 +60,9 @@ public interface APIInterface {
     @POST("ve")
     Call<ResponseBody> addDevice(@Body RequestData requestData);
     //lấy toàn bộ vé đã đặt
-    @GET("/ve/dsve")
+    @GET("/ve/dsve/{email}")
 
-    Call<List<LichSuVeModel>> getVeDat();
+    Call<List<LichSuVeModel>> getVeDat(@Path("email") String email);
     @GET("ghe/{id}")
     Call<List<GheDat>> getGheDat(@Path("id") int id);
     @GET("theLoai")
