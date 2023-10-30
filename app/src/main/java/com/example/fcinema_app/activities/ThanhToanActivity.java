@@ -3,14 +3,19 @@ package com.example.fcinema_app.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +36,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,11 +62,15 @@ public class ThanhToanActivity extends AppCompatActivity {
     private Gson mGson;
     private JsonArray jsonArray;
     private RadioButton rdoTienMat, rdoZalopay;
+    private ImageView imgPoster;
     private String token;
     private String[] jsonObject;
     private StringBuilder stringBuilder = new StringBuilder();
     private String email;
 
+    DecimalFormat decimalFormat=new DecimalFormat("###,###");
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +94,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         btnXacNhan = findViewById(R.id.btnXacNhanDatVe);
         rdoTienMat = findViewById(R.id.rdoTienMat);
         rdoZalopay = findViewById(R.id.rdoZaloPay);
+        imgPoster=findViewById(R.id.imgPosterPayment);
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -104,15 +115,22 @@ public class ThanhToanActivity extends AppCompatActivity {
         Log.e("TAG", "onCreate: "+ stringBuilder.toString());
 
        if(model != null && soLuongGhe != 0){
+           String formatGiaVe=decimalFormat.format(Float.parseFloat(model.getGiaPhim()));
+           String formatTong=decimalFormat.format((soLuongGhe*Integer.parseInt(model.getGiaPhim())));
+
+           byte[] decodedString = Base64.decode(model.getImage(), Base64.DEFAULT);
+           Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+           imgPoster.setImageBitmap(decodedByte);
+
            tvTenPhim.setText(model.getTenPhim());
            tvThoiLuong.setText(model.getThoiLuong());
            tvNgayChieu.setText(mSimpleDateFormat.format(model.getNgayChieu()));
            tvPhongChieu.setText(model.getTenPhong());
            tvCaChieu.setText(model.getCaChieu());
            tvViTri.setText(stringBuilder.toString());
-           tvGia.setText(model.getGiaPhim());
+           tvGia.setText(formatGiaVe+"đ");
            tvSoLuong.setText(""+soLuongGhe);
-           tvTongTT.setText(""+(soLuongGhe*Integer.parseInt(model.getGiaPhim())));
+           tvTongTT.setText(formatTong+"đ");
        }
 
         CreateOrder orderApi = new CreateOrder();
@@ -145,15 +163,10 @@ public class ThanhToanActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.toolbarTT);
 
+        findViewById(R.id.imgBackFromPaymentRequest).setOnClickListener(v -> {
+            finish();
 
-        mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
         });
-
         btnXacNhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,7 +174,6 @@ public class ThanhToanActivity extends AppCompatActivity {
                     AddVeAndViTriGhe();
                 }
                 if(rdoZalopay.isChecked()){
-//                    Toast.makeText(ThanhToanActivity.this, "thah toán qua zalopay", Toast.LENGTH_SHORT).show();
                     PayByZalopay();
                 }
             }
@@ -203,7 +215,6 @@ public class ThanhToanActivity extends AppCompatActivity {
 
             @Override
             public void onPaymentCanceled(String s, String s1) {
-
                 Toast.makeText(getApplicationContext(), "huy", Toast.LENGTH_SHORT).show();
 
             }
