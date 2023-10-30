@@ -1,302 +1,410 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activities.ThanhToanActivity">
+
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarTT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark"
-        android:id="@+id/toolbarTT">
+        android:background="?attr/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/imgBackFromPaymentRequest"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center|left"
+            android:src="@drawable/backarrow1" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Xác nhận đặt vé"
             android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            />
+            android:text="Xác nhận đặt vé"
+            android:textSize="16dp"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/lightGrey" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
             android:text="Thông tin chi tiết"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:orientation="horizontal"
-            android:layout_marginHorizontal="10dp">
+            android:padding="10dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="15dp">
+
+                <ImageView
+                    android:id="@+id/imgPosterPayment"
+                    android:layout_width="108dp"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop" />
+            </androidx.cardview.widget.CardView>
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Tên phim"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Thời lượng"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Ngày chiếu"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Phòng chiếu"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Ca chiếu"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Vị trí ghế"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Giá vé"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
+                    android:paddingLeft="10dp"
                     android:text="Số lượng"
-                    android:textSize="18dp"
-                    />
+                    android:textSize="13dp" />
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="Ký sinh trùng"
                     android:id="@+id/tvTenPhimXNDV"
-                    android:layout_marginEnd="18dp"
-                    android:textSize="18dp"
-                    android:layout_gravity="right"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="2h20p"
+                    android:maxLines="2"
+                    android:text="Ký sinh trùng"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvThoiLuongXNDV"
-                    android:layout_marginEnd="18dp"
-                    android:layout_gravity="right"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="31-12-2023"
+                    android:text="2h20p"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvNgayChieuXNDV"
-                    android:layout_marginEnd="18dp"
-                    android:layout_gravity="right"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="B4"
+                    android:text="31-12-2023"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvPhongChieuXNDV"
-                    android:layout_marginEnd="18dp"
-                    android:layout_gravity="right"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="Ca 1"
+                    android:text="B4"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvCaChieuXNDV"
-                    android:layout_marginEnd="18dp"
-                    android:layout_gravity="right"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="F4, F5"
+                    android:text="Ca 1"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvVidTriGhe"
-                    android:layout_marginEnd="18dp"
-                    android:layout_gravity="right"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="75000 đ"
+                    android:text="F4, F5"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvGIaiVeXNDV"
-                    android:layout_marginEnd="18dp"
-                    android:layout_gravity="right"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:text="2"
+                    android:text="75000 đ"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tvSoLuongXNDV"
-                    android:layout_marginEnd="18dp"
-                    android:layout_gravity="right"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/lightGrey" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:text="Phương thức thanh toán"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
-       <RadioGroup
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           android:layout_marginVertical="15dp"
-           android:layout_marginHorizontal="15dp">
-           <RadioButton
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Tiền mặt"
-               android:checked="true"
-               android:id="@+id/rdoTienMat"
-               android:layout_marginStart="10dp"
-               android:layout_weight="1"
-               />
-           <RadioButton
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="ZaloPay"
-               android:id="@+id/rdoZaloPay"
-               android:layout_marginStart="10dp"
-               android:layout_weight="1"
-               />
-       </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:padding="8dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/cash" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="Tiền mặt"
+                        android:textSize="13dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/zalopay512" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="ZaloPay"
+                        android:textSize="13dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end">
+
+                <RadioButton
+                    android:id="@+id/rdoTienMat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:gravity="center|end"
+                    android:textSize="13dp" />
+
+                <RadioButton
+                    android:id="@+id/rdoZaloPay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|right"
+                    android:textSize="13dp" />
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/lightGrey" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:text="Tổng"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:text="Phí thanh toán"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:text="Tổng thanh toán"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:text="Miễn phí"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvTongThanhToanXNDV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:text="150 000"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="5dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:text="Phí thanh toán"
-                android:textSize="18dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:text="Tổng thanh toán"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:gravity="bottom|center"
+        android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:text="Miễn phí"
-                android:layout_marginEnd="18dp"
-                android:layout_gravity="right"
-                android:textSize="18dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:text="150 000"
-                android:id="@+id/tvTongThanhToanXNDV"
-                android:textSize="20dp"
-                android:layout_marginEnd="18dp"
-                android:layout_gravity="right"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnXacNhanDatVe"
+            android:layout_width="343dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_shape"
+            android:text="Xác nhận thanh toán"
+            android:textAllCaps="true"
+            android:textSize="13dp" />
     </LinearLayout>
 
-    </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:id="@+id/btnXacNhanDatVe"
-        android:text="Xác nhận thanh toán"
-        />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

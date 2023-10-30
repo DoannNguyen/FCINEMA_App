@@ -33,7 +33,7 @@ public class CaiDatFragment extends Fragment {
 
     private Button btnDoiMatKhau, btnSuaThogTin;
     private LinearLayout lnLogout;
-    private TextView tvNameUser;
+    private TextView tvNameUser,tvEmailUser;
     private ImageView imgUser;
 
     private String oldPass;
@@ -63,6 +63,7 @@ public class CaiDatFragment extends Fragment {
         btnDoiMatKhau = view.findViewById(R.id.btnDoiMatKhau);
         lnLogout=view.findViewById(R.id.lnLogout);
         tvNameUser=view.findViewById(R.id.tvNameST);
+        tvEmailUser=view.findViewById(R.id.tvEmailST);
         imgUser=view.findViewById(R.id.imgAnhTaiKhoan);
 
         btnSuaThogTin.setOnClickListener(new View.OnClickListener() {
@@ -96,8 +97,11 @@ public class CaiDatFragment extends Fragment {
             public void onNguoiDungReceived(NguoiDung nguoiDung) {
                 if ( nguoiDung.getHoTen() != null && !nguoiDung.getHoTen().isEmpty()) {
                     tvNameUser.setText(" " + nguoiDung.getHoTen());
+                    tvEmailUser.setText(nguoiDung.getEmail());
                 } else {
                     tvNameUser.setText("Người dùng");
+                    tvEmailUser.setText("");
+
                 }
                 oldPass=nguoiDung.getMatKhau();
 

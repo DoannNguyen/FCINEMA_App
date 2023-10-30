@@ -16,7 +16,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center|left"
-            android:src="@drawable/backarrow" />
+            android:src="@drawable/backarrow1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +28,10 @@
             android:textSize="16dp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/lightGrey" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
+            android:paddingLeft="10dp"
             android:text="Xác nhận OTP"
             android:textSize="14dp"
             android:textStyle="bold" />
@@ -46,6 +50,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="Mã OTP đã được gửi đến email:"
             android:textSize="14dp" />
 
@@ -53,6 +58,7 @@
             android:id="@+id/tvEmailResetPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:text="abc@gmail.com"
             android:textSize="14dp"
             android:textStyle="bold" />
@@ -64,36 +70,43 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+                android:layout_width="343dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 app:layout_constraintTop_toBottomOf="@+id/edEmail"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edCodeOTP"
-                    android:layout_width="match_parent"
+                    android:layout_width="343dp"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:hint="Code"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+                android:layout_width="343dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/edEmail"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edMatKhauMoi1"
-                    android:layout_width="match_parent"
+                    android:layout_width="343dp"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:hint="Mật khẩu mới"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+                android:layout_width="343dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/edEmail"
                 app:passwordToggleEnabled="true">
 
@@ -119,8 +132,9 @@
 
         <Button
             android:id="@+id/btnComfirmResetPass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="343dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/border_shape"
             android:text="Gửi"

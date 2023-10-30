@@ -30,11 +30,14 @@ public class LichSuVeModel implements Serializable {
     private String soluongVe;
     @SerializedName("phuongThucTT")
     private String phuongThucTT;
+    @SerializedName("anh")
+
+    private String anh;
 
     public LichSuVeModel() {
     }
 
-    public LichSuVeModel(String tenPhim, String giaVe, int trangThai, String caChieu, String maVe, Date ngayChieu,Date ngayMua, String phongChieu, String soGhe, String hinhThucTT, String tongTT, String soluongVe,String phuongThucTT) {
+    public LichSuVeModel(String tenPhim, String giaVe, int trangThai, String caChieu, String maVe, Date ngayChieu,Date ngayMua, String phongChieu, String soGhe, String hinhThucTT, String tongTT, String soluongVe,String phuongThucTT,String anh) {
         this.tenPhim = tenPhim;
         this.giaVe = giaVe;
         this.trangThai = trangThai;
@@ -47,6 +50,7 @@ public class LichSuVeModel implements Serializable {
         this.tongTT = tongTT;
         this.soluongVe = soluongVe;
         this.phuongThucTT=phuongThucTT;
+        this.anh=anh;
     }
 
     public String getTenPhim() {
@@ -144,5 +148,13 @@ public class LichSuVeModel implements Serializable {
 
     public void setPhuongThucTT(String phuongThucTT) {
         this.phuongThucTT = phuongThucTT;
+    }
+
+    public String getAnh() {
+        return anh;
+    }
+
+    public void setAnh(String anh) {
+        this.anh = anh;
     }
 }

@@ -67,7 +67,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -75,11 +75,12 @@
                 <TextView
                     android:id="@+id/tvTenPhimLSVItem"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:maxLines="5"
                     android:text="Rambo"
-                    android:textSize="13dp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -113,6 +114,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="2"
+                    android:textAlignment="textEnd"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tvTongTienItemVe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="đ"
                     android:textAlignment="textEnd"
                     android:textSize="13dp" />
             </LinearLayout>

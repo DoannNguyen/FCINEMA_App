@@ -1,14 +1,20 @@
 package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -19,12 +25,11 @@ import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.models.GheDat;
 import com.example.fcinema_app.models.PhimModel;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -35,13 +40,14 @@ public class MuaVeActivity extends AppCompatActivity {
     private androidx.appcompat.widget.Toolbar mToolbar;
     private TextView tvTenPhim, tvNgayChieu, tvCaChieu, tvThoiLuong, tvPhongChieu, tvTienVe, tvSoLuong, tvTongThanhToan;
     private SimpleDateFormat mSimpleDateFormat;
+    private ImageView imgPoster;
     private int clickedButtonCount = 0;
     private int tongTT = 0;
     private PhimModel model;
     private ArrayList<Integer> in;
     private ArrayList<Integer> in2;
     private List<ToggleButton> toggleButtonList ;
-
+    DecimalFormat decimalFormat=new DecimalFormat("###,###");
     @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,49 +65,59 @@ public class MuaVeActivity extends AppCompatActivity {
         tvTienVe = findViewById(R.id.tvTienveDV);
         tvSoLuong = findViewById(R.id.tvSoLuongDV);
         tvTongThanhToan = findViewById(R.id.tvTongThanhToanDV);
+        imgPoster=findViewById(R.id.imgPosterMV);
 
         mSimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         in = new ArrayList<>();
         in2 = new ArrayList<>();
         toggleButtonList = new ArrayList<>();
 
-        mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        findViewById(R.id.imgBackFromOrderVe).setOnClickListener(v -> {
+            finish();
         });
 
         model = (PhimModel) getIntent().getSerializableExtra("phim");
         if(model != null){
+
+            if(model.getImage()==null || model.getImage().isEmpty()){
+                imgPoster.setImageResource(R.drawable.imagepicker);
+            }else {
+                byte[] decodedString = Base64.decode(model.getImage(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imgPoster.setImageBitmap(decodedByte);
+            }
+            String formatVe=decimalFormat.format(Float.parseFloat(model.getGiaPhim()));
             tvTenPhim.setText(model.getTenPhim());
             tvPhongChieu.setText(model.getTenPhong());
             tvThoiLuong.setText(model.getThoiLuong());
             tvCaChieu.setText(model.getCaChieu());
             tvNgayChieu.setText(mSimpleDateFormat.format(model.getNgayChieu()));
-            tvTienVe.setText(model.getGiaPhim());
+            tvTienVe.setText(formatVe+"đ");
         }
 
         for (int i = 0 ; i <= 15 ; i++){
             ToggleButton button = new ToggleButton(MuaVeActivity.this);
+
+            button.setTextSize(13);
+
             button.setText(ConverterChairName(i));
             button.setTextOn(ConverterChairName(i));
             button.setTextOff(ConverterChairName(i));
-            button.setBackgroundResource(R.drawable.custom_toggle_button);
+            button.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button));
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
             params.rowSpec = GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f);
+            params.width = 100;
+            params.height = 100;
+            params.setGravity(Gravity.CENTER);
+
             button.setLayoutParams(params);
             button.setOnClickListener(new ToggleButtonClickListener(i));
             mGridView.addView(button);
             toggleButtonList.add(button);
         }
 
-//        for (int i = 0; i < toggleButtonList.size(); i++) {
-//            ToggleButton toggleButton = toggleButtonList.get(i);
-//            int index = i + 1; // Giả sử index bắt đầu từ 1
-//        }
+
         getVeDat();
 
         btnMuaVe.setOnClickListener(new View.OnClickListener() {
@@ -138,17 +154,21 @@ public class MuaVeActivity extends AppCompatActivity {
             boolean isChecked = button.isChecked();
 
             if(isChecked){
+                button.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button_focus));
                 clickedButtonCount++;
                 in.add(buttonIndex);
                 tvSoLuong.setText(""+clickedButtonCount);
                 tongTT = clickedButtonCount*Integer.parseInt(model.getGiaPhim());
-                tvTongThanhToan.setText(""+tongTT);
+                String tongTienVe=decimalFormat.format(tongTT);
+                tvTongThanhToan.setText(tongTienVe+"đ");
             }else{
+                button.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button));
                 in.remove(Integer.valueOf(buttonIndex));
                 clickedButtonCount--;
                 tvSoLuong.setText(""+clickedButtonCount);
                 tongTT = clickedButtonCount*Integer.parseInt(model.getGiaPhim());
-                tvTongThanhToan.setText(""+tongTT);
+                String tongTienVe=decimalFormat.format(tongTT);
+                tvTongThanhToan.setText(tongTienVe+"đ");
             }
         }
     }
@@ -169,10 +189,10 @@ public class MuaVeActivity extends AppCompatActivity {
                    }
                     for (int i = 0; i < toggleButtonList.size(); i++) {
                         ToggleButton toggleButton = toggleButtonList.get(i);
-
                         if (in2.contains(i)) {
                             toggleButton.setEnabled(false);
                             toggleButton.setChecked(true);
+                            toggleButton.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button_checked));
                         } else {
                             toggleButton.setEnabled(true);
                         }

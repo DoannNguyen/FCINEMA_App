@@ -1,10 +1,14 @@
 package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +23,8 @@ import java.text.SimpleDateFormat;
 
 public class ChiTietVeActivity extends AppCompatActivity {
 
-    private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, soGhe, hinhThucTT, tongTT;
+    private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, soGhe, hinhThucTT, tongTT,tvCaChieu;
+    private ImageView imgPoster;
 
     private androidx.appcompat.widget.Toolbar mToolbar;
     private SimpleDateFormat mSimpleDateFormat;
@@ -41,6 +46,8 @@ public class ChiTietVeActivity extends AppCompatActivity {
         hinhThucTT = findViewById(R.id.thanhtoanCTV);
         tongTT = findViewById(R.id.tongTTCTV);
         mToolbar = findViewById(R.id.toolbarCTV);
+        imgPoster=findViewById(R.id.imgPosterDetailVe);
+        tvCaChieu=findViewById(R.id.tvCaChieuCTV);
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -50,6 +57,14 @@ public class ChiTietVeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         LichSuVeModel lichSuVeModel = (LichSuVeModel) intent.getSerializableExtra("LCV");
         if (lichSuVeModel != null){
+
+            if(lichSuVeModel.getAnh()==null || lichSuVeModel.getAnh().isEmpty()){
+                imgPoster.setImageResource(R.drawable.imagepicker);
+            }else {
+                byte[] decodedString = Base64.decode(lichSuVeModel.getAnh(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                imgPoster.setImageBitmap(decodedByte);
+            }
             tenPhim.setText(lichSuVeModel.getTenPhim());
             Float giaVe= Float.valueOf(lichSuVeModel.getGiaVe());
             String formatGiaVe = decimalFormat.format(giaVe);
@@ -57,11 +72,13 @@ public class ChiTietVeActivity extends AppCompatActivity {
             giaTien.setText(formatGiaVe+" đ");
             if(lichSuVeModel.getTrangThai() == 1){
                 trangThai.setText("Chưa thanh toán");
+                trangThai.setTextColor(ContextCompat.getColor(ChiTietVeActivity.this,R.color.darkRed));
             }else{
                 trangThai.setText("Đã thanh toán");
+                trangThai.setTextColor(ContextCompat.getColor(ChiTietVeActivity.this,R.color.darKGreen));
             }
             hinhThucTT.setText(lichSuVeModel.getPhuongThucTT());
-            thoiGian.setText(lichSuVeModel.getCaChieu());
+            thoiGian.setText(mSimpleDateFormat.format(lichSuVeModel.getNgayMua()));
             maVe.setText(lichSuVeModel.getMaVe());
             phongChieu.setText(lichSuVeModel.getPhongChieu());
             ngayChieu.setText(mSimpleDateFormat.format(lichSuVeModel.getNgayChieu()));
@@ -71,6 +88,7 @@ public class ChiTietVeActivity extends AppCompatActivity {
 
             tongTT.setText(formatTongTien+" đ");
             soGhe.setText((lichSuVeModel.getSoGhe().replace("\"","")));
+            tvCaChieu.setText(lichSuVeModel.getCaChieu());
 
         }
 

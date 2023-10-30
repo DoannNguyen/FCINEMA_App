@@ -1,10 +1,12 @@
 package com.example.fcinema_app.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 
@@ -40,6 +43,7 @@ public class PhimSapChieuFragment extends Fragment {
     private APIInterface mAPIInterface;
     private List<TheLoaiModel> mList;
     private LinearLayout mLayout;
+    private List<TextView> textViews = new ArrayList<>();
 
     public PhimSapChieuFragment() {
         // Required empty public constructor
@@ -114,16 +118,36 @@ public class PhimSapChieuFragment extends Fragment {
                         mList.clear();
                         mList.addAll(response.body());
                         for(int i = 0 ; i <= mList.size() ; i ++){
-                            Button button = new Button(getContext());
+                            TextView textView = new TextView(getContext());
+                            textView.setTag(i);
+                            textView.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.radius));
+                            textView.setTextSize(13);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                            );
+
+                            layoutParams.setMargins(20, 20, 20, 20);
+                            textView.setLayoutParams(layoutParams);
+
                             if((i - 1) < 0){
-                                button.setText("Tất cả");
+                                textView.setText("Tất cả");
                             }else{
-                                button.setText(mList.get(i - 1).getTenTheLoai());
+                                textView.setText(mList.get(i - 1).getTenTheLoai());
                             }
                             int finalI = i;
-                            button.setOnClickListener(new View.OnClickListener() {
+                            textView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    for (int j = 0; j < textViews.size(); j++) {
+                                        TextView tv = textViews.get(j);
+                                        tv.setTextColor(Color.BLACK);
+                                        tv.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radius));
+                                    }
+
+                                    textView.setTextColor(Color.WHITE);
+                                    view.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radius_fill));
+
                                     if((finalI - 1) < 0){
                                         getAllPhimSC();
                                     }else{
@@ -131,7 +155,8 @@ public class PhimSapChieuFragment extends Fragment {
                                     }
                                 }
                             });
-                            mLayout.addView(button);
+                            mLayout.addView(textView);
+                            textViews.add(textView);
                         }
                     }
             }
