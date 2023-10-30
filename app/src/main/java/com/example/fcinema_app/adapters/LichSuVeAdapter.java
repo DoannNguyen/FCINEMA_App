@@ -1,17 +1,22 @@
 package com.example.fcinema_app.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.activities.MuaVeActivity;
 import com.example.fcinema_app.models.LichSuVeModel;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +24,7 @@ import java.util.List;
 public class LichSuVeAdapter extends BaseAdapter {
 
     private SimpleDateFormat mSimpleDateFormat;
+
 
     @Override
     public int getCount() {
@@ -40,7 +46,7 @@ public class LichSuVeAdapter extends BaseAdapter {
     }
 
     public class ViewHolder{
-        TextView tvMaVe, tvTrangThai, tvTenPhim, tvSoLuongVe, tvNgayChieu, tvCaChieu, tvTenGhe,tvNgayMua;
+        TextView tvMaVe, tvTrangThai, tvTenPhim, tvSoLuongVe, tvNgayChieu, tvCaChieu, tvTenGhe,tvNgayMua,tvTongTien;
     }
 
     @Override
@@ -57,6 +63,7 @@ public class LichSuVeAdapter extends BaseAdapter {
             holder.tvNgayMua=view.findViewById(R.id.tvNgayMuaSVItem);
             holder.tvTenGhe = view.findViewById(R.id.sogheLSVItem);
             holder.tvCaChieu=view.findViewById(R.id.tvCaChieuLSV);
+            holder.tvTongTien=view.findViewById(R.id.tvTongTienItemVe);
             view.setTag(holder);
         }else {
             holder = (ViewHolder) view.getTag();
@@ -64,15 +71,21 @@ public class LichSuVeAdapter extends BaseAdapter {
          holder.tvMaVe.setText(list.get(i).getMaVe());
         if(list.get(i).getTrangThai() == 1){
             holder.tvTrangThai.setText("Chưa thanh toán");
+            holder.tvTrangThai.setTextColor(ContextCompat.getColor(context, R.color.darkRed));
         }
         if(list.get(i).getTrangThai() == 0){
             holder.tvTrangThai.setText("Đã thanh toán");
+            holder.tvTrangThai.setTextColor(ContextCompat.getColor(context, R.color.darKGreen));
         }
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        String tongTienFormat=decimalFormat.format(Float.parseFloat(list.get(i).getTongTT()));
+
         holder.tvTenPhim.setText(list.get(i).getTenPhim());
         holder.tvSoLuongVe.setText("Số ghế: "+list.get(i).getSoluongVe());
         holder.tvNgayChieu.setText(mSimpleDateFormat.format(list.get(i).getNgayChieu()));
         holder.tvNgayMua.setText(mSimpleDateFormat.format(list.get(i).getNgayMua()));
         holder.tvCaChieu.setText(list.get(i).getCaChieu());
+        holder.tvTongTien.setText(tongTienFormat+" đ");
 
         holder.tvTenGhe.setText(list.get(i).getSoGhe().replace("\"",""));
 
