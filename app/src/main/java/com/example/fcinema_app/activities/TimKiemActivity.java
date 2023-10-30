@@ -16,7 +16,7 @@ public class TimKiemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tim_kiem);
 
         mToolbar = findViewById(R.id.toolbarSearch);
-        mToolbar.setNavigationIcon(R.drawable.back);
+        mToolbar.setNavigationIcon(R.drawable.backarrow1);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
