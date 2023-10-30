@@ -4,6 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#FFFF00</color>
     <color name="silver">#C0C0C0</color>
-    <color name="blackone">#000000</color>
+    <color name="primary">#000000</color>
     <color name="grayone">#DADADA</color>
+    <color name="darKGreen">#018141</color>
+    <color name="darkRed">#C70039 </color>
+    <color name="dark">#000000</color>
+    <color name="burntOrange">#CC5500</color>
+    <color name="darkGrey">#36454F</color>
+    <color name="lightGrey">#D3D3D3</color>
 </resources>
