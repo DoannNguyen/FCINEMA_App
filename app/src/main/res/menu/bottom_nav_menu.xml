@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom"
         />
     <item
-        android:title="Phim sắp chiêu"
+        android:title="Phim sắp chiếu"
         android:icon="@drawable/movie"
         android:id="@+id/nav_reel"
         app:showAsAction="ifRoom"
