@@ -2,8 +2,12 @@ package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,11 +15,14 @@ import android.widget.TextView;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 
+import java.text.DecimalFormat;
+
 public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
 
     private ImageView image;
     private TextView tenPhim, theLoai, quocGia, namSX, thoiLuong, ngonNgu, daoDien, moTa;
     private androidx.appcompat.widget.Toolbar mToolbar;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,19 +38,18 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
         moTa = findViewById(R.id.motaCTPSC);
         mToolbar = findViewById(R.id.toolbarPSC);
 
-        mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+
+        findViewById(R.id.imgBackFromDetailPSC).setOnClickListener(v -> {
+            finish();
         });
 
         Intent intent = getIntent();
         PhimSapChieuModel phimSapChieuModel = (PhimSapChieuModel) intent.getSerializableExtra("phimSC");
 
         if(phimSapChieuModel != null){
-//            image.setImageResource(phimSapChieuModel.getImage());
+            byte[] decodedString = Base64.decode(phimSapChieuModel.getImage(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            image.setImageBitmap(decodedByte);
             tenPhim.setText(phimSapChieuModel.getTenPhim());
             theLoai.setText(phimSapChieuModel.getTheLoai());
             quocGia.setText(phimSapChieuModel.getQuocGia());

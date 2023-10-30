@@ -72,6 +72,10 @@ public class PhimModel implements Serializable {
         this.theLoai = theLoai;
     }
 
+    public PhimModel(String image) {
+        this.image = image;
+    }
+
     private class anh{
         @SerializedName("type")
         private String type;

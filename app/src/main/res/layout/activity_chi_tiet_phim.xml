@@ -9,16 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimaryDark"
-        android:id="@+id/toolbarCTV"
-        >
+        android:id="@+id/toolbarCTV">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/backarrow1"
+            android:id="@+id/imgBackFromDetailPC"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thông tin chi tiết"
             android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            />
+            android:text="Thông tin chi tiết"
+            android:textSize="16dp"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
     <ScrollView
         android:layout_width="match_parent"
@@ -37,10 +40,12 @@
                 app:cardCornerRadius="10dp"
                 android:layout_marginHorizontal="10dp"
                 >
+
                 <ImageView
+                    android:id="@+id/img_postterCTP"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/img_postterCTP"/>
+                    android:scaleType="centerCrop" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -61,18 +66,20 @@
                 android:text="750000"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"
-                android:layout_margin="10dp"/>
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/lightGrey" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:text="Thông tin phim"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,67 +95,73 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
                             android:text="Thể loại phim: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hài kịch"
                             android:id="@+id/tvTheLoaiCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Hài kịch"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
                             android:text="Quốc gia: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
+                            android:id="@+id/tvQuocGiaCTP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hàn Quốc"
-                            android:id="@+id/tvQuocGiaCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Hàn Quốc"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Năm SX: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Năm SX: "
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
+                            android:id="@+id/tvNamCTP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2019"
-                            android:id="@+id/tvNamCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="2019"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -160,82 +173,90 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
                             android:text="Thời lượng: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2h20p"
                             android:id="@+id/tvThoiLongCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="2h20p"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
                             android:text="Ngôn ngữ: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
+                            android:id="@+id/tvNgonNguCTP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Viétub"
-                            android:id="@+id/tvNgonNguCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Viétub"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Đạo diễn: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Đạo diễn: "
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
+                            android:id="@+id/tvDaoDienCTP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bong Jong-ho"
-                            android:id="@+id/tvDaoDienCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Bong Jong-ho"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"
-                android:layout_margin="10dp"/>
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/lightGrey" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:text="Thông tin chiếu"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -251,45 +272,49 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ngày chiếu: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Ngày chiếu: "
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
+                            android:id="@+id/tvNgayChieuCTP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hài kịch"
-                            android:id="@+id/tvNgayChieuCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Hài kịch"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ca chiếu: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Ca chiếu: "
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
+                            android:id="@+id/tvCaChieuCTP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hàn Quốc"
-                            android:id="@+id/tvCaChieuCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Hàn Quốc"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
@@ -301,57 +326,63 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Phòng chiếu: "
-                            android:textSize="16dp"
-                            android:textStyle="italic"
                             android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="Phòng chiếu: "
+                            android:textSize="13dp"
+                            android:textStyle="italic" />
+
                         <TextView
+                            android:id="@+id/tvPhongChieuCTP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="B1,B2"
-                            android:id="@+id/tvPhongChieuCTP"
-                            android:textSize="16dp"
-                            android:textStyle="bold"
                             android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:text="B1,B2"
+                            android:textSize="13dp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black"
-                android:layout_margin="10dp"/>
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/lightGrey" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:text="Mô tả"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/tvMotaCTP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="18dp"
-                android:id="@+id/tvMotaCTP"
                 android:text="Kim Ki-taek, một cựu tài xế thất nghiệp, sống cùng người vợ Chung-sook và hai đứa con Ki-woo và Ki-jung trong một căn hộ tồi tàn thực chất là một căn bán hầm cũ kỹ đã được tái sử dụng để làm nơi ở, có tầm mắt nhìn từ trong ra ngoài chỉ ngang ngửa mặt đất. Cả nhà kiếm sống qua ngày bằng công việc gấp những hộp giấy đựng bánh pizza. Một ngày nọ, Min-hyuk – bạn của Ki-woo, ghé chơi và tặng cho cả nhà một hòn đá lưu niệm làm vật cầu may. Min-hyuk còn ngỏ lời giới thiệu Ki-woo đến........"
-                />
+                android:textSize="13dp" />
         </LinearLayout>
     </ScrollView>
 
     <Button
         android:id="@+id/btnChonSUatChieu"
         android:layout_width="343dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_gravity="bottom|center"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:background="@drawable/border_shape"
         android:text="Chọn suất chiếu"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:textSize="13dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

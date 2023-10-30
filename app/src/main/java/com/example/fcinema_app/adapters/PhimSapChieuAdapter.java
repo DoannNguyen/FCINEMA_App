@@ -52,9 +52,9 @@ public class PhimSapChieuAdapter  extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
         if(view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.phim_sap_chieu_item_layout, null);
+            view = LayoutInflater.from(context).inflate(R.layout.grid_item, viewGroup,false);
             holder = new ViewHolder();
-            holder.image = view.findViewById(R.id.imageItemPSC);
+            holder.image = view.findViewById(R.id.image);
             view.setTag(holder);
         }else{
             holder = (ViewHolder) view.getTag();

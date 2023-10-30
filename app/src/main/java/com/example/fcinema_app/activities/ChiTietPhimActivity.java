@@ -2,6 +2,7 @@ package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.widget.Toolbar;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimModel;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class ChiTietPhimActivity extends AppCompatActivity {
@@ -28,6 +30,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
     Button  btnChonSuatChieu;
     private SimpleDateFormat mSimpleDateFormat;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,18 +54,17 @@ public class ChiTietPhimActivity extends AppCompatActivity {
 
         mSimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        mToolbar.setNavigationIcon(R.drawable.back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        findViewById(R.id.imgBackFromDetailPC).setOnClickListener(v -> {
+            finish();
         });
 
         PhimModel phimModel = (PhimModel) getIntent().getSerializableExtra("phim");
         if(phimModel != null){
+            DecimalFormat decimalFormat = new DecimalFormat("###,###");
+            Float giaPhim= Float.valueOf(phimModel.getGiaPhim());
+            String formatGiaPhim = decimalFormat.format(giaPhim);
             tvTenPhim.setText(phimModel.getTenPhim());
-            tvGiaPhim.setText(phimModel.getGiaPhim());
+            tvGiaPhim.setText(formatGiaPhim+" đ");
             byte[] decodedString = Base64.decode(phimModel.getImage(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             mImageView.setImageBitmap(decodedByte);
