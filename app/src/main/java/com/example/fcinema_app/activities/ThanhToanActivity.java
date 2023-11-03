@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.models.CreateOrder;
 import com.example.fcinema_app.models.PhimModel;
+import com.example.fcinema_app.models.ProgressDialog;
 import com.example.fcinema_app.models.RequestData;
 import com.example.fcinema_app.models.VeModel;
 import com.example.fcinema_app.models.ViTriGheModel;
@@ -67,10 +69,11 @@ public class ThanhToanActivity extends AppCompatActivity {
     private String[] jsonObject;
     private StringBuilder stringBuilder = new StringBuilder();
     private String email;
-
+    private Dialog mDialog;
+    private ProgressDialog mProgressDialog;
     DecimalFormat decimalFormat=new DecimalFormat("###,###");
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SimpleDateFormat"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,10 +98,14 @@ public class ThanhToanActivity extends AppCompatActivity {
         rdoTienMat = findViewById(R.id.rdoTienMat);
         rdoZalopay = findViewById(R.id.rdoZaloPay);
         imgPoster=findViewById(R.id.imgPosterPayment);
+        mDialog = new Dialog(ThanhToanActivity.this);
+        mDialog.setContentView(R.layout.progress_dialog);
+        mProgressDialog = new ProgressDialog(mDialog);
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Bundle bundle = getIntent().getBundleExtra("value");
+        assert bundle != null;
         PhimModel model = (PhimModel) bundle.getSerializable("phim");
         int soLuongGhe = (Integer) bundle.getInt("soLuongVe");
         email = bundle.getString("email");
@@ -135,6 +142,7 @@ public class ThanhToanActivity extends AppCompatActivity {
 
         CreateOrder orderApi = new CreateOrder();
         try {
+            assert model != null;
             JSONObject data = orderApi.createOrder(""+(soLuongGhe*Integer.parseInt(model.getGiaPhim())));
             String code = data.getString("returncode");
             if (code.equals("1")) {
@@ -183,11 +191,13 @@ public class ThanhToanActivity extends AppCompatActivity {
     private void AddVeAndViTriGhe(){
         RequestData requestData = new RequestData(veModel, viTriGheModel, stringBuilder.toString());
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        mProgressDialog.DialogShowing();
         Call<ResponseBody> call = apiInterface.addDevice(requestData);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
+                    mProgressDialog.DialogDismiss();
                     Toast.makeText(ThanhToanActivity.this, "Đặt vé thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ThanhToanActivity.this,MainActivity.class);
                     intent.putExtra("email", email);
@@ -197,7 +207,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
                 Log.e("TAG", "onFailure: "+t.getMessage());
             }
         });
