@@ -95,7 +95,7 @@ public class MuaVeActivity extends AppCompatActivity {
             tvTienVe.setText(formatVe+"đ");
         }
 
-        for (int i = 0 ; i <= 15 ; i++){
+        for (int i = 0 ; i <= 19 ; i++){
             ToggleButton button = new ToggleButton(MuaVeActivity.this);
 
             button.setTextSize(13);
@@ -209,17 +209,17 @@ public class MuaVeActivity extends AppCompatActivity {
     }
 
     public static String ConverterChairName(int i){
-        if(i/4 < 1){
-            return "A"+(i%4 + 1);
+        if(i/5 < 1){
+            return "A"+(i%5 + 1);
         }
-        if(1 <= (i/4) && (i/4) < 2){
-            return "B"+(i%4 + 1);
+        if(1 <= (i/5) && (i/5) < 2){
+            return "B"+(i%5 + 1);
         }
-        if(2 <= (i/4) && (i/4) < 3){
-            return "C"+(i%4 + 1);
+        if(2 <= (i/5) && (i/5) < 3){
+            return "C"+(i%5 + 1);
         }
-        if(3 <= (i/4) && (i/4) < 4){
-            return "D"+(i%4 + 1);
+        if(3 <= (i/5) && (i/5) < 4){
+            return "D"+(i%5 + 1);
         }
         return null;
     }
@@ -230,13 +230,13 @@ public class MuaVeActivity extends AppCompatActivity {
             D += Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
         }
         if((chair.charAt(0)) == 'B'){
-            D = 4 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
+            D = 5 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
         }
         if((chair.charAt(0)) == 'C'){
-            D = 8 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
+            D = 10 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
         }
         if((chair.charAt(0)) == 'D'){
-            D = 12 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
+            D = 15 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
         }
         return D;
     }

@@ -1,7 +1,10 @@
 package com.example.fcinema_app.fragments;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +24,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
@@ -34,10 +39,16 @@ import com.example.fcinema_app.adapters.ImageSlideShowAdapter;
 import com.example.fcinema_app.adapters.PhimAdapter;
 import com.example.fcinema_app.models.NguoiDung;
 import com.example.fcinema_app.models.PhimModel;
+import com.example.fcinema_app.models.ProgressDialog;
 import com.example.fcinema_app.models.TheLoaiModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -64,6 +75,10 @@ public class PhimDangChieuFragment extends Fragment {
         private List<TheLoaiModel> mList2;
         private List<TextView> textViews = new ArrayList<>();
         private Timer timer;
+        private List<String> listDate;
+        private ProgressDialog mProgressDialog;
+        private Dialog mDialog;
+        private ProgressBar mProgressBar;
 
     public PhimDangChieuFragment() {
         // Required empty public constructor
@@ -89,6 +104,12 @@ public class PhimDangChieuFragment extends Fragment {
 
         mModelList = new ArrayList<>();
         mList2 = new ArrayList<>();
+        listDate = new ArrayList<>();
+        mDialog = new Dialog(requireContext());
+        mDialog.setContentView(R.layout.progress_dialog);
+
+        mProgressDialog = new ProgressDialog(mDialog);
+        mProgressBar = mDialog.findViewById(R.id.progressBar);
 
         viewPager=view.findViewById(R.id.viewPagerSlider);
         circleIndicator=view.findViewById(R.id.circle_indicator);
@@ -97,23 +118,24 @@ public class PhimDangChieuFragment extends Fragment {
         tvHelloUser=view.findViewById(R.id.tvHelloUser);
         mLayout = view.findViewById(R.id.buttonContainer2);
         mAPIInterface = APIClient.getClient().create(APIInterface.class);
-        getTheLoai();
+        getTime();
 
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.navSearch){
-                    startActivity(new Intent(getContext(), TimKiemActivity.class));
+                    Intent intent = new Intent(getContext(),TimKiemActivity.class);
+                    intent.putExtra("email",getEmail());
+                    startActivity(intent);
                     return  true;
                 }
                 return false;
             }
         });
 
-
-        getAllPhim();
-
+        mProgressDialog.DialogShowing();
         mAdapter = new PhimAdapter(getContext(),mModelList);
+        getAllPhim(mModelList,mAdapter,mProgressDialog, mAPIInterface);
         mGridView.setAdapter(mAdapter);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -129,17 +151,17 @@ public class PhimDangChieuFragment extends Fragment {
 
     }
 
-    private void getAllPhim(){
-        Call<List<PhimModel>> call = mAPIInterface.getAllPhimDC();
+    public void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface){
+        Call<List<PhimModel>> call = APIInterface.getAllPhimDC();
         call.enqueue(new Callback<List<PhimModel>>() {
             @Override
             public void onResponse(Call<List<PhimModel>> call, Response<List<PhimModel>> response) {
                 if(response.isSuccessful()){
-                    mModelList.clear();
-                    mModelList.addAll(response.body());
-                    mAdapter.notifyDataSetChanged();
-
+                    modelList.clear();
+                    modelList.addAll(response.body());
+                    adapter.notifyDataSetChanged();
                     setupImageSlideShow();
+                    progressDialog.DialogDismiss();
                 }else{
                     Log.e("TAG", "onResponse: error " );
                 }
@@ -153,10 +175,10 @@ public class PhimDangChieuFragment extends Fragment {
         });
     }
     private void setupImageSlideShow() {
+        imageUrlList.clear();
         for (PhimModel phimModel : mModelList) {
-            phimModel=new PhimModel(phimModel.getImage());
-            imageUrlList.add(phimModel);
-
+            PhimModel newPhim = new PhimModel(phimModel.getImage());
+            imageUrlList.add(newPhim);
         }
         imageSlideShowAdapter=new ImageSlideShowAdapter(getContext(),imageUrlList);
         viewPager.setAdapter(imageSlideShowAdapter);
@@ -195,77 +217,10 @@ public class PhimDangChieuFragment extends Fragment {
 
 
     }
-    private void getTheLoai(){
-        Call<List<TheLoaiModel>> call = mAPIInterface.getTheLoai();
-        call.enqueue(new Callback<List<TheLoaiModel>>() {
-            @Override
-            public void onResponse(Call<List<TheLoaiModel>> call, Response<List<TheLoaiModel>> response) {
-                if(response.isSuccessful()){
-                    mList2.clear();
-                    mList2.addAll(response.body());
 
-                    for(int i = 0 ; i <= mList2.size() ; i ++){
-                        TextView textView = new TextView(getContext());
-                        textView.setTag(i);
-                        textView.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.radius));
-                        textView.setTextSize(13);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.WRAP_CONTENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                        );
-
-                        layoutParams.setMargins(20, 20, 20, 20);
-                        textView.setLayoutParams(layoutParams);
-
-                        if((i - 1) < 0){
-                            textView.setText("Tất cả");
-                        }else{
-                            textView.setText(mList2.get(i - 1).getTenTheLoai());
-                        }
-
-
-                        int finalI = i;
-                        textView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                for (int j = 0; j < textViews.size(); j++) {
-                                    TextView tv = textViews.get(j);
-                                    tv.setTextColor(Color.BLACK);
-                                    tv.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radius));
-                                }
-
-                                textView.setTextColor(Color.WHITE);
-                                view.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radius_fill));
-
-
-                                if((finalI - 1) < 0){
-                                    getAllPhim();
-
-                                }else{
-                                    getPhimByTheLoai(Integer.parseInt(mList2.get(finalI - 1).getId()));
-
-                                }
-                            }
-                        });
-                        mLayout.addView(textView);
-                        textViews.add(textView);
-
-                    }
-                    if (!textViews.isEmpty()) {
-                        textViews.get(0).setBackground(ContextCompat.getDrawable(getContext(),R.drawable.radius));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<TheLoaiModel>> call, Throwable t) {
-                Log.e("TAG", "onFailure: "+t.getMessage() );
-            }
-        });
-    }
-
-    private void getPhimByTheLoai( int id){
-        Call<List<PhimModel>> call = mAPIInterface.getPhimDCbyTheLoai(id);
+    private void getPhimByDay(String day ){
+        mProgressDialog.DialogShowing();
+        Call<List<PhimModel>> call = mAPIInterface.getPhimDCbyTheLoai(day);
         call.enqueue(new Callback<List<PhimModel>>() {
             @Override
             public void onResponse(Call<List<PhimModel>> call, Response<List<PhimModel>> response) {
@@ -273,6 +228,7 @@ public class PhimDangChieuFragment extends Fragment {
                     mModelList.clear();
                     mModelList.addAll(response.body());
                     mAdapter.notifyDataSetChanged();
+                    mProgressDialog.DialogDismiss();
                 }
             }
 
@@ -315,5 +271,50 @@ public class PhimDangChieuFragment extends Fragment {
             timer.cancel();
             timer=null;
         }
+    }
+
+    @SuppressLint({"SimpleDateFormat", "SetTextI18n"})
+    private void getTime(){
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < 7; i++) {
+            TextView textView = new TextView(getContext());
+            textView.setTag(i);
+            textView.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.radius));
+            textView.setTextSize(13);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+
+            layoutParams.setMargins(20, 20, 20, 20);
+            textView.setLayoutParams(layoutParams);
+
+            if(i == 0){
+                textView.setText("Today");
+            }else{
+                textView.setText(new SimpleDateFormat("dd/MM").format(calendar.getTime()));
+            }
+            int finalI = i;
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    for (int j = 0; j < textViews.size(); j++) {
+                        TextView tv = textViews.get(j);
+                        tv.setTextColor(Color.BLACK);
+                        tv.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radius));
+                    }
+                    getPhimByDay(listDate.get(finalI));
+                    textView.setTextColor(Color.WHITE);
+                    view.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radius_fill));
+                }
+            });
+            Log.e("TAG", "getTime: "+(new SimpleDateFormat("EE", Locale.ENGLISH).format(calendar.getTime())) );
+            Log.e("TAG", "getTime: "+ (new SimpleDateFormat("dd/MM").format(calendar.getTime())));
+            listDate.add(new SimpleDateFormat("yyyy/MM/dd").format(calendar.getTime()));
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            mLayout.addView(textView);
+            textViews.add(textView);
+        }
+
     }
 }

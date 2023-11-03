@@ -69,6 +69,6 @@ public interface APIInterface {
     Call<List<TheLoaiModel>> getTheLoai();
     @GET("phimSC/{id}")
     Call<List<PhimSapChieuModel>> getPhimSCbyTheLoai(@Path("id")int id);
-    @GET("phimDC/{id}")
-    Call<List<PhimModel>> getPhimDCbyTheLoai(@Path("id")int id);
+    @GET("phimDC/{day}")
+    Call<List<PhimModel>> getPhimDCbyTheLoai(@Path("day")String day);
 }

@@ -1,5 +1,6 @@
 package com.example.fcinema_app.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,9 +23,11 @@ import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.activities.ChiTietVeActivity;
 import com.example.fcinema_app.adapters.LichSuVeAdapter;
 import com.example.fcinema_app.models.LichSuVeModel;
+import com.example.fcinema_app.models.ProgressDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,8 @@ public class LichSuVeFragment extends Fragment {
     private LichSuVeAdapter lichSuVeAdapter;
 
     private TextView tvNoItem;
+    private Dialog mDialog;
+    private ProgressDialog mProgressDialog;
 
     public LichSuVeFragment() {
         // Required empty public constructor
@@ -65,6 +70,10 @@ public class LichSuVeFragment extends Fragment {
         listView = view.findViewById(R.id.listview);
         tvNoItem = view.findViewById(R.id.tvNoItem);
         list = new ArrayList<>();
+        mDialog = new Dialog(requireContext());
+        mDialog.setContentView(R.layout.progress_dialog);
+        mProgressDialog = new ProgressDialog(mDialog);
+        mProgressDialog.DialogShowing();
         getVeDat();
         lichSuVeAdapter = new LichSuVeAdapter(getContext(),list);
         listView.setAdapter(lichSuVeAdapter);
@@ -94,6 +103,7 @@ public class LichSuVeFragment extends Fragment {
                         list.addAll(response.body());
                         lichSuVeAdapter.notifyDataSetChanged();
                     }
+                    mProgressDialog.DialogDismiss();
                 }else{
                     Log.e("TAG", "onResponse: " );
                 }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,15 +18,19 @@ import com.example.fcinema_app.models.PhimModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class PhimAdapter extends BaseAdapter {
+public class PhimAdapter extends BaseAdapter implements Filterable {
 
     private Context mContext;
     private List<PhimModel> mList;
+    private List<PhimModel> list;
+    Costumfilter mCostumfilter;
 
     public PhimAdapter(Context context, List<PhimModel> list) {
         mContext = context;
         mList = list;
+        this.list = list;
     }
 
     @Override
@@ -43,6 +49,14 @@ public class PhimAdapter extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         return i;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(mCostumfilter == null){
+            mCostumfilter = new Costumfilter();
+    }
+        return mCostumfilter;
     }
 
     private class PhimViewHolder{
@@ -69,4 +83,32 @@ public class PhimAdapter extends BaseAdapter {
         }
         return view;
     }
-}
+    class Costumfilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+                constraint = constraint.toString().toLowerCase();
+                ArrayList<PhimModel> filters = new ArrayList<>();
+                if(constraint != null && constraint.length() != 0){
+                    for (int i = 0; i < mList.size(); i++) {
+                        //probleme peut etre ici
+                        if (mList.get(i).getTenPhim().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filters.add(mList.get(i));
+                        }
+                    }
+                    results.count = filters.size();
+                    results.values = filters;
+                }else {
+                    results.count = list.size();
+                    results.values = list;
+                }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mList = (List<PhimModel>) filterResults.values;
+            notifyDataSetChanged();
+        }
+    }}

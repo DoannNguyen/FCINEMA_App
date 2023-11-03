@@ -1,5 +1,6 @@
 package com.example.fcinema_app.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
@@ -25,6 +27,7 @@ import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.activities.ChiTietPhimSapChieuActivity;
 import com.example.fcinema_app.adapters.PhimSapChieuAdapter;
 import com.example.fcinema_app.models.PhimSapChieuModel;
+import com.example.fcinema_app.models.ProgressDialog;
 import com.example.fcinema_app.models.TheLoaiModel;
 
 import java.util.ArrayList;
@@ -44,6 +47,9 @@ public class PhimSapChieuFragment extends Fragment {
     private List<TheLoaiModel> mList;
     private LinearLayout mLayout;
     private List<TextView> textViews = new ArrayList<>();
+    private TextView tvNoItem;
+    private ProgressDialog mProgressDialog;
+    private Dialog mDialog;
 
     public PhimSapChieuFragment() {
         // Required empty public constructor
@@ -68,10 +74,16 @@ public class PhimSapChieuFragment extends Fragment {
 
         gridView = view.findViewById(R.id.gridViewPSC);
         mLayout = view.findViewById(R.id.buttonContainer);
+        tvNoItem = view.findViewById(R.id.tvNoItemPSC);
+        tvNoItem.setVisibility(View.GONE);
 
+        mDialog = new Dialog(getContext());
+        mDialog.setContentView(R.layout.progress_dialog);
+        mProgressDialog = new ProgressDialog(mDialog);
         list = new ArrayList<>();
         mList = new ArrayList<>();
         mAPIInterface = APIClient.getClient().create(APIInterface.class);
+        mProgressDialog.DialogShowing();
         getAllPhimSC();
         getTheLoai();
 
@@ -98,6 +110,8 @@ public class PhimSapChieuFragment extends Fragment {
                     list.clear();
                     list.addAll(response.body());
                     phimSapChieuAdapter.notifyDataSetChanged();
+                    tvNoItem.setVisibility(View.GONE);
+                    mProgressDialog.DialogDismiss();
                 }else{
                     Log.e("TAG", "onResponse: error" );
                 }
@@ -116,6 +130,7 @@ public class PhimSapChieuFragment extends Fragment {
             public void onResponse(Call<List<TheLoaiModel>> call, Response<List<TheLoaiModel>> response) {
                     if(response.isSuccessful()){
                         mList.clear();
+                        assert response.body() != null;
                         mList.addAll(response.body());
                         for(int i = 0 ; i <= mList.size() ; i ++){
                             TextView textView = new TextView(getContext());
@@ -169,6 +184,7 @@ public class PhimSapChieuFragment extends Fragment {
     }
 
     private void getPhimByTheLoai( int id){
+        mProgressDialog.DialogShowing();
         Call<List<PhimSapChieuModel>> call = mAPIInterface.getPhimSCbyTheLoai(id);
         call.enqueue(new Callback<List<PhimSapChieuModel>>() {
             @Override
@@ -176,7 +192,13 @@ public class PhimSapChieuFragment extends Fragment {
                 if(response.isSuccessful()){
                     list.clear();
                     list.addAll(response.body());
+                    if (list.size() == 0){
+                        tvNoItem.setVisibility(View.VISIBLE);
+                    }else{
+                        tvNoItem.setVisibility(View.GONE);
+                    }
                     phimSapChieuAdapter.notifyDataSetChanged();
+                    mProgressDialog.DialogDismiss();
                 }
             }
 
