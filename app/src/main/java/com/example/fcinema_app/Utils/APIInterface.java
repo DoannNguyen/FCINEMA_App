@@ -1,5 +1,6 @@
 package com.example.fcinema_app.Utils;
 
+import com.example.fcinema_app.models.DoAnModel;
 import com.example.fcinema_app.models.GheDat;
 import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.NguoiDung;
@@ -71,4 +72,6 @@ public interface APIInterface {
     Call<List<PhimSapChieuModel>> getPhimSCbyTheLoai(@Path("id")int id);
     @GET("phimDC/{day}")
     Call<List<PhimModel>> getPhimDCbyTheLoai(@Path("day")String day);
+    @GET("doan")
+    Call<List<DoAnModel>> getDoAn();
 }
