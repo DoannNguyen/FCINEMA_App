@@ -123,7 +123,7 @@ public class MuaVeActivity extends AppCompatActivity {
         btnMuaVe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ThanhToanActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChonDoAnActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("phim", model);
                 bundle.putString("email", getIntent().getStringExtra("email"));

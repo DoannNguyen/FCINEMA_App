@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +24,9 @@ import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
+import com.example.fcinema_app.adapters.DoAnAdapter2;
 import com.example.fcinema_app.models.CreateOrder;
+import com.example.fcinema_app.models.DoAnModel;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.ProgressDialog;
 import com.example.fcinema_app.models.RequestData;
@@ -33,16 +34,15 @@ import com.example.fcinema_app.models.VeModel;
 import com.example.fcinema_app.models.ViTriGheModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -72,6 +72,8 @@ public class ThanhToanActivity extends AppCompatActivity {
     private Dialog mDialog;
     private ProgressDialog mProgressDialog;
     DecimalFormat decimalFormat=new DecimalFormat("###,###");
+    private List<DoAnModel> models;
+    private DoAnAdapter2 mAnAdapter2;
 
     @SuppressLint({"MissingInflatedId", "SimpleDateFormat"})
     @Override
@@ -101,6 +103,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         mDialog = new Dialog(ThanhToanActivity.this);
         mDialog.setContentView(R.layout.progress_dialog);
         mProgressDialog = new ProgressDialog(mDialog);
+        ListView listView = findViewById(R.id.lvDoAn2);
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -110,6 +113,10 @@ public class ThanhToanActivity extends AppCompatActivity {
         int soLuongGhe = (Integer) bundle.getInt("soLuongVe");
         email = bundle.getString("email");
         ArrayList<Integer> ghe = bundle.getIntegerArrayList("ghe");
+         models = (List<DoAnModel>) bundle.getSerializable("doAn");
+        mAnAdapter2 = new DoAnAdapter2(ThanhToanActivity.this, models);
+        listView.setAdapter(mAnAdapter2);
+
         jsonArray = new JsonArray();
         for (Integer value : ghe) {
             stringBuilder.append(MuaVeActivity.ConverterChairName(value)).append(", ");
@@ -120,10 +127,17 @@ public class ThanhToanActivity extends AppCompatActivity {
             jsonObject = stringBuilder.toString().split(", ");
         }
         Log.e("TAG", "onCreate: "+ stringBuilder.toString());
+        int giaDoAn = 0;
+
+        if(models != null){
+            for( int i = 0 ; i < models.size() ; i++){
+                giaDoAn += (models.get(i).getSoLuong()* models.get(i).getGiaDoAn());
+            }
+        }
 
        if(model != null && soLuongGhe != 0){
            String formatGiaVe=decimalFormat.format(Float.parseFloat(model.getGiaPhim()));
-           String formatTong=decimalFormat.format((soLuongGhe*Integer.parseInt(model.getGiaPhim())));
+           String formatTong=decimalFormat.format((soLuongGhe*Integer.parseInt(model.getGiaPhim())+giaDoAn));
 
            byte[] decodedString = Base64.decode(model.getImage(), Base64.DEFAULT);
            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -157,8 +171,7 @@ public class ThanhToanActivity extends AppCompatActivity {
        veModel.setIdVe("VIE"+ new Date().getTime());
         veModel.setSoVe(soLuongGhe);
         veModel.setNgayMua(mSimpleDateFormat.format(Calendar.getInstance().getTime()));
-        veModel.setTongTien((soLuongGhe*Integer.parseInt(model.getGiaPhim())));
-        veModel.setNgayTT(mSimpleDateFormat.format(Calendar.getInstance().getTime()));
+        veModel.setTongTien((soLuongGhe*Integer.parseInt(model.getGiaPhim()))+giaDoAn);
         veModel.setIdLichChieu(model.getIdLichChieu());
         veModel.setTrangThai(1);
         veModel.setPhuongThucTT("Tiền mặt");
@@ -189,7 +202,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     }
 
     private void AddVeAndViTriGhe(){
-        RequestData requestData = new RequestData(veModel, viTriGheModel, stringBuilder.toString());
+        RequestData requestData = new RequestData(veModel, viTriGheModel, stringBuilder.toString(), models);
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
         mProgressDialog.DialogShowing();
         Call<ResponseBody> call = apiInterface.addDevice(requestData);
