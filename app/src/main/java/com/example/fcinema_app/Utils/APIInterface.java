@@ -46,11 +46,6 @@ public interface APIInterface {
 //    PUT[]/resquestXoaTaiKhoan
 
 
-
-
-
-
-
     //lấy toàn bộ phim đang
     @GET("phimDC")
     Call<List<PhimModel>> getAllPhimDC();

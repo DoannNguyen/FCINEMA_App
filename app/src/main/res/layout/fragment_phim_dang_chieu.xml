@@ -101,19 +101,31 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <GridView
-            android:id="@+id/gridview"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:horizontalSpacing="8dp"
-            android:nestedScrollingEnabled="false"
-            android:numColumns="3"
-            android:overScrollMode="never"
-            android:padding="10dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp" />
+            android:layout_height="wrap_content">
+            <GridView
+                android:id="@+id/gridview"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:horizontalSpacing="8dp"
+                android:nestedScrollingEnabled="false"
+                android:numColumns="3"
+                android:overScrollMode="never"
+                android:padding="10dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="8dp" />
+            <TextView
+                android:id="@+id/tvNoItemPhim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Không có phim hiển thị"
+                android:textColor="#C0C0C0"
+                android:textSize="16sp" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </LinearLayout>
 
