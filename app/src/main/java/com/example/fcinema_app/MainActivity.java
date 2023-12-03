@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -80,8 +81,24 @@ public class MainActivity extends AppCompatActivity {
             public void onError(String errorMessage) {
             }
         });
+
+        showProgressDialog();
     }
 
+    private void showProgressDialog() {
+        if (!isFinishing()) {
+            ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage("Đang tải...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            // Dismiss the dialog after a delay (e.g., 1000 milliseconds or 1 second)
+            new android.os.Handler().postDelayed(
+                    progressDialog::dismiss,
+                    1000
+            );
+        }
+    }
     private void ReplaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
