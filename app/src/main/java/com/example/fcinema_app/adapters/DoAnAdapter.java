@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.OnMinusItemClick;
 import com.example.fcinema_app.Utils.OnPlusItemClick;
@@ -85,9 +86,12 @@ public class DoAnAdapter extends BaseAdapter {
         }
         viewHolder.tvTen.setText(mList.get(i).getTenDoAn());
         viewHolder.tvGia.setText(mList.get(i).getGiaDoAn()+"");
-        byte[] decodedString = Base64.decode(mList.get(i).getAnh(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        viewHolder.imgAnh.setImageBitmap(decodedByte);
+        String imageUrl = mList.get(i).getAnh();
+        Glide.with(mContext)
+                .load(imageUrl)
+                .placeholder(R.drawable.img_default)
+                .error(R.drawable.img_default)
+                .into(viewHolder.imgAnh);
         ViewHolder finalViewHolder = viewHolder;
         viewHolder.imgPlus.setOnClickListener(new View.OnClickListener() {
             @Override

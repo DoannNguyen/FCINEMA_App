@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.adapters.LichSuVeAdapter;
 import com.example.fcinema_app.models.LichSuVeModel;
@@ -58,13 +59,10 @@ public class ChiTietVeActivity extends AppCompatActivity {
         LichSuVeModel lichSuVeModel = (LichSuVeModel) intent.getSerializableExtra("LCV");
         if (lichSuVeModel != null){
 
-            if(lichSuVeModel.getAnh()==null || lichSuVeModel.getAnh().isEmpty()){
-                imgPoster.setImageResource(R.drawable.imagepicker);
-            }else {
-                byte[] decodedString = Base64.decode(lichSuVeModel.getAnh(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                imgPoster.setImageBitmap(decodedByte);
-            }
+            String imageUrl = lichSuVeModel.getAnh();
+            Glide.with(this)
+                    .load(imageUrl)
+                    .into(imgPoster);
             tenPhim.setText(lichSuVeModel.getTenPhim());
             Float giaVe= Float.valueOf(lichSuVeModel.getGiaVe());
             String formatGiaVe = decimalFormat.format(giaVe);

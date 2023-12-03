@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.DoAnModel;
 
@@ -63,9 +64,12 @@ public class DoAnAdapter2 extends BaseAdapter {
         }
         viewHolder.tvTen.setText(mList.get(i).getTenDoAn());
         viewHolder.tvSoLuong.setText(mList.get(i).getSoLuong()+"");
-        byte[] decodedString = Base64.decode(mList.get(i).getAnh(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        viewHolder.img.setImageBitmap(decodedByte);
+        String imageUrl = mList.get(i).getAnh();
+        Glide.with(mContext)
+                .load(imageUrl)
+                .placeholder(R.drawable.img_default)
+                .error(R.drawable.img_default)
+                .into(viewHolder.img);
 
         return view;
     }
