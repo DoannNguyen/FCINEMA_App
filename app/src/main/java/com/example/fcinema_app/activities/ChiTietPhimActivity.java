@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimModel;
 
@@ -65,9 +66,10 @@ public class ChiTietPhimActivity extends AppCompatActivity {
             String formatGiaPhim = decimalFormat.format(giaPhim);
             tvTenPhim.setText(phimModel.getTenPhim());
             tvGiaPhim.setText(formatGiaPhim+" đ");
-            byte[] decodedString = Base64.decode(phimModel.getImage(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            mImageView.setImageBitmap(decodedByte);
+            String imageUrl = phimModel.getImage();
+            Glide.with(this)
+                    .load(imageUrl)
+                    .into(mImageView);
             tvTheLoai.setText((phimModel.getTheLoai()));
             tvQuocGia.setText(phimModel.getNuocSX());
             tvNamSX.setText(phimModel.getNamSX());

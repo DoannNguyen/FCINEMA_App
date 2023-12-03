@@ -13,6 +13,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimModel;
 
@@ -74,12 +75,13 @@ public class PhimAdapter extends BaseAdapter implements Filterable {
         }else{
             holder = (PhimViewHolder) view.getTag();
         }
-        if(mList.get(i).getImage().length() == 0){
+        if (mList.get(i).getImage().length() == 0) {
             holder.mImageView.setImageResource(R.drawable.poster);
-        }else{
-            byte[] decodedString = Base64.decode(mList.get(i).getImage(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            holder.mImageView.setImageBitmap(decodedByte);
+        } else {
+            Glide.with(holder.mImageView.getContext())
+                    .load(mList.get(i).getImage())
+                    .centerCrop()
+                    .into(holder.mImageView);
         }
         return view;
     }
