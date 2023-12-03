@@ -2,6 +2,7 @@ package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class DangNhapActivity extends AppCompatActivity {
         ckRember=findViewById(R.id.ckRemember);
 
         btnLogin.setOnClickListener(v -> {
+            showProgressDialog();
             loginUser();
 
         });
@@ -66,6 +68,18 @@ public class DangNhapActivity extends AppCompatActivity {
 
         restoringUser();
     }
+    private void showProgressDialog() {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đăng nhập..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        new android.os.Handler().postDelayed(
+                () -> progressDialog.dismiss(),
+                1000
+        );
+    }
+
 
     private void loginUser(){
         if(validateLogin()>0) {
