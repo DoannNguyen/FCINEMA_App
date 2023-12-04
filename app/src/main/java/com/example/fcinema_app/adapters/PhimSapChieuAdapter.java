@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 
@@ -59,13 +60,16 @@ public class PhimSapChieuAdapter  extends BaseAdapter {
         }else{
             holder = (ViewHolder) view.getTag();
         }
-            if(list.get(i).getImage().length() == 0){
-                holder.image.setImageResource(R.drawable.poster);
-            }else{
-                byte[] decodedString = Base64.decode(list.get(i).getImage(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                holder.image.setImageBitmap(decodedByte);
-            }
+        if (list.get(i).getImage().length() == 0) {
+            holder.image.setImageResource(R.drawable.poster);
+        } else {
+            Glide.with(holder.image.getContext())
+                    .load(list.get(i).getImage())
+                    .centerCrop()
+                    .into(holder.image);
+        }
+
+
 
         return view;
     }

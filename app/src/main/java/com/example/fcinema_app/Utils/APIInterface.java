@@ -1,5 +1,6 @@
 package com.example.fcinema_app.Utils;
 
+import com.example.fcinema_app.models.BanerModel;
 import com.example.fcinema_app.models.DoAnModel;
 import com.example.fcinema_app.models.GheDat;
 import com.example.fcinema_app.models.LichSuVeModel;
@@ -69,4 +70,9 @@ public interface APIInterface {
     Call<List<PhimModel>> getPhimDCbyTheLoai(@Path("day")String day);
     @GET("doan")
     Call<List<DoAnModel>> getDoAn();
+
+    // baners
+    @GET("app/baners")
+    Call<List<BanerModel>> getBaners();
+
 }

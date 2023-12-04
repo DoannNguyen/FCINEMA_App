@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
@@ -79,12 +80,13 @@ public class MuaVeActivity extends AppCompatActivity {
         model = (PhimModel) getIntent().getSerializableExtra("phim");
         if(model != null){
 
-            if(model.getImage()==null || model.getImage().isEmpty()){
-                imgPoster.setImageResource(R.drawable.imagepicker);
-            }else {
-                byte[] decodedString = Base64.decode(model.getImage(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                imgPoster.setImageBitmap(decodedByte);
+            if (model.getImage() == null || model.getImage().isEmpty()) {
+                imgPoster.setImageResource(R.drawable.img_default);
+            } else {
+                String imageUrl = model.getImage();
+                Glide.with(this)
+                        .load(imageUrl)
+                        .into(imgPoster);
             }
             String formatVe=decimalFormat.format(Float.parseFloat(model.getGiaPhim()));
             tvTenPhim.setText(model.getTenPhim());

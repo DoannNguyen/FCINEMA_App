@@ -20,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
@@ -139,9 +140,12 @@ public class ThanhToanActivity extends AppCompatActivity {
            String formatGiaVe=decimalFormat.format(Float.parseFloat(model.getGiaPhim()));
            String formatTong=decimalFormat.format((soLuongGhe*Integer.parseInt(model.getGiaPhim())+giaDoAn));
 
-           byte[] decodedString = Base64.decode(model.getImage(), Base64.DEFAULT);
-           Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-           imgPoster.setImageBitmap(decodedByte);
+           String imageUrl = model.getImage();
+           Glide.with(this)
+                   .load(imageUrl)
+                   .placeholder(R.drawable.img_default)
+                   .error(R.drawable.img_default)
+                   .into(imgPoster);
 
            tvTenPhim.setText(model.getTenPhim());
            tvThoiLuong.setText(model.getThoiLuong());

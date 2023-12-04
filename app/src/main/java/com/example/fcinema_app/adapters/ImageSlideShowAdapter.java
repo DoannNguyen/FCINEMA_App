@@ -17,24 +17,24 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.fcinema_app.R;
-import com.example.fcinema_app.models.PhimModel;
+import com.example.fcinema_app.models.BanerModel;
 
 import java.util.List;
 
 public class ImageSlideShowAdapter extends PagerAdapter {
 
     private Context context;
-    private List<PhimModel> phimModelList;
+    private List<BanerModel> banerList;
 
-    public ImageSlideShowAdapter(Context context, List<PhimModel> phimModelList) {
+    public ImageSlideShowAdapter(Context context, List<BanerModel> banerList) {
         this.context = context;
-        this.phimModelList = phimModelList;
+        this.banerList = banerList;
     }
 
     @Override
     public int getCount() {
-        if(phimModelList!=null){
-            return phimModelList.size();
+        if(banerList!=null){
+            return banerList.size();
         }
         return 0;
     }
@@ -46,16 +46,17 @@ public class ImageSlideShowAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view= LayoutInflater.from(container.getContext()).inflate(R.layout.layout_item_photo,container,false);
-        ImageView imgPhoto=view.findViewById(R.id.imgSlider);
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.layout_item_photo, container, false);
+        ImageView imgPhoto = view.findViewById(R.id.imgSlider);
 
-        PhimModel phimModel=phimModelList.get(position);
-        if(phimModel!=null){
-            byte[] decodedString = Base64.decode(phimModel.getImage(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            Glide.with(context).load(decodedByte).into(imgPhoto);
-        }else{
-            Glide.with(context).load(R.drawable.imagepicker).into(imgPhoto);
+        BanerModel baner = banerList.get(position);
+        if (baner != null) {
+            Glide.with(imgPhoto.getContext())
+                    .load(baner.getImgUrl())
+                    .centerCrop()
+                    .into(imgPhoto);
+        } else {
+            Glide.with(context).load(R.drawable.img_default).into(imgPhoto);
         }
         container.addView(view);
         return view;

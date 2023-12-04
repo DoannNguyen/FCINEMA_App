@@ -37,6 +37,7 @@ import com.example.fcinema_app.activities.ChiTietPhimActivity;
 import com.example.fcinema_app.activities.TimKiemActivity;
 import com.example.fcinema_app.adapters.ImageSlideShowAdapter;
 import com.example.fcinema_app.adapters.PhimAdapter;
+import com.example.fcinema_app.models.BanerModel;
 import com.example.fcinema_app.models.NguoiDung;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.ProgressDialog;
@@ -65,6 +66,7 @@ public class PhimDangChieuFragment extends Fragment {
         private ImageSlideShowAdapter imageSlideShowAdapter;
         private List<PhimModel> mModelList=new ArrayList<>();
         private List<PhimModel> imageUrlList = new ArrayList<>();
+        private List<BanerModel>banerModelList=new ArrayList<>();
 
         private PhimAdapter mAdapter;
         private TextView tvHelloUser, tvNoItem;
@@ -142,8 +144,8 @@ public class PhimDangChieuFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        getImgUrls();
         getNguoiDung();
-
     }
 
     public void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface){
@@ -176,19 +178,14 @@ public class PhimDangChieuFragment extends Fragment {
         });
     }
     private void setupImageSlideShow() {
-        imageUrlList.clear();
-        for (PhimModel phimModel : mModelList) {
-            PhimModel newPhim = new PhimModel(phimModel.getImage());
-            imageUrlList.add(newPhim);
-        }
-        imageSlideShowAdapter=new ImageSlideShowAdapter(getContext(),imageUrlList);
+        imageSlideShowAdapter=new ImageSlideShowAdapter(getContext(),banerModelList);
         viewPager.setAdapter(imageSlideShowAdapter);
         circleIndicator.setViewPager(viewPager);
         imageSlideShowAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
         autoSlideShow();
     }
     private void autoSlideShow(){
-        if(imageUrlList==null || imageUrlList.isEmpty() || viewPager==null){
+        if(banerModelList==null || banerModelList.isEmpty() || viewPager==null){
             return;
         }
 
@@ -202,7 +199,7 @@ public class PhimDangChieuFragment extends Fragment {
                     @Override
                     public void run() {
                         int currenPhoto=viewPager.getCurrentItem();
-                        int totalPhoto=imageUrlList.size()-1;
+                        int totalPhoto=banerModelList.size()-1;
                         if(currenPhoto<totalPhoto){
                             currenPhoto++;
                             viewPager.setCurrentItem(currenPhoto);
@@ -217,6 +214,27 @@ public class PhimDangChieuFragment extends Fragment {
         },500,3000);
 
 
+    }
+    private void getImgUrls(){
+        Call<List<BanerModel>>call=mAPIInterface.getBaners();
+        call.enqueue(new Callback<List<BanerModel>>() {
+            @Override
+            public void onResponse(Call<List<BanerModel>> call, Response<List<BanerModel>> response) {
+                if(response.isSuccessful()){
+                    banerModelList.clear();
+                    banerModelList.addAll(response.body());
+                    if (imageSlideShowAdapter != null) {
+                        imageSlideShowAdapter.notifyDataSetChanged();
+                    }
+                    autoSlideShow();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BanerModel>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getPhimByDay(String day ){

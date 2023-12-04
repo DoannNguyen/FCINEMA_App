@@ -1,5 +1,6 @@
 package com.example.fcinema_app.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -90,6 +91,7 @@ public class CaiDatFragment extends Fragment {
 
     }
 
+
     private void getNguoiDung(){
         MainActivity activity=(MainActivity) getActivity();
         activity.getNguoiDungByEmail(new NguoiDungCallback() {
@@ -110,7 +112,7 @@ public class CaiDatFragment extends Fragment {
                     Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                     imgUser.setImageBitmap(decodedBitmap);
                 } else {
-                    imgUser.setImageResource(R.drawable.imagepicker);
+                    imgUser.setImageResource(R.drawable.img_default);
                 }
             }
 

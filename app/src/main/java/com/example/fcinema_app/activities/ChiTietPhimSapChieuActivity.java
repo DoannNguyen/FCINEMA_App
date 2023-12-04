@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 
@@ -47,9 +48,10 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
         PhimSapChieuModel phimSapChieuModel = (PhimSapChieuModel) intent.getSerializableExtra("phimSC");
 
         if(phimSapChieuModel != null){
-            byte[] decodedString = Base64.decode(phimSapChieuModel.getImage(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            image.setImageBitmap(decodedByte);
+            String imageUrl = phimSapChieuModel.getImage(); // URL của ảnh
+            Glide.with(this)
+                    .load(imageUrl)
+                    .into(image);
             tenPhim.setText(phimSapChieuModel.getTenPhim());
             theLoai.setText(phimSapChieuModel.getTheLoai());
             quocGia.setText(phimSapChieuModel.getQuocGia());
