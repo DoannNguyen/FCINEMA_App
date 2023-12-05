@@ -13,7 +13,6 @@ import com.example.fcinema_app.models.TheLoaiModel;
 
 import java.util.List;
 
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -70,9 +69,13 @@ public interface APIInterface {
     Call<List<PhimModel>> getPhimDCbyTheLoai(@Path("day")String day);
     @GET("doan")
     Call<List<DoAnModel>> getDoAn();
+    @POST("/dangky/gg")
+    Call<ResponseBody> regisWithGG(@Body NguoiDung nguoiDung);
+    @GET("/doan/{veid}")
+    Call<List<DoAnModel>> getDoAnByVe(@Path("veid")String id);
 
     // baners
-    @GET("app/baners")
+    @GET("/banner")
     Call<List<BanerModel>> getBaners();
 
 }

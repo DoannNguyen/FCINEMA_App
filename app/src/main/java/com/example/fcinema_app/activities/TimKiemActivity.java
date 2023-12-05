@@ -1,6 +1,7 @@
 package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -42,7 +43,7 @@ public class TimKiemActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private Dialog mDialog;
     private APIInterface mAPIInterface;
-    private EditText mEditText;
+    private androidx.appcompat.widget.SearchView mEditText;
     private TextView tvNoItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,30 +77,24 @@ public class TimKiemActivity extends AppCompatActivity {
 
             }
         });
-        mEditText.addTextChangedListener(new TextWatcher() {
+        mEditText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mAdapter.getFilter().filter(charSequence);
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                tvNoItem.setVisibility(View.GONE);
+                Log.e("TAG", "onQueryTextChange: "+mAdapter.getCount() );
                 if(mAdapter.getCount() == 0){
                     tvNoItem.setVisibility(View.VISIBLE);
-                }else{
-                    tvNoItem.setVisibility(View.GONE);
                 }
-                if(charSequence.length() == 0){
-                    tvNoItem.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+                return false;
             }
         });
+
     }
     private void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface){
         Call<List<PhimModel>> call = APIInterface.getAllPhimDC();

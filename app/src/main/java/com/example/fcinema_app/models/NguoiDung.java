@@ -51,6 +51,12 @@ public class NguoiDung implements Serializable {
         this.matKhau = matKhau;
     }
 
+    public NguoiDung(String email, String anh, String hoTen){
+        this.email = email;
+        this.anh = anh;
+        this.hoTen = hoTen;
+    }
+
     public NguoiDung(String hoTen, String dienThoai, String anh, Date ngaySinh, String diaChi, Integer hienThi) {
         this.hoTen = hoTen;
         this.dienThoai = dienThoai;
