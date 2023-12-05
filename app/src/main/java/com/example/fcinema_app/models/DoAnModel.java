@@ -15,6 +15,7 @@ public class DoAnModel implements Serializable {
     private float giaDoAn;
     @SerializedName("anh")
     private String anh;
+    @SerializedName("soLuong")
     private int soLuong;
 
     public DoAnModel() {

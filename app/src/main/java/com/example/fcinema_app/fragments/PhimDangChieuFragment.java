@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,9 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
@@ -46,8 +43,6 @@ import com.example.fcinema_app.models.TheLoaiModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -67,9 +62,10 @@ public class PhimDangChieuFragment extends Fragment {
         private List<PhimModel> mModelList=new ArrayList<>();
         private List<PhimModel> imageUrlList = new ArrayList<>();
         private List<BanerModel>banerModelList=new ArrayList<>();
+        //private List<BannerModel> imageUrlList = new ArrayList<>();
 
         private PhimAdapter mAdapter;
-        private TextView tvHelloUser, tvNoItem;
+        private TextView tvHelloUser, tvNoItem, tvSeeAll;
         private APIInterface mAPIInterface;
         private LinearLayout mLayout;
         private List<TextView> textViews = new ArrayList<>();
@@ -114,6 +110,7 @@ public class PhimDangChieuFragment extends Fragment {
         tvHelloUser=view.findViewById(R.id.tvHelloUser);
         mLayout = view.findViewById(R.id.buttonContainer2);
         tvNoItem = view.findViewById(R.id.tvNoItemPhim);
+        tvSeeAll = view.findViewById(R.id.tvSeeAll);
         mAPIInterface = APIClient.getClient().create(APIInterface.class);
         getTime();
 
@@ -132,7 +129,8 @@ public class PhimDangChieuFragment extends Fragment {
 
         mProgressDialog.DialogShowing();
         mAdapter = new PhimAdapter(getContext(),mModelList);
-        getAllPhim(mModelList,mAdapter,mProgressDialog, mAPIInterface);
+        Calendar calendar = Calendar.getInstance();
+        getAllPhim(mModelList,mAdapter,mProgressDialog, mAPIInterface, new SimpleDateFormat("yyyy/MM/dd").format(calendar.getTime()) );
         gridView.setAdapter(mAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -146,19 +144,35 @@ public class PhimDangChieuFragment extends Fragment {
         });
         getImgUrls();
         getNguoiDung();
+
+        tvSeeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), TimKiemActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface){
-        Call<List<PhimModel>> call = APIInterface.getAllPhimDC();
+    public void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface, String day){
+        Log.e("TAG", "getAllPhim: "+day);
+        Call<List<PhimModel>> call = APIInterface.getPhimDCbyTheLoai(day);
         call.enqueue(new Callback<List<PhimModel>>() {
             @Override
             public void onResponse(@NonNull Call<List<PhimModel>> call, @NonNull Response<List<PhimModel>> response) {
                 if(response.isSuccessful()){
                     modelList.clear();
                     assert response.body() != null;
-                    modelList.addAll(response.body());
+                    if(response.body().size() <= 6){
+                        modelList.addAll(response.body());
+                    }else{
+                        for (int i = 0 ; i < 6 ; i++){
+                            modelList.add(response.body().get(i));
+                        }
+                    }
+                    Log.e("TAG", "onResponse: "+modelList.size() );
                     adapter.notifyDataSetChanged();
-                    setupImageSlideShow();
+//                    setupImageSlideShow();
                     if(response.body().size() != 0){
                         tvNoItem.setVisibility(View.GONE);
                     }else{
@@ -179,6 +193,8 @@ public class PhimDangChieuFragment extends Fragment {
     }
     private void setupImageSlideShow() {
         imageSlideShowAdapter=new ImageSlideShowAdapter(getContext(),banerModelList);
+        imageUrlList.clear();
+
         viewPager.setAdapter(imageSlideShowAdapter);
         circleIndicator.setViewPager(viewPager);
         imageSlideShowAdapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
@@ -226,6 +242,7 @@ public class PhimDangChieuFragment extends Fragment {
                     if (imageSlideShowAdapter != null) {
                         imageSlideShowAdapter.notifyDataSetChanged();
                     }
+                    setupImageSlideShow();
                     autoSlideShow();
                 }
             }
@@ -316,6 +333,8 @@ public class PhimDangChieuFragment extends Fragment {
 
             if(i == 0){
                 textView.setText("Today");
+                textView.setTextColor(Color.WHITE);
+                textView.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.radius_fill));
             }else{
                 textView.setText(new SimpleDateFormat("dd/MM").format(calendar.getTime()));
             }

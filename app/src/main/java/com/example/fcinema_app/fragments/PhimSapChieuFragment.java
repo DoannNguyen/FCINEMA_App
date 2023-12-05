@@ -147,6 +147,8 @@ public class PhimSapChieuFragment extends Fragment {
 
                             if((i - 1) < 0){
                                 textView.setText("Tất cả");
+                                textView.setTextColor(Color.WHITE);
+                                textView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.radius_fill));
                             }else{
                                 textView.setText(mList.get(i - 1).getTenTheLoai());
                             }

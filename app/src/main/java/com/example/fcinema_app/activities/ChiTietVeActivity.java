@@ -11,16 +11,28 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
+import com.example.fcinema_app.Utils.APIClient;
+import com.example.fcinema_app.Utils.APIInterface;
+import com.example.fcinema_app.adapters.DoAnAdapter2;
 import com.example.fcinema_app.adapters.LichSuVeAdapter;
+import com.example.fcinema_app.models.DoAnModel;
 import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.PhimSapChieuModel;
+import com.example.fcinema_app.models.VeModel;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChiTietVeActivity extends AppCompatActivity {
 
@@ -29,6 +41,9 @@ public class ChiTietVeActivity extends AppCompatActivity {
 
     private androidx.appcompat.widget.Toolbar mToolbar;
     private SimpleDateFormat mSimpleDateFormat;
+    private ListView mListView;
+    private DoAnAdapter2 mAnAdapter2;
+    private List<DoAnModel> mList = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,6 +64,8 @@ public class ChiTietVeActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbarCTV);
         imgPoster=findViewById(R.id.imgPosterDetailVe);
         tvCaChieu=findViewById(R.id.tvCaChieuCTV);
+        mListView = findViewById(R.id.lvDoAn3);
+        mAnAdapter2 = new DoAnAdapter2(this,mList);
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -87,11 +104,31 @@ public class ChiTietVeActivity extends AppCompatActivity {
             tongTT.setText(formatTongTien+" đ");
             soGhe.setText((lichSuVeModel.getSoGhe().replace("\"","")));
             tvCaChieu.setText(lichSuVeModel.getCaChieu());
-
+            getDoAn(lichSuVeModel.getMaVe());
         }
 
+        mListView.setAdapter(mAnAdapter2);
         findViewById(R.id.imgBackFromDetailVe).setOnClickListener(v -> {
             finish();
+        });
+    }
+    private void getDoAn(String idVe){
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        Call<List<DoAnModel>> call = apiInterface.getDoAnByVe(idVe);
+        call.enqueue(new Callback<List<DoAnModel>>() {
+            @Override
+            public void onResponse(Call<List<DoAnModel>> call, Response<List<DoAnModel>> response) {
+                if(response.isSuccessful()){
+                    mList.clear();
+                    mList.addAll(response.body());
+                    mAnAdapter2.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DoAnModel>> call, Throwable t) {
+
+            }
         });
     }
 }
