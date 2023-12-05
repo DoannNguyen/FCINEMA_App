@@ -75,14 +75,31 @@
                 android:layout_height="30dp"/>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginVertical="5dp"
-            android:text="Thể loại"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginVertical="5dp"
+                android:text="Thể loại"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tvSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xem tất cả "
+                android:layout_marginTop="8dp"
+                android:textSize="14dp"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="18dp"
+                android:paddingEnd="10dp"/>
+        </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"

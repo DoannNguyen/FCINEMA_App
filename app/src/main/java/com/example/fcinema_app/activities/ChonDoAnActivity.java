@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class ChonDoAnActivity extends AppCompatActivity {
     private DoAnAdapter mAdapter;
     private TextView tvTongTien;
     private Button btnTiepTuc;
+    private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class ChonDoAnActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.lvDoAn);
         tvTongTien = findViewById(R.id.tvTongTien);
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
+        imgBack = findViewById(R.id.imgBack);
         mAdapter = new DoAnAdapter(ChonDoAnActivity.this,mList);
         getDoAn();
         listView.setAdapter(mAdapter);
@@ -77,6 +80,12 @@ public class ChonDoAnActivity extends AppCompatActivity {
                 Intent intent = new Intent(ChonDoAnActivity.this, ThanhToanActivity.class);
                 intent.putExtra("value", bundle);
                 startActivity(intent);
+            }
+        });
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

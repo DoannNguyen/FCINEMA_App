@@ -93,10 +93,10 @@ public class PhimAdapter extends BaseAdapter implements Filterable {
                 constraint = constraint.toString().toLowerCase();
                 ArrayList<PhimModel> filters = new ArrayList<>();
                 if(constraint != null && constraint.length() != 0){
-                    for (int i = 0; i < mList.size(); i++) {
+                    for (int i = 0; i < list.size(); i++) {
                         //probleme peut etre ici
-                        if (mList.get(i).getTenPhim().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                            filters.add(mList.get(i));
+                        if (list.get(i).getTenPhim().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filters.add(list.get(i));
                         }
                     }
                     results.count = filters.size();
