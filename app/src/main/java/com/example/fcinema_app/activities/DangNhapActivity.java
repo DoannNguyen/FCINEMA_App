@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -92,15 +93,12 @@ public class DangNhapActivity extends AppCompatActivity {
         restoringUser();
     }
     private void showProgressDialog() {
-        ProgressDialog progressDialog = new ProgressDialog(this);
+        ProgressDialog progressDialog = new ProgressDialog(DangNhapActivity.this);
         progressDialog.setMessage("Đăng nhập..");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        new android.os.Handler().postDelayed(
-                () -> progressDialog.dismiss(),
-                1000
-        );
+        new Handler().postDelayed(() -> progressDialog.dismiss(), 1000);
     }
 
 

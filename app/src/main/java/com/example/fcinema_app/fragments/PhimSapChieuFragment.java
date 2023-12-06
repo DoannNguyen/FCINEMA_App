@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.activities.ChiTietPhimSapChieuActivity;
+import com.example.fcinema_app.activities.TimKiemPhimSapChieuActivity;
 import com.example.fcinema_app.adapters.PhimSapChieuAdapter;
 import com.example.fcinema_app.models.PhimSapChieuModel;
 import com.example.fcinema_app.models.ProgressDialog;
@@ -41,6 +43,7 @@ import retrofit2.Response;
 public class PhimSapChieuFragment extends Fragment {
 
     private GridView gridView;
+    private ImageView imgSearch;
     private List<PhimSapChieuModel> list;
     private PhimSapChieuAdapter phimSapChieuAdapter;
     private APIInterface mAPIInterface;
@@ -74,6 +77,7 @@ public class PhimSapChieuFragment extends Fragment {
 
         gridView = view.findViewById(R.id.gridViewPSC);
         mLayout = view.findViewById(R.id.buttonContainer);
+        imgSearch=view.findViewById(R.id.imgSearchNewFilm);
         tvNoItem = view.findViewById(R.id.tvNoItemPSC);
         tvNoItem.setVisibility(View.GONE);
 
@@ -97,6 +101,10 @@ public class PhimSapChieuFragment extends Fragment {
                 intent.putExtra("phimSC", list.get(i));
                 startActivity(intent);
             }
+        });
+
+        imgSearch.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), TimKiemPhimSapChieuActivity.class));
         });
     }
 

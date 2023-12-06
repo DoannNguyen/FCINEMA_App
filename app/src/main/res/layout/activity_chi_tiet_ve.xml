@@ -8,16 +8,16 @@
     tools:context=".activities.ChiTietVeActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarCTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark"
-        android:id="@+id/toolbarCTV"
-        >
+        android:background="?attr/colorPrimaryDark">
+
         <ImageView
+            android:id="@+id/imgBackFromDetailVe"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:id="@+id/imgBackFromDetailVe"
-            android:src="@drawable/backarrow1"/>
+            android:src="@drawable/backarrow1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,10 +27,12 @@
             android:textSize="16dp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/lightGrey" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,10 +43,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ticket"
+                android:drawablePadding="10dp"
+                android:gravity="center|left"
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Thông tin cơ bản"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:paddingLeft="10dp">
@@ -52,7 +66,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="15dp">
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="0dp">
 
                     <ImageView
                         android:id="@+id/imgPosterDetailVe"
@@ -99,13 +114,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:orientation="vertical">
 
                             <TextView
@@ -113,6 +127,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="10dp"
                                 android:text="Mã vé"
+                                android:textAlignment="textStart"
                                 android:textSize="13dp"
                                 android:textStyle="italic" />
 
@@ -121,6 +136,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="10dp"
                                 android:text="Ngày chiếu"
+                                android:textAlignment="textStart"
                                 android:textSize="13dp"
                                 android:textStyle="italic" />
 
@@ -129,14 +145,16 @@
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="10dp"
                                 android:text="Ca chiếu"
+                                android:textAlignment="textStart"
                                 android:textSize="13dp"
                                 android:textStyle="italic" />
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="10dp"
                                 android:text="Phòng chiếu"
+                                android:textAlignment="textStart"
                                 android:textSize="13dp"
                                 android:textStyle="italic" />
 
@@ -145,6 +163,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="10dp"
                                 android:text="Vị trí ghế"
+                                android:textAlignment="textStart"
                                 android:textSize="13dp"
                                 android:textStyle="italic" />
 
@@ -213,99 +232,139 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tổng thanh toán"
-                            android:textSize="13dp"
-                            android:textStyle="italic" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Hình thức thanh toán"
-                            android:textSize="13dp"
-                            android:textStyle="italic" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Trạng thái"
-                            android:textSize="13dp"
-                            android:textStyle="italic" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Ngày mua"
-                            android:textSize="13dp"
-                            android:textStyle="italic" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingRight="10dp">
-
-                        <TextView
-                            android:id="@+id/tongTTCTV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="50.000 đ"
-                            android:textAlignment="textEnd"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/thanhtoanCTV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tiền mặt"
-                            android:textAlignment="textEnd"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/trangthaiCTV"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Đã thanh toán"
-                            android:textAlignment="textEnd"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/thoigianCTV"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="20-12-2023"
-                            android:textAlignment="textEnd"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-    <ListView
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lvDoAn3"
-        />
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:gravity="center|left"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Chi tiết sản phẩm"
+        android:textStyle="bold" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvHiddenDetailTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Không có mục nào để hiển thị"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ListView
+            android:id="@+id/lvDoAn3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="150dp"
+            tools:itemCount="2"
+            tools:listitem="@layout/do_an_item_layout2"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:gravity="center|left"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:text="Thành tiền"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tổng thanh toán"
+                android:textSize="13dp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hình thức thanh toán"
+                android:textSize="13dp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Trạng thái"
+                android:textSize="13dp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Ngày mua"
+                android:textSize="13dp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/tongTTCTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="50.000 đ"
+                android:textAlignment="textEnd"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/thanhtoanCTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tiền mặt"
+                android:textAlignment="textEnd"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/trangthaiCTV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Đã thanh toán"
+                android:textAlignment="textEnd"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/thoigianCTV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="20-12-2023"
+                android:textAlignment="textEnd"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,9 +22,12 @@ import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.activities.ChiTietVeActivity;
+import com.example.fcinema_app.activities.TimKiemVeActivity;
 import com.example.fcinema_app.adapters.LichSuVeAdapter;
 import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.ProgressDialog;
+import com.example.fcinema_app.models.VeModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +41,16 @@ import retrofit2.Response;
 public class LichSuVeFragment extends Fragment {
 
     private ListView listView;
-    private List<LichSuVeModel> list;
+    private List<LichSuVeModel> list = new ArrayList<>();;
+    private List<LichSuVeModel> originalList = new ArrayList<>();;
 
     private LichSuVeAdapter lichSuVeAdapter;
 
     private TextView tvNoItem;
     private Dialog mDialog;
     private ProgressDialog mProgressDialog;
+    private BottomSheetDialog bottomSheetDialog;
+    private ImageView imgSearch,imgFilter;
 
     public LichSuVeFragment() {
         // Required empty public constructor
@@ -69,7 +76,14 @@ public class LichSuVeFragment extends Fragment {
 
         listView = view.findViewById(R.id.listview);
         tvNoItem = view.findViewById(R.id.tvNoItem);
-        list = new ArrayList<>();
+        imgFilter=view.findViewById(R.id.imgFilterTicket);
+        imgSearch=view.findViewById(R.id.imgSearchTicket);
+
+        // Khởi tạo dialog lọc theo trạng thái
+        bottomSheetDialog = new BottomSheetDialog(getContext());
+        bottomSheetDialog.setContentView(R.layout.layout_filter_ticket);
+        bottomSheetDialog.setCancelable(false);
+
         mDialog = new Dialog(requireContext());
         mDialog.setContentView(R.layout.progress_dialog);
         mProgressDialog = new ProgressDialog(mDialog);
@@ -87,7 +101,71 @@ public class LichSuVeFragment extends Fragment {
             }
         });
 
+        imgSearch.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), TimKiemVeActivity.class).putExtra("email",getEmail()));
+        });
+        imgFilter.setOnClickListener(v -> {
+            showBottomSheetDialog();
+        });
 
+
+    }
+
+    // Hiển thi bottom sheet lọc vé theo trạng thái
+    private void showBottomSheetDialog() {
+        TextView tvCancel = bottomSheetDialog.findViewById(R.id.tvCancelFilterTicket);
+        TextView tvAll = bottomSheetDialog.findViewById(R.id.tvFilterAllTicket);
+        TextView tvUnpaid = bottomSheetDialog.findViewById(R.id.tvUnpaidTicket);
+        TextView tvPaid = bottomSheetDialog.findViewById(R.id.tvPaidTicket);
+        TextView tvExpired = bottomSheetDialog.findViewById(R.id.tvExpiredTicket);
+
+        tvCancel.setOnClickListener(v -> {
+            bottomSheetDialog.dismiss();
+        });
+
+        tvAll.setOnClickListener(v -> {
+            list.clear();
+            list.addAll(originalList);
+
+            if (lichSuVeAdapter != null) {
+                lichSuVeAdapter.notifyDataSetChanged();
+            }
+
+            bottomSheetDialog.dismiss();
+        });
+
+        tvUnpaid.setOnClickListener(v -> {
+            filterListByStatus(1);
+            bottomSheetDialog.dismiss();
+        });
+
+        tvPaid.setOnClickListener(v -> {
+            filterListByStatus(0);
+            bottomSheetDialog.dismiss();
+        });
+
+        tvExpired.setOnClickListener(v -> {
+            filterListByStatus(2);
+            bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.show();
+    }
+
+    private void filterListByStatus(int status) {
+        List<LichSuVeModel> filterList = new ArrayList<>();
+        for (LichSuVeModel ve : originalList) {
+            if (ve.getTrangThai() >= 0 && ve.getTrangThai() == status) {
+                filterList.add(ve);
+            }
+        }
+
+        list.clear();
+        list.addAll(filterList);
+
+        if (lichSuVeAdapter != null) {
+            lichSuVeAdapter.notifyDataSetChanged();
+        }
     }
     private void getVeDat() {
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -100,7 +178,8 @@ public class LichSuVeFragment extends Fragment {
                         tvNoItem.setVisibility(View.GONE);
                         list.clear();
                         assert response.body() != null;
-                        list.addAll(response.body());
+                        originalList.addAll(response.body());
+                        list.addAll(originalList);
                         lichSuVeAdapter.notifyDataSetChanged();
                     }
                     mProgressDialog.DialogDismiss();

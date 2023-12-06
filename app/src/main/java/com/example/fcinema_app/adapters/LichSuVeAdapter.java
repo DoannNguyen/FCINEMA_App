@@ -77,6 +77,10 @@ public class LichSuVeAdapter extends BaseAdapter {
             holder.tvTrangThai.setText("Đã thanh toán");
             holder.tvTrangThai.setTextColor(ContextCompat.getColor(context, R.color.darKGreen));
         }
+        if(list.get(i).getTrangThai() == 2){
+            holder.tvTrangThai.setText("Hết hạn");
+            holder.tvTrangThai.setTextColor(ContextCompat.getColor(context, R.color.earthy));
+        }
         DecimalFormat decimalFormat = new DecimalFormat("###,###");
         String tongTienFormat=decimalFormat.format(Float.parseFloat(list.get(i).getTongTT()));
 
