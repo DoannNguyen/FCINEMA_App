@@ -18,9 +18,14 @@
         android:theme="@style/Base.Theme.FCINEMA_App"
         tools:targetApi="31">
         <activity
+            android:name=".activities.TimKiemVeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.TimKiemPhimSapChieuActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ChonDoAnActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".activities.TimKiemActivity"
             android:exported="false" />
@@ -86,7 +91,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

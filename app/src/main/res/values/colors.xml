@@ -12,4 +12,6 @@
     <color name="burntOrange">#CC5500</color>
     <color name="darkGrey">#36454F</color>
     <color name="lightGrey">#D3D3D3</color>
+    <color name="earthy">#F3B664</color>
+    <color name="l_grey">#EDEDEDED</color>
 </resources>

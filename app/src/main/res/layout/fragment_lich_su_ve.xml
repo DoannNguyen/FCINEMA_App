@@ -20,7 +20,30 @@
             android:text="Lịch sử đặt vé"
             android:textSize="16dp"
             android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_marginRight="16dp">
+            <ImageView
+                android:id="@+id/imgSearchTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/search_svgrepo_com"
+                android:layout_marginRight="16dp"
+                tools:layout_weight="1" />
+            <ImageView
+                android:id="@+id/imgFilterTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/filter"
+                tools:layout_weight="1" />
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,8 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Không có vé hiển thị"
+            android:text="Không có mục nào để hiển thị"
             android:textColor="#C0C0C0"
+            android:visibility="gone"
             android:textSize="16dp" />
         <ListView
             android:layout_width="match_parent"

@@ -63,7 +63,7 @@ public class DoAnAdapter2 extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.tvTen.setText(mList.get(i).getTenDoAn());
-        viewHolder.tvSoLuong.setText(mList.get(i).getSoLuong()+"");
+        viewHolder.tvSoLuong.setText("SL: "+mList.get(i).getSoLuong()+"");
         String imageUrl = mList.get(i).getAnh();
         Glide.with(mContext)
                 .load(imageUrl)
