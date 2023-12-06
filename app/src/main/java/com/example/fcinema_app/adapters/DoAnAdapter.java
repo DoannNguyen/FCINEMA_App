@@ -127,7 +127,7 @@ public class DoAnAdapter extends BaseAdapter {
         float sum = 0;
         for(int i = 0 ; i < mList.size() ; i++){
             if(mList.get(i).getSoLuong() != 0 ){
-                sum += mList.get(i).getGiaDoAn();
+                sum += mList.get(i).getGiaDoAn() * mList.get(i).getSoLuong();
             }
         }
         return sum;

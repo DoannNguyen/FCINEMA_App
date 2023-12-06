@@ -50,14 +50,11 @@ public class ImageSlideShowAdapter extends PagerAdapter {
         ImageView imgPhoto = view.findViewById(R.id.imgSlider);
 
         BanerModel baner = banerList.get(position);
-        if (baner != null) {
-            Glide.with(imgPhoto.getContext())
-                    .load(baner.getImgUrl())
-                    .centerCrop()
-                    .into(imgPhoto);
-        } else {
-            Glide.with(context).load(R.drawable.img_default).into(imgPhoto);
-        }
+        Glide.with(imgPhoto.getContext())
+                .load(baner.getImgUrl())
+                .centerCrop()
+                .placeholder(R.drawable.img_default)
+                .into(imgPhoto);
         container.addView(view);
         return view;
     }
