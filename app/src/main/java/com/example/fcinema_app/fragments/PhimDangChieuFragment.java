@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -101,7 +102,14 @@ public class PhimDangChieuFragment extends Fragment {
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.progress_dialog);
 
-        mProgressDialog = new ProgressDialog(dialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = 300;
+        dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setDimAmount(0.7f);
+        mProgressDialog = new ProgressDialog(dialog,"Đang tải...");
+        mProgressDialog.setCancelable(false);
 
         viewPager=view.findViewById(R.id.viewPagerSlider);
         circleIndicator=view.findViewById(R.id.circle_indicator);
@@ -127,7 +135,7 @@ public class PhimDangChieuFragment extends Fragment {
             }
         });
 
-        mProgressDialog.DialogShowing();
+
         mAdapter = new PhimAdapter(getContext(),mModelList);
         Calendar calendar = Calendar.getInstance();
         getAllPhim(mModelList,mAdapter,mProgressDialog, mAPIInterface, new SimpleDateFormat("yyyy/MM/dd").format(calendar.getTime()) );
@@ -155,7 +163,7 @@ public class PhimDangChieuFragment extends Fragment {
     }
 
     public void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface, String day){
-        Log.e("TAG", "getAllPhim: "+day);
+        mProgressDialog.DialogShowing();
         Call<List<PhimModel>> call = APIInterface.getPhimDCbyTheLoai(day);
         call.enqueue(new Callback<List<PhimModel>>() {
             @Override
@@ -178,7 +186,7 @@ public class PhimDangChieuFragment extends Fragment {
                     }else{
                         tvNoItem.setVisibility(View.VISIBLE);
                     }
-                    progressDialog.DialogDismiss();
+                    new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(),750);
                 }else{
                     Log.e("TAG", "onResponse: error " );
                 }
@@ -270,7 +278,7 @@ public class PhimDangChieuFragment extends Fragment {
                         tvNoItem.setVisibility(View.GONE);
                     }
                     mAdapter.notifyDataSetChanged();
-                    mProgressDialog.DialogDismiss();
+                    new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(), 750);
                 }
             }
 

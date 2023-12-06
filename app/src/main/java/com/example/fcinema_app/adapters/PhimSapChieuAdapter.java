@@ -60,17 +60,11 @@ public class PhimSapChieuAdapter  extends BaseAdapter {
         }else{
             holder = (ViewHolder) view.getTag();
         }
-        if (list.get(i).getImage().length() == 0) {
-            holder.image.setImageResource(R.drawable.poster);
-        } else {
-            Glide.with(holder.image.getContext())
-                    .load(list.get(i).getImage())
-                    .centerCrop()
-                    .into(holder.image);
-        }
-
-
-
+        Glide.with(holder.image.getContext())
+                .load(list.get(i).getImage())
+                .centerCrop()
+                .placeholder(R.drawable.default_img)
+                .into(holder.image);
         return view;
     }
 }

@@ -8,10 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -86,7 +88,14 @@ public class LichSuVeFragment extends Fragment {
 
         mDialog = new Dialog(requireContext());
         mDialog.setContentView(R.layout.progress_dialog);
-        mProgressDialog = new ProgressDialog(mDialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height =  300;
+        mDialog.getWindow().setAttributes(lp);
+        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        mDialog.getWindow().setDimAmount(0.7f);
+        mProgressDialog = new ProgressDialog(mDialog, "Đang tải...");
+        mProgressDialog.setCancelable(false);
         mProgressDialog.DialogShowing();
         getVeDat();
         lichSuVeAdapter = new LichSuVeAdapter(getContext(),list);
@@ -182,7 +191,7 @@ public class LichSuVeFragment extends Fragment {
                         list.addAll(originalList);
                         lichSuVeAdapter.notifyDataSetChanged();
                     }
-                    mProgressDialog.DialogDismiss();
+                    new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(),750);
                 }else{
                     Log.e("TAG", "onResponse: " );
                 }

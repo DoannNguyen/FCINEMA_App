@@ -10,10 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -83,7 +85,14 @@ public class PhimSapChieuFragment extends Fragment {
 
         mDialog = new Dialog(getContext());
         mDialog.setContentView(R.layout.progress_dialog);
-        mProgressDialog = new ProgressDialog(mDialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height =  300;
+        mDialog.getWindow().setAttributes(lp);
+        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        mDialog.getWindow().setDimAmount(0.7f);
+        mProgressDialog = new ProgressDialog(mDialog, "Đang tải...");
+        mProgressDialog.setCancelable(false);
         list = new ArrayList<>();
         mList = new ArrayList<>();
         mAPIInterface = APIClient.getClient().create(APIInterface.class);
@@ -119,7 +128,7 @@ public class PhimSapChieuFragment extends Fragment {
                     list.addAll(response.body());
                     phimSapChieuAdapter.notifyDataSetChanged();
                     tvNoItem.setVisibility(View.GONE);
-                    mProgressDialog.DialogDismiss();
+                    new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(),750);
                 }else{
                     Log.e("TAG", "onResponse: error" );
                 }
@@ -208,7 +217,7 @@ public class PhimSapChieuFragment extends Fragment {
                         tvNoItem.setVisibility(View.GONE);
                     }
                     phimSapChieuAdapter.notifyDataSetChanged();
-                    mProgressDialog.DialogDismiss();
+                    new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(),500);
                 }
             }
 

@@ -21,6 +21,8 @@ import com.example.fcinema_app.models.DoAnModel;
 import com.example.fcinema_app.models.PhimModel;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class ChonDoAnActivity extends AppCompatActivity {
     private TextView tvTongTien;
     private Button btnTiepTuc;
     private ImageView imgBack;
+    private NumberFormat formatter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class ChonDoAnActivity extends AppCompatActivity {
         tvTongTien = findViewById(R.id.tvTongTien);
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
         imgBack = findViewById(R.id.imgBack);
+        formatter = new DecimalFormat("###,###,##0");
         mAdapter = new DoAnAdapter(ChonDoAnActivity.this,mList);
         getDoAn();
         listView.setAdapter(mAdapter);
@@ -54,17 +58,17 @@ public class ChonDoAnActivity extends AppCompatActivity {
         PhimModel phimModel = (PhimModel) bundle.getSerializable("phim");
         Integer soVe = bundle.getInt("soLuongVe");
 
-        tvTongTien.setText(((soVe*Integer.parseInt(phimModel.getGiaPhim()) + mAdapter.getSum())+"đ"));
+        tvTongTien.setText((formatter.format(soVe*Integer.parseInt(phimModel.getGiaPhim()) + mAdapter.getSum())+"đ"));
         mAdapter.setOnPlusItemClick(new OnPlusItemClick() {
             @Override
             public void OnPlusClick() {
-                tvTongTien.setText(((soVe*Integer.parseInt(phimModel.getGiaPhim()) + mAdapter.getSum())+"đ"));
+                tvTongTien.setText((formatter.format(soVe*Integer.parseInt(phimModel.getGiaPhim()) + mAdapter.getSum())+"đ"));
             }
         });
         mAdapter.setOnMinusItemClick(new OnMinusItemClick() {
             @Override
             public void onMinusClick() {
-                tvTongTien.setText(((soVe*Integer.parseInt(phimModel.getGiaPhim()) + mAdapter.getSum())+"đ"));
+                tvTongTien.setText((formatter.format(soVe*Integer.parseInt(phimModel.getGiaPhim()) + mAdapter.getSum())+"đ"));
             }
         });
         btnTiepTuc.setOnClickListener(new View.OnClickListener() {

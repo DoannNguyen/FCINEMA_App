@@ -3,6 +3,8 @@ package com.example.fcinema_app.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,14 +77,14 @@ public class PhimAdapter extends BaseAdapter implements Filterable {
         }else{
             holder = (PhimViewHolder) view.getTag();
         }
-        if (mList.get(i).getImage().length() == 0) {
-            holder.mImageView.setImageResource(R.drawable.poster);
-        } else {
-            Glide.with(holder.mImageView.getContext())
-                    .load(mList.get(i).getImage())
-                    .centerCrop()
-                    .into(holder.mImageView);
-        }
+        Glide.with(holder.mImageView.getContext())
+                .load(mList.get(i).getImage())
+                .centerCrop()
+                .placeholder(R.drawable.default_img)
+                .error(
+                        Glide.with(holder.mImageView)
+                                .load(mList.get(i).getImage()))
+                .into(holder.mImageView);
         return view;
     }
     class Costumfilter extends Filter {
