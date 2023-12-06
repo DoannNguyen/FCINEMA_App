@@ -9,10 +9,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -103,7 +105,14 @@ public class ThanhToanActivity extends AppCompatActivity {
         imgPoster=findViewById(R.id.imgPosterPayment);
         mDialog = new Dialog(ThanhToanActivity.this);
         mDialog.setContentView(R.layout.progress_dialog);
-        mProgressDialog = new ProgressDialog(mDialog);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = 300;
+        mDialog.getWindow().setAttributes(lp);
+        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        mDialog.getWindow().setDimAmount(0.7f);
+        mProgressDialog = new ProgressDialog(mDialog, "Đang tải...");
+        mProgressDialog.setCancelable(false);
         ListView listView = findViewById(R.id.lvDoAn2);
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -214,7 +223,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    mProgressDialog.DialogDismiss();
+                    new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(),250);
                     Toast.makeText(ThanhToanActivity.this, "Đặt vé thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ThanhToanActivity.this,MainActivity.class);
                     intent.putExtra("email", email);

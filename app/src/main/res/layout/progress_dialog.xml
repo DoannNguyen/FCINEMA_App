@@ -2,16 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:background="@drawable/custom_progressbar"
+    android:layout_gravity="center"
    >
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            >
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/darKGreen"
+                    />
+                <TextView
+                    android:id="@+id/idDialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                        android:text="title"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="18dp"
+                        android:textSize="12dp"
+                        />
+        </LinearLayout>
 
 </RelativeLayout>

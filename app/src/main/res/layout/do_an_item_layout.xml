@@ -9,7 +9,7 @@
         android:layout_height="80dp"
         android:layout_weight="1"
         android:src="@drawable/poster"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="20dp"
         android:layout_marginVertical="19dp"
         />
     <LinearLayout
@@ -41,7 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginEnd="10dp">
         <ImageView
             android:id="@+id/imgMinus"
             android:layout_width="21dp"

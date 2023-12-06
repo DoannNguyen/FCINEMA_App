@@ -3,17 +3,11 @@ package com.example.fcinema_app.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,12 +16,10 @@ import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.adapters.PhimAdapter;
-import com.example.fcinema_app.fragments.PhimDangChieuFragment;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.ProgressDialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,8 +32,6 @@ public class TimKiemActivity extends AppCompatActivity {
     private GridView mGridView;
     private PhimAdapter mAdapter;
     private List<PhimModel> mList;
-    private ProgressDialog mProgressDialog;
-    private Dialog mDialog;
     private APIInterface mAPIInterface;
     private androidx.appcompat.widget.SearchView mEditText;
     private TextView tvNoItem;
@@ -59,13 +49,9 @@ public class TimKiemActivity extends AppCompatActivity {
         });
         mGridView.setTextFilterEnabled(true);
         mAPIInterface  = APIClient.getClient().create(APIInterface.class);
-        mDialog = new Dialog(TimKiemActivity.this);
-        mProgressDialog = new ProgressDialog(mDialog);
-        mProgressDialog.DialogShowing();
-
         mList = new ArrayList<>();
         mAdapter = new PhimAdapter(TimKiemActivity.this,mList);
-        getAllPhim(mList,mAdapter, mProgressDialog, mAPIInterface);
+        getAllPhim(mList,mAdapter, mAPIInterface);
         mGridView.setAdapter(mAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,7 +82,7 @@ public class TimKiemActivity extends AppCompatActivity {
         });
 
     }
-    private void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface){
+    private void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, APIInterface APIInterface){
         Call<List<PhimModel>> call = APIInterface.getAllPhimDC();
         call.enqueue(new Callback<List<PhimModel>>() {
             @Override
@@ -105,7 +91,6 @@ public class TimKiemActivity extends AppCompatActivity {
                     modelList.clear();
                     modelList.addAll(response.body());
                     adapter.notifyDataSetChanged();
-                    progressDialog.DialogDismiss();
                 }else{
                     Log.e("TAG", "onResponse: error " );
                 }
