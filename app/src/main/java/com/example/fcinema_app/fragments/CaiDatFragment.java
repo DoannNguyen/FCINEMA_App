@@ -4,13 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +28,18 @@ import com.example.fcinema_app.Utils.NguoiDungCallback;
 import com.example.fcinema_app.activities.DangNhapActivity;
 import com.example.fcinema_app.activities.DoiMatKhauActivity;
 import com.example.fcinema_app.activities.DoiThongTinActivity;
+import com.example.fcinema_app.activities.GioiThieuActivity;
 import com.example.fcinema_app.models.NguoiDung;
+import com.google.android.material.snackbar.Snackbar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class CaiDatFragment extends Fragment {
 
-    private Button btnDoiMatKhau, btnSuaThogTin;
-    private LinearLayout lnLogout;
-    private TextView tvNameUser,tvEmailUser;
+    private LinearLayout lnSettings;
+    private TextView tvNameUser,tvEmailUser,tvChangeInfor,tvChangePass,tvAbout,tvLogout,tvAlert,tvContact;
     private ImageView imgUser;
-
     private String oldPass;
 
     public CaiDatFragment() {
@@ -60,32 +63,43 @@ public class CaiDatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnSuaThogTin = view.findViewById(R.id.btnChinhSuaThongTin);
-        btnDoiMatKhau = view.findViewById(R.id.btnDoiMatKhau);
-        lnLogout=view.findViewById(R.id.lnLogout);
+        lnSettings=view.findViewById(R.id.lnSettings);
         tvNameUser=view.findViewById(R.id.tvNameST);
         tvEmailUser=view.findViewById(R.id.tvEmailST);
         imgUser=view.findViewById(R.id.imgAnhTaiKhoan);
+        tvChangeInfor=view.findViewById(R.id.tvChangeInformation);
+        tvChangePass=view.findViewById(R.id.tvChangePass);
+        tvAbout=view.findViewById(R.id.tvAbout);
+        tvAlert=view.findViewById(R.id.tvNotification);
+        tvContact=view.findViewById(R.id.tvContact);
+        tvLogout=view.findViewById(R.id.tvLogout);
 
-        btnSuaThogTin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), DoiThongTinActivity.class) .putExtra("email",getEmail()));
-            }
+        tvChangeInfor.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), DoiThongTinActivity.class) .putExtra("email",getEmail()));
+
+        });
+        tvChangePass.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), DoiMatKhauActivity.class).putExtra("email",getEmail()).putExtra("matKhau",oldPass));
+
+        });
+        tvAbout.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), GioiThieuActivity.class));
+        });
+        tvAlert.setOnClickListener(v -> {
+            Snackbar snackbar = Snackbar.make(lnSettings, "Tính năng đang phát triển", Snackbar.LENGTH_SHORT);
+                    snackbar.setAnchorView(R.id.nav_view)
+                    .show();
+        });
+        tvContact.setOnClickListener(v -> {
+
         });
 
-        btnDoiMatKhau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), DoiMatKhauActivity.class).putExtra("email",getEmail()).putExtra("matKhau",oldPass));
-            }
-        });
-
-        lnLogout.setOnClickListener(v -> {
+        tvLogout.setOnClickListener(v -> {
             Intent iLogout=new Intent(getActivity(), DangNhapActivity.class);
             startActivity(iLogout);
             getActivity().finish();
         });
+
 
         getNguoiDung();
 

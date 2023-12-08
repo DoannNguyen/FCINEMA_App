@@ -405,10 +405,12 @@
 
         <Button
             android:id="@+id/btnXacNhan"
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="bottom|center"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/border_shape"
             android:text="Xác nhận"
             android:textAllCaps="true"

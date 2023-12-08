@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FBooking</string>
+    <string name="noitem">Không có mục nào để hiển thị</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
