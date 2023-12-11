@@ -2,6 +2,7 @@ package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class XacNhanMailActivity extends AppCompatActivity {
     private ImageView imgBack;
     private Button btnSend;
     private TextInputEditText edEmail;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,31 +51,40 @@ public class XacNhanMailActivity extends AppCompatActivity {
             finish();
         });
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email=edEmail.getText().toString().trim();
-                if(email.isEmpty()){
-                    Toast.makeText(XacNhanMailActivity.this, "Vui lòng nhập email "+email, Toast.LENGTH_SHORT).show();
+        btnSend.setOnClickListener(v -> {
+            String email=edEmail.getText().toString().trim();
+            if(email.isEmpty()){
+                Toast.makeText(XacNhanMailActivity.this, "Vui lòng nhập email "+email, Toast.LENGTH_SHORT).show();
+            }else{
+                if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    ResetPasswordRequest resetPasswordRequest=new ResetPasswordRequest(email);
+                    resetPasswordRequest(resetPasswordRequest);
                 }else{
-                    if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                        ResetPasswordRequest resetPasswordRequest=new ResetPasswordRequest(email);
-                        resetPasswordRequest(resetPasswordRequest);
-                    }else{
-                        Toast.makeText(XacNhanMailActivity.this, "Email định dạng không đúng "+email, Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(XacNhanMailActivity.this, "Email định dạng không đúng "+email, Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đang xử lý...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
 
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
     private void resetPasswordRequest(ResetPasswordRequest resetPasswordRequest){
+        showProgressDialog();
         APIInterface apiInterface= APIClient.getClient().create(APIInterface.class);
         Call<NguoiDung> call=apiInterface.resetMatKhauRequest(resetPasswordRequest);
         call.enqueue(new Callback<NguoiDung>() {
             @Override
             public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
+                dismissProgressDialog();
                 if (response.isSuccessful()) {
                     Toast.makeText(XacNhanMailActivity.this, "Reset code đã được gửi đến email"+edEmail.getText().toString(), Toast.LENGTH_SHORT).show();
 
@@ -86,9 +97,9 @@ public class XacNhanMailActivity extends AppCompatActivity {
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
                         String errorMessage = jsonObject.getString("message");
-                        Toast.makeText(XacNhanMailActivity.this, "Reset mật khẩu thất bại" + errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(XacNhanMailActivity.this, "" + errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
-                        Toast.makeText(XacNhanMailActivity.this, "Reset mật khẩu thất bại - " , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(XacNhanMailActivity.this, "- " , Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

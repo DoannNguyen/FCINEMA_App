@@ -31,9 +31,13 @@ public class NguoiDung implements Serializable {
     @SerializedName("hienThi")
 
     private Integer hienThi;
+    @SerializedName("matKhauCu")
 
+    private String matKhauCu;
     public NguoiDung() {
     }
+
+
 
     public NguoiDung(String email, String hoTen, String matKhau, String dienThoai, String anh, Date ngaySinh, String diaChi, Integer hienThi) {
         this.email = email;
@@ -92,6 +96,11 @@ public class NguoiDung implements Serializable {
 
     public NguoiDung(String matKhau) {
         this.matKhau = matKhau;
+    }
+    public NguoiDung(String matKhauCu,String matKhau,  int hienThi) {
+        this.matKhau = matKhau;
+        this.matKhauCu=matKhauCu;
+        this.hienThi=hienThi;
     }
 
     public String getEmail() {
@@ -156,5 +165,13 @@ public class NguoiDung implements Serializable {
 
     public void setHienThi(Integer hienThi) {
         this.hienThi = hienThi;
+    }
+
+    public String getMatKhauCu() {
+        return matKhauCu;
+    }
+
+    public void setMatKhauCu(String matKhauCu) {
+        this.matKhauCu = matKhauCu;
     }
 }

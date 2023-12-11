@@ -14,6 +14,11 @@ import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.models.NguoiDung;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,20 +50,32 @@ public class DoiMatKhauActivity extends AppCompatActivity {
                 updatePassword();
             }
         });
-        edOldPass.setText(getMK());
 
     }
 
     private void updatePassword(){
         APIInterface apiInterface= APIClient.getClient().create(APIInterface.class);
+        String oldPass=edOldPass.getText().toString().trim();
         String newP=edNewPass.getText().toString().trim();
-        NguoiDung nguoiDung=new NguoiDung(newP);
+        NguoiDung nguoiDung=new NguoiDung(oldPass,newP,1);
         Call<Void> call=apiInterface.changeMatKhauNguoiDungByEmail(getEmail(),nguoiDung);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(DoiMatKhauActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                }else{
+                    try {
+                        String errorBody = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(errorBody);
+                        String errorMessage = jsonObject.getString("message");
+                        Toast.makeText(DoiMatKhauActivity.this, "" + errorMessage, Toast.LENGTH_SHORT).show();
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
@@ -80,10 +97,6 @@ public class DoiMatKhauActivity extends AppCompatActivity {
             Toast.makeText(DoiMatKhauActivity.this,"Vui lòng nhập đủ các trường",Toast.LENGTH_SHORT).show();
             check=-1;
         }else{
-            if(!oldP.equals(getMK())){
-                Toast.makeText(DoiMatKhauActivity.this, "Mật khẩu cũ không đúng" , Toast.LENGTH_SHORT).show();
-                check=-1;
-            }
             if(!newP.equals(comfirmP)){
                 Toast.makeText(DoiMatKhauActivity.this, "Xác nhận mật khẩu không trùng" , Toast.LENGTH_SHORT).show();
                 check=-1;
@@ -91,6 +104,7 @@ public class DoiMatKhauActivity extends AppCompatActivity {
         }
         return check;
     }
+
     private String getEmail(){
         String email = getIntent().getStringExtra("email");
         return email;

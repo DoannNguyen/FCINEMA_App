@@ -5,7 +5,7 @@
          <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:navigationBarColor">?android:attr/colorPrimaryDark</item>
-        <item name="android:windowBackground">?android:attr/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/l_grey</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:textColor">@color/primary</item>
         <item name="android:textColorPrimary">@color/primary</item>

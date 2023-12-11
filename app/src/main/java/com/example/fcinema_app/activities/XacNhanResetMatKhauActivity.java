@@ -3,6 +3,7 @@ package com.example.fcinema_app.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -36,6 +37,7 @@ public class XacNhanResetMatKhauActivity extends AppCompatActivity {
     private TextView tvEmail,tvResendCode;
     private TextInputEditText edCode,edNewPass,edComfirmpass;
     private CountDownTimer countDownTimer;
+    private ProgressDialog progressDialog;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -74,7 +76,18 @@ public class XacNhanResetMatKhauActivity extends AppCompatActivity {
 
 
     }
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đang xử lý...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
 
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
     private void startCountdownTimer() {
         countDownTimer = new CountDownTimer(30000, 1000) {
             @Override
@@ -125,19 +138,21 @@ public class XacNhanResetMatKhauActivity extends AppCompatActivity {
     }
 
     private void resetPasswordComfirm(ResetPasswordRequest resetPasswordRequest){
+        showProgressDialog();
         APIInterface apiInterface= APIClient.getClient().create(APIInterface.class);
         Call<Void>call=apiInterface.comfirmRestMatKhau(resetPasswordRequest);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-
                 if (response.isSuccessful()) {
+                    dismissProgressDialog();
                     Toast.makeText(XacNhanResetMatKhauActivity.this, "Mật khẩu đã được reset", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(XacNhanResetMatKhauActivity.this,DangNhapActivity.class));
                     finish();
                 } else {
                     String errorBody = null;
                     try {
+                        dismissProgressDialog();
                         errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
                         String errorMessage = jsonObject.getString("message");
@@ -153,22 +168,26 @@ public class XacNhanResetMatKhauActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                dismissProgressDialog();
                 Toast.makeText(XacNhanResetMatKhauActivity.this, "Lỗi"+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
     }
     private void resetPasswordRequest(ResetPasswordRequest resetPasswordRequest) {
+        showProgressDialog();
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<NguoiDung> call = apiInterface.resetMatKhauRequest(resetPasswordRequest);
         call.enqueue(new Callback<NguoiDung>() {
             @Override
             public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
                 if (response.isSuccessful()) {
+                    dismissProgressDialog();
                     Toast.makeText(XacNhanResetMatKhauActivity.this, "Reset code đã được gửi đến email"+getEmail(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     try {
+                        dismissProgressDialog();
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
                         String errorMessage = jsonObject.getString("message");
@@ -185,6 +204,7 @@ public class XacNhanResetMatKhauActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<NguoiDung> call, Throwable t) {
+                dismissProgressDialog();
                 Toast.makeText(XacNhanResetMatKhauActivity.this, "Lỗi" + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.i("Lỗi", t.getMessage());
 
