@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.NguoiDungCallback;
@@ -121,13 +122,13 @@ public class CaiDatFragment extends Fragment {
                 }
                 oldPass=nguoiDung.getMatKhau();
 
-                if (nguoiDung.getAnh() != null && !nguoiDung.getAnh().isEmpty()) {
-                    byte[] decodedBytes = Base64.decode(nguoiDung.getAnh(), Base64.DEFAULT);
-                    Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                    imgUser.setImageBitmap(decodedBitmap);
-                } else {
-                    imgUser.setImageResource(R.drawable.img_default);
-                }
+
+                String anh=nguoiDung.getAnh();
+                Glide.with(imgUser.getContext())
+                        .load(anh)
+                        .centerCrop()
+                        .placeholder(R.drawable.img_default)
+                        .into(imgUser);
             }
 
             @Override

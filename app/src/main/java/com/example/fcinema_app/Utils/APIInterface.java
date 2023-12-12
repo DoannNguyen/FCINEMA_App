@@ -7,6 +7,7 @@ import com.example.fcinema_app.models.LichSuVeModel;
 import com.example.fcinema_app.models.NguoiDung;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.PhimSapChieuModel;
+import com.example.fcinema_app.models.RequestAuthEmail;
 import com.example.fcinema_app.models.RequestData;
 import com.example.fcinema_app.models.ResetPasswordRequest;
 import com.example.fcinema_app.models.TheLoaiModel;
@@ -22,12 +23,16 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface APIInterface {
+
+//    POST[]/nguoidung/xacthuc
+    @POST("/nguoidung/xacthuc")
+    Call<NguoiDung> authEmail(@Body RequestAuthEmail requestAuthEmail);
 //    POST[]/nguoidung/dangnhap
     @POST("/nguoidung/dangnhap")
     Call<ResponseBody> loginUser(@Body NguoiDung nguoiDung);
 //    POST[]/nguoidung/dangky
     @POST("/nguoidung/dangky")
-    Call<ResponseBody> regiserUser(@Body NguoiDung nguoiDung);
+    Call<ResponseBody> regiserUser(@Body RequestAuthEmail requestAuthEmail);
 //POST[]/resetMatKhauRequest
     @POST("/resetMatKhauRequest")
     Call<NguoiDung> resetMatKhauRequest(@Body ResetPasswordRequest resetPasswordRequest);
@@ -37,7 +42,7 @@ public interface APIInterface {
 //    GET[]/nguoidung/thongtin/:email
     @GET("/nguoidung/thongtin/{email}")
     Call<NguoiDung> getNguoiDungByEmail (@Path("email") String email);
-//    PUT[]/nguoidung/doithongtin/:email
+//    PUT[]/nguoidung/doithon'gtin/:email
     @PUT("/nguoidung/doithongtin/{email}")
     Call<Void> changeThongTinNguoiDungByEmail(@Path("email")String emaill,@Body NguoiDung nguoiDung);
 //    PUT[]/nguoidung/doimatkhau/:email
