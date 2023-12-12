@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Filter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,12 +72,12 @@ public class TimKiemActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.getFilter().filter(newText);
-                tvNoItem.setVisibility(View.GONE);
-                Log.e("TAG", "onQueryTextChange: "+mAdapter.getCount() );
-                if(mAdapter.getCount() == 0){
-                    tvNoItem.setVisibility(View.VISIBLE);
-                }
+                mAdapter.getFilter().filter(newText, i -> {
+                    tvNoItem.setVisibility(View.GONE);
+                    if( i == 0){
+                        tvNoItem.setVisibility(View.VISIBLE);
+                    }
+                });
                 return false;
             }
         });

@@ -61,6 +61,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
 
         PhimModel phimModel = (PhimModel) getIntent().getSerializableExtra("phim");
         if(phimModel != null){
+            Log.e("TAG", "onCreate: "+phimModel.getDaoDien() );
             DecimalFormat decimalFormat = new DecimalFormat("###,###");
             Float giaPhim= Float.valueOf(phimModel.getGiaPhim());
             String formatGiaPhim = decimalFormat.format(giaPhim);

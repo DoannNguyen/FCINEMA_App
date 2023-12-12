@@ -6,17 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -35,11 +33,8 @@ import com.example.fcinema_app.models.ProgressDialog;
 import com.example.fcinema_app.models.RequestData;
 import com.example.fcinema_app.models.VeModel;
 import com.example.fcinema_app.models.ViTriGheModel;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-
 import org.json.JSONObject;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,7 +59,6 @@ public class ThanhToanActivity extends AppCompatActivity {
     private VeModel veModel;
     private ViTriGheModel viTriGheModel;
     private Button btnXacNhan;
-    private Gson mGson;
     private JsonArray jsonArray;
     private RadioButton rdoTienMat, rdoZalopay;
     private ImageView imgPoster;
@@ -77,6 +71,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     DecimalFormat decimalFormat=new DecimalFormat("###,###");
     private List<DoAnModel> models;
     private DoAnAdapter2 mAnAdapter2;
+    private LinearLayout mLayout;
 
     @SuppressLint({"MissingInflatedId", "SimpleDateFormat"})
     @Override
@@ -105,9 +100,10 @@ public class ThanhToanActivity extends AppCompatActivity {
         imgPoster=findViewById(R.id.imgPosterPayment);
         mDialog = new Dialog(ThanhToanActivity.this);
         mDialog.setContentView(R.layout.progress_dialog);
+        mLayout = findViewById(R.id.layout_thanhToan);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = 300;
+        lp.height = 400;
         mDialog.getWindow().setAttributes(lp);
         mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         mDialog.getWindow().setDimAmount(0.7f);
@@ -223,12 +219,14 @@ public class ThanhToanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(),250);
-                    Toast.makeText(ThanhToanActivity.this, "Đặt vé thành công", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ThanhToanActivity.this,MainActivity.class);
-                    intent.putExtra("email", email);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    new Handler().postDelayed(() -> {
+                        mProgressDialog.DialogDismiss();
+                        Toast.makeText(ThanhToanActivity.this, "Đặt vé thành công", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ThanhToanActivity.this,MainActivity.class);
+                        intent.putExtra("email", email);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    },750);
                 }
             }
 
@@ -243,7 +241,6 @@ public class ThanhToanActivity extends AppCompatActivity {
         ZaloPaySDK.getInstance().payOrder(ThanhToanActivity.this, token, "demozpdk://app", new PayOrderListener() {
             @Override
             public void onPaymentSucceeded(String s, String s1, String s2) {
-                Toast.makeText(getApplicationContext(), "thanh cong", Toast.LENGTH_SHORT).show();
                 veModel.setTrangThai(0);
                 veModel.setPhuongThucTT("ZaloPay");
                 AddVeAndViTriGhe();
@@ -251,14 +248,12 @@ public class ThanhToanActivity extends AppCompatActivity {
 
             @Override
             public void onPaymentCanceled(String s, String s1) {
-                Toast.makeText(getApplicationContext(), "huy", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
 
-                Toast.makeText(getApplicationContext(), "loi", Toast.LENGTH_SHORT).show();
             }
         });
     }

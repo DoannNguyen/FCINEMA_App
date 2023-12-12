@@ -104,7 +104,7 @@ public class PhimDangChieuFragment extends Fragment {
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = 300;
+        lp.height = 400;
         dialog.getWindow().setAttributes(lp);
         dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         dialog.getWindow().setDimAmount(0.7f);
@@ -138,7 +138,7 @@ public class PhimDangChieuFragment extends Fragment {
 
         mAdapter = new PhimAdapter(getContext(),mModelList);
         Calendar calendar = Calendar.getInstance();
-        getAllPhim(mModelList,mAdapter,mProgressDialog, mAPIInterface, new SimpleDateFormat("yyyy/MM/dd").format(calendar.getTime()) );
+        getAllPhim(mModelList,mAdapter, mAPIInterface, new SimpleDateFormat("yyyy/MM/dd").format(calendar.getTime()) );
         gridView.setAdapter(mAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -162,7 +162,7 @@ public class PhimDangChieuFragment extends Fragment {
         });
     }
 
-    public void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, ProgressDialog progressDialog, APIInterface APIInterface, String day){
+    private void getAllPhim(List<PhimModel> modelList, PhimAdapter adapter, APIInterface APIInterface, String day){
         mProgressDialog.DialogShowing();
         Call<List<PhimModel>> call = APIInterface.getPhimDCbyTheLoai(day);
         call.enqueue(new Callback<List<PhimModel>>() {
@@ -340,7 +340,7 @@ public class PhimDangChieuFragment extends Fragment {
             textView.setLayoutParams(layoutParams);
 
             if(i == 0){
-                textView.setText("Today");
+                textView.setText("Hôm nay");
                 textView.setTextColor(Color.WHITE);
                 textView.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.radius_fill));
             }else{

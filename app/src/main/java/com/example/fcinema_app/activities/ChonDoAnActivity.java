@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -83,7 +84,7 @@ public class ChonDoAnActivity extends AppCompatActivity {
                 bundle.putSerializable("doAn", (Serializable) doAnModelList);
                 Intent intent = new Intent(ChonDoAnActivity.this, ThanhToanActivity.class);
                 intent.putExtra("value", bundle);
-                startActivity(intent);
+                new Handler().postDelayed(() -> startActivity(intent),500 );
             }
         });
         imgBack.setOnClickListener(new View.OnClickListener() {

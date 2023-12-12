@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/layout_MuaVe"
     tools:context=".activities.MuaVeActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -257,13 +258,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="5dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
                     <View
-                        android:layout_width="30dp"
+                        android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="5dp"
                         android:background="@drawable/custom_toggle_button_focus"/>
@@ -271,6 +273,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ghế đang chọn"
+                        android:gravity="center"
                         android:layout_marginStart="3dp"/>
                 </LinearLayout>
                 <LinearLayout
@@ -279,14 +282,15 @@
                     android:layout_weight="1"
                     android:layout_marginHorizontal="5dp">
                     <View
-                        android:layout_width="30dp"
+                        android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginStart="5dp"
+                        android:layout_marginStart="10dp"
                         android:background="@drawable/custom_toggle_button_checked"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ghế đã đặt"
+                        android:gravity="center"
                         android:layout_marginStart="3dp"/>
                 </LinearLayout>
                 <LinearLayout
@@ -295,7 +299,7 @@
                     android:layout_weight="1"
                     android:layout_marginHorizontal="5dp">
                     <View
-                        android:layout_width="30dp"
+                        android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="5dp"
                         android:background="@drawable/custom_toggle_button"/>
@@ -303,6 +307,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Ghế còn trống"
+                        android:gravity="center"
                         android:layout_marginStart="3dp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -393,27 +398,20 @@
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-
+            <Button
+                android:id="@+id/btnXacNhan"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/border_shape"
+                android:text="Xác nhận"
+                android:textAllCaps="true"
+                android:textSize="13dp" />
         </LinearLayout>
+
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|center"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnXacNhan"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom|center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/border_shape"
-            android:text="Xác nhận"
-            android:textAllCaps="true"
-            android:textSize="13dp" />
-    </LinearLayout>
 </LinearLayout>
