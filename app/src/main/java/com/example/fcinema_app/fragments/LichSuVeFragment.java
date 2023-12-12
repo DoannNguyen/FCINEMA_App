@@ -90,7 +90,7 @@ public class LichSuVeFragment extends Fragment {
         mDialog.setContentView(R.layout.progress_dialog);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height =  300;
+        lp.height =  400;
         mDialog.getWindow().setAttributes(lp);
         mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         mDialog.getWindow().setDimAmount(0.7f);

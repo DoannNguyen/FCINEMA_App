@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -25,6 +26,7 @@ import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.models.GheDat;
 import com.example.fcinema_app.models.PhimModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -49,6 +51,7 @@ public class MuaVeActivity extends AppCompatActivity {
     private ArrayList<Integer> in2;
     private List<ToggleButton> toggleButtonList ;
     DecimalFormat decimalFormat=new DecimalFormat("###,###");
+    private LinearLayout mLayout;
     @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class MuaVeActivity extends AppCompatActivity {
         tvSoLuong = findViewById(R.id.tvSoLuongDV);
         tvTongThanhToan = findViewById(R.id.tvTongThanhToanDV);
         imgPoster=findViewById(R.id.imgPosterMV);
+        mLayout = findViewById(R.id.layout_MuaVe);
 
         mSimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         in = new ArrayList<>();
@@ -135,7 +139,8 @@ public class MuaVeActivity extends AppCompatActivity {
                 if(clickedButtonCount != 0){
                     startActivity(intent);
                 }else{
-                    Toast.makeText(MuaVeActivity.this, "Bạn phải chọn ghế trước khi xác nhận", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MuaVeActivity.this, "Bạn phải chọn ghế trước khi xác nhận", Toast.LENGTH_SHORT).show();
+                    showSnackBar("Bạn phải chọn ghế trước khi xác nhận");
                 }
 
             }
@@ -242,5 +247,8 @@ public class MuaVeActivity extends AppCompatActivity {
         }
         return D;
     }
-
+    private void showSnackBar(String message){
+        Snackbar snackbar = Snackbar.make(mLayout,message,Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
 }

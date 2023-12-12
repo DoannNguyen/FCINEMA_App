@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
@@ -38,7 +39,7 @@ public class PhimAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public int getCount() {
-        if(mList != null){
+        if(mList.size() != 0){
             return mList.size();
         }
         return 0;

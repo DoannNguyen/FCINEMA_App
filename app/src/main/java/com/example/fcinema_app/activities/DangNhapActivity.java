@@ -1,6 +1,7 @@
 package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -47,6 +49,7 @@ public class DangNhapActivity extends AppCompatActivity {
     private ImageView imgLogingWithGG;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 35;
+    private ConstraintLayout mLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,7 @@ public class DangNhapActivity extends AppCompatActivity {
         edPassword=findViewById(R.id.edPassDangNhap);
         ckRember=findViewById(R.id.ckRemember);
         imgLogingWithGG = findViewById(R.id.imgLogingWithGG);
+        mLayout = findViewById(R.id.img);
 
         btnLogin.setOnClickListener(v -> {
             showProgressDialog();
@@ -98,7 +102,7 @@ public class DangNhapActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        new Handler().postDelayed(() -> progressDialog.dismiss(), 1000);
+        new Handler().postDelayed(() -> progressDialog.dismiss(), 500);
     }
 
 
@@ -117,7 +121,8 @@ public class DangNhapActivity extends AppCompatActivity {
                         iLogin.putExtra("email", email);
                         startActivity(iLogin);
                         rememberUser(email,password,ckRember.isChecked());
-                        Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                        showSnackBar(mLayout,"Đăng nhập thành công");
                         finish();
 
                     } else {
@@ -151,11 +156,13 @@ public class DangNhapActivity extends AppCompatActivity {
         String password=edPassword.getText().toString().trim();
 
         if(email.isEmpty() || password.isEmpty()){
-            Toast.makeText(DangNhapActivity.this, "Vui lòng nhập đủ các trường", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DangNhapActivity.this, "Vui lòng nhập đủ các trường", Toast.LENGTH_SHORT).show();
+            showSnackBar(mLayout,"Vui lòng nhập đủ các trường");
             check=-1;
         }else{
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                 Toast.makeText(DangNhapActivity.this, "Email định dạng không đúng", Toast.LENGTH_SHORT).show();
+                showSnackBar(mLayout,"Email định dạng không đúng" );
                 check=-1;
             }
         }
@@ -247,5 +254,9 @@ public class DangNhapActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void showSnackBar(View view,String message){
+        Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }
