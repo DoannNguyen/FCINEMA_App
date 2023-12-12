@@ -132,6 +132,10 @@ public class XacNhanResetMatKhauActivity extends AppCompatActivity {
                 check=-1;
 
             }
+            if(newPassword.length()<6){
+                Toast.makeText(XacNhanResetMatKhauActivity.this, "Mật khẩu phải trên 6 ký tự" , Toast.LENGTH_SHORT).show();
+                check=-1;
+            }
         }
 
         return check;

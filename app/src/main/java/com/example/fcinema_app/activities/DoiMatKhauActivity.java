@@ -101,6 +101,10 @@ public class DoiMatKhauActivity extends AppCompatActivity {
                 Toast.makeText(DoiMatKhauActivity.this, "Xác nhận mật khẩu không trùng" , Toast.LENGTH_SHORT).show();
                 check=-1;
             }
+            if(newP.length()<6){
+                Toast.makeText(DoiMatKhauActivity.this, "Mật khẩu phải trên 6 ký tự" , Toast.LENGTH_SHORT).show();
+                check=-1;
+            }
         }
         return check;
     }

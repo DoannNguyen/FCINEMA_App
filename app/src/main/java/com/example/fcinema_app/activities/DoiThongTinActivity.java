@@ -1,22 +1,38 @@
 package com.example.fcinema_app.activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
@@ -33,23 +49,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+import com.cloudinary.android.MediaManager;
 public class DoiThongTinActivity extends AppCompatActivity {
 
     private androidx.appcompat.widget.Toolbar mToolbar;
     private ImageView imgBack;
     private TextInputEditText edHoTen,edNgaySinh,edEmail,edDienThoai,edDiaChi;
     private ImageView imgPicker;
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private ProgressDialog progressDialog;
     SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd");
-    private String base64Image,imgOld;
+
+    private String imgUrl,imgOld;
 
     int mYear,mMonth,mDate;
     @SuppressLint("MissingInflatedId")
@@ -71,16 +90,18 @@ public class DoiThongTinActivity extends AppCompatActivity {
             finish();
         });
         imgPicker.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            chooseImage.launch(intent);
+
         });
         edNgaySinh.setOnClickListener(v -> {
-            Calendar c=Calendar.getInstance();
-            mYear=c.get(Calendar.YEAR);
-            mMonth=c.get(Calendar.MONTH);
-            mDate=c.get(Calendar.DATE);
-            DatePickerDialog d=new DatePickerDialog(DoiThongTinActivity.this,0,ngaySinh,mYear,mMonth,mDate);
-            d.show();
+            try {
+                showDatePicker(edNgaySinh, DoiThongTinActivity.this);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         });
         findViewById(R.id.btnUpdateUser).setOnClickListener(v -> {
             try {
@@ -95,8 +116,8 @@ public class DoiThongTinActivity extends AppCompatActivity {
     }
     private void saveUpdateNguoiDung() throws ParseException {
         if(validate()>0){
-            base64Image = (base64Image == null) ? imgOld : base64Image;
-            String anh=base64Image;
+            imgUrl = (imgUrl == null) ? imgOld : imgUrl;
+            String anh=imgUrl;
             String hoTen=edHoTen.getText().toString().trim();
             Date ngaySinh= sdf.parse(edNgaySinh.getText().toString());
             String dienThoai=edDienThoai.getText().toString().trim();
@@ -109,17 +130,61 @@ public class DoiThongTinActivity extends AppCompatActivity {
     }
 
 
-    DatePickerDialog.OnDateSetListener ngaySinh=new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            mYear=year;
-            mMonth=month;
-            mDate=dayOfMonth;
-            GregorianCalendar c=new GregorianCalendar(mYear,mMonth,mDate);
-            edNgaySinh.setText(sdf.format(c.getTime()));
+    public static Locale getLocaleForCalendarInstance(Context context) {
+        Locale locale = new Locale("vi","VN");
+        LocaleList locales = new LocaleList(locale);
+        context.getResources().getConfiguration().setLocales(locales);
+        context.getResources().updateConfiguration(context.getResources().getConfiguration(),
+                context.getResources().getDisplayMetrics());
 
+        return locale;
+    }
+    public void showDatePicker(EditText editText, Context context) throws ParseException {
+        Locale locale = new Locale("vi", "VN");
+        Locale.setDefault(locale);
+
+        Calendar calendar = Calendar.getInstance(getLocaleForCalendarInstance(context));
+
+        if (editText != null && !TextUtils.isEmpty(editText.getText())) {
+            Date currentDate = sdf.parse(editText.getText().toString());
+
+            if (currentDate != null) {
+                calendar.setTime(currentDate);
+            }
         }
-    };
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                context,R.style.CustomDatePickerDialog,
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, monthOfYear);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                    String selectedDate = sdf.format(calendar.getTime());
+
+                    editText.setText(selectedDate);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        );
+
+        datePickerDialog.setOnShowListener(dialog -> {
+            Button positiveButton = datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            Button negativeButton = datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+            if (positiveButton != null) {
+                positiveButton.setText("Chọn");
+                positiveButton.setTextColor(Color.BLACK);
+            }
+
+            if (negativeButton != null) {
+                negativeButton.setText("Hủy");
+                negativeButton.setTextColor(Color.BLACK);
+            }
+        });
+        datePickerDialog.show();
+    }
     private int validate(){
         int check=1;
         String hoTen=edHoTen.getText().toString().trim();
@@ -132,6 +197,18 @@ public class DoiThongTinActivity extends AppCompatActivity {
         }
         return check;
 
+    }
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đang xử lý...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
     private void updateNguoiDung(NguoiDung nguoiDung){
         APIInterface apiInterface=APIClient.getClient().create(APIInterface.class);
@@ -176,14 +253,12 @@ public class DoiThongTinActivity extends AppCompatActivity {
                     if(nguoiDung.getDiaChi()!=null){
                         edDiaChi.setText(""+nguoiDung.getDiaChi());
                     }
-                    byte[] decodedBytes = Base64.decode(nguoiDung.getAnh(), Base64.DEFAULT);
-                    Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
 
-                    if (decodedBitmap != null) {
-                        imgPicker.setImageBitmap(decodedBitmap);
-                    } else {
-                        imgPicker.setImageResource(R.drawable.imagepicker);
-                    }
+                    Glide.with(imgPicker.getContext())
+                            .load(imgOld)
+                            .centerCrop()
+                            .placeholder(R.drawable.img_default)
+                            .into(imgPicker);
                 }
             }
 
@@ -193,56 +268,68 @@ public class DoiThongTinActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
 
-            base64Image = resizeImageAndConvertToBase64(selectedImageUri);
-            if (base64Image != null) {
-                byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
-                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                imgPicker.setImageBitmap(decodedBitmap);
+    private void uploadImage(Uri path){
+        initCloudinary();
+        MediaManager.get().upload(path)
+                .option("folder", "storage/client")
+                .callback(new UploadCallback() {
+            @Override
+            public void onStart(String requestId) {
+                showProgressDialog();
             }
-        }
+
+            @Override
+            public void onProgress(String requestId, long bytes, long totalBytes) {
+
+
+            }
+
+            @Override
+            public void onSuccess(String requestId, Map resultData) {
+                dismissProgressDialog();
+                String link=resultData.get("secure_url").toString();
+                imgUrl =link;
+            }
+
+            @Override
+            public void onError(String requestId, ErrorInfo error) {
+
+            }
+
+            @Override
+            public void onReschedule(String requestId, ErrorInfo error) {
+
+            }
+        }).dispatch();
+
     }
 
-    private String resizeImageAndConvertToBase64(Uri imageUri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-            String base64Image = resizeImageAndConvertToBase64(inputStream);
-            inputStream.close();
-            return base64Image;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    private void initCloudinary(){
+        Map config=new HashMap();
+        config.put("cloud_name","dxkvtjsiq");
+        config.put("secure",true);
+        config.put("api_key","631347248512345");
+        config.put("api_secret","Y7n46nP4XGfJBXpptqn4G5UPep0");
+        MediaManager.init(this,config);
     }
 
-
-    private String resizeImageAndConvertToBase64(InputStream inputStream) throws IOException {
-        int maxWidth = 512;
-        int maxHeight = 512;
-
-        Bitmap originalBitmap = BitmapFactory.decodeStream(inputStream);
-
-        float scale = Math.min((float) maxWidth / originalBitmap.getWidth(), (float) maxHeight / originalBitmap.getHeight());
-
-        int newWidth = Math.round(originalBitmap.getWidth() * scale);
-        int newHeight = Math.round(originalBitmap.getHeight() * scale);
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 95, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        originalBitmap.recycle();
-        resizedBitmap.recycle();
-
-        return base64Image;
-    }
+    ActivityResultLauncher<Intent> chooseImage= registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()== Activity.RESULT_OK){
+                        Intent data=result.getData();
+                        Uri uri=data.getData();
+                        uploadImage(uri);
+                        if(null!= uri){
+                            imgPicker.setImageURI(uri);
+                        }
+                    }
+                }
+            }
+    );
 
 
     private String getEmail(){

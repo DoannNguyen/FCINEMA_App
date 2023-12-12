@@ -185,6 +185,10 @@ public class DangKyActivity extends AppCompatActivity {
                 showSnackbar("Xác nhận mật khẩu không trùng");
                 check=-1;
             }
+            if(password.length()<6){
+                showSnackbar("Mật khẩu phải trên 6 ký tự");
+                check=-1;
+            }
         }
         return check;
 

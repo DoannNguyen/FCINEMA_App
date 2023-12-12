@@ -175,6 +175,14 @@ public class LichSuVeFragment extends Fragment {
         if (lichSuVeAdapter != null) {
             lichSuVeAdapter.notifyDataSetChanged();
         }
+        updateVisibility();
+    }
+    private void updateVisibility() {
+        if (list.isEmpty()) {
+            tvNoItem.setVisibility(View.VISIBLE);
+        } else {
+            tvNoItem.setVisibility(View.GONE);
+        }
     }
     private void getVeDat() {
         APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -184,12 +192,12 @@ public class LichSuVeFragment extends Fragment {
             public void onResponse(Call<List<LichSuVeModel>> call, Response<List<LichSuVeModel>> response) {
                 if(response.isSuccessful()){
                     if(response.body().size() != 0){
-                        tvNoItem.setVisibility(View.GONE);
                         list.clear();
                         assert response.body() != null;
                         originalList.addAll(response.body());
                         list.addAll(originalList);
                         lichSuVeAdapter.notifyDataSetChanged();
+                        updateVisibility();
                     }
                     new Handler().postDelayed(() -> mProgressDialog.DialogDismiss(),750);
                 }else{

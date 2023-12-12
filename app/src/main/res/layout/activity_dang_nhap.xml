@@ -52,6 +52,7 @@
                 android:layout_height="match_parent"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
+                android:maxLength="30"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,6 +70,7 @@
                 android:layout_height="match_parent"
                 android:hint="Mật khẩu"
                 android:inputType="textPassword"
+                android:maxLength="12"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
