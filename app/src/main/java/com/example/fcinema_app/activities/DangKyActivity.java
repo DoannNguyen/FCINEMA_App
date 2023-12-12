@@ -1,25 +1,36 @@
 package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.fcinema_app.MainActivity;
 import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.models.NguoiDung;
+import com.example.fcinema_app.models.RequestAuthEmail;
+import com.example.fcinema_app.models.ResetPasswordRequest;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -37,9 +48,13 @@ import retrofit2.Response;
 
 public class DangKyActivity extends AppCompatActivity {
 
-    private TextView tvDangNhap;
-    private TextInputEditText edEmail,edPassword,edRePass;
-    private ConstraintLayout mLayout;
+    private CoordinatorLayout coordinatorLayout;
+    private TextView tvDangNhap, tvResend,tvEmail;
+    private TextInputEditText edEmail,edPassword,edRePass,edCode;
+    private ImageView imgDissmiss;
+    private Dialog dialog;
+    private ProgressDialog progressDialog;
+    private CountDownTimer countDownTimer;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -47,15 +62,16 @@ public class DangKyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_ky);
 
+        coordinatorLayout=findViewById(R.id.coordinatorRegister);
         tvDangNhap = findViewById(R.id.tvDangNhapNgay);
         edEmail=findViewById(R.id.edEmailDangKy);
         edPassword=findViewById(R.id.edPassDangKy);
         edRePass=findViewById(R.id.edReturnPassDangKy);
-        mLayout = findViewById(R.id.layout_DangKy);
+
 
         findViewById(R.id.btnRegister).setOnClickListener(v -> {
             if(validateRegis()>0){
-                saveUser();
+                authEmail();
             }
         });
         tvDangNhap.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +83,71 @@ public class DangKyActivity extends AppCompatActivity {
         });
 
     }
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đang xử lý...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
 
-    private void saveUser(){
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+    private void dialogOTP(){
+        dialog = new Dialog(DangKyActivity.this);
+        dialog.setContentView(R.layout.layout_dialog_auth_email);
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            window.getAttributes().dimAmount = 0.8f;
+            window.getAttributes().flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        }
+
+        imgDissmiss=dialog.findViewById(R.id.imgDissmissDialog);
+        tvEmail=dialog.findViewById(R.id.tvEmailAuth);
+        edCode=dialog.findViewById(R.id.edCodeEmailAuth);
+        tvResend=dialog.findViewById(R.id.tvResentEmailAuth);
+
+        String email=edEmail.getText().toString().trim();
+        tvEmail.setText(email);
+
+        dialog.findViewById(R.id.btnSentAuthEmail).setOnClickListener(v -> {
+            int otpValue = Integer.parseInt(edCode.getText().toString().trim());
+            saveUser(otpValue);
+
+        });
+
+        imgDissmiss.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        dialog.show();
+        startCountdownTimer();
+    }
+    private void startCountdownTimer() {
+        countDownTimer = new CountDownTimer(30000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int secondsRemaining = (int) millisUntilFinished / 1000;
+                tvResend.setText(String.valueOf(secondsRemaining));
+            }
+
+            @Override
+            public void onFinish() {
+                tvResend.setText("Gửi lại code");
+                tvResend.setOnClickListener(v -> {
+                    authEmail();
+                    startCountdownTimer();
+                });
+            }
+        }.start();
+    }
+
+
+    private void saveUser(int otp){
         String email=edEmail.getText().toString().trim();
         String password=edPassword.getText().toString().trim();
         String hoten="";
@@ -84,8 +163,9 @@ public class DangKyActivity extends AppCompatActivity {
         Date ngaySinh=new Date();
         String diaChi="";
         Integer hienThi=1;
-        NguoiDung nguoiDung=new NguoiDung(email,hoten,password,dienThoai,base64Image,ngaySinh,diaChi,hienThi);
-        registerUser(nguoiDung);
+        NguoiDung values=new NguoiDung(email,hoten,password,dienThoai,base64Image,ngaySinh,diaChi,hienThi);
+        RequestAuthEmail requestAuthEmail=new RequestAuthEmail(otp,values);
+        registerUser(requestAuthEmail);
     }
 
     private int validateRegis(){
@@ -94,44 +174,78 @@ public class DangKyActivity extends AppCompatActivity {
         String password=edPassword.getText().toString().trim();
         String rePass=edRePass.getText().toString().trim();
         if(email.isEmpty() || password.isEmpty() ||rePass.isEmpty()){
-           // Toast.makeText(DangKyActivity.this, "Vui lòng nhập đủ các trường" , Toast.LENGTH_SHORT).show();
-            showSnackBar(mLayout, "Vui lòng nhập đủ các trường");
+            showSnackbar("Vui lòng nhập đủ các trường");
             check=-1;
         }else{
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                //Toast.makeText(DangKyActivity.this, "Email định dạng không đúng" , Toast.LENGTH_SHORT).show();
-                showSnackBar(mLayout, "Email định dạng không đúng");
+                showSnackbar("Email định dạng không đúng");
                 check=-1;
             }
             if(!password.equals(rePass)){
-                //Toast.makeText(DangKyActivity.this, "Xác nhận mật khẩu không trùng" , Toast.LENGTH_SHORT).show();
-                showSnackBar(mLayout, "Xác nhận mật khẩu không trùng");
+                showSnackbar("Xác nhận mật khẩu không trùng");
+                check=-1;
+            }
+            if(password.length()<6){
+                showSnackbar("Mật khẩu phải trên 6 ký tự");
                 check=-1;
             }
         }
         return check;
 
     }
-    private void registerUser(NguoiDung nguoiDung){
+    private void authEmail(){
+        showProgressDialog();
+        String email=edEmail.getText().toString().trim();
+        RequestAuthEmail requestAuthEmail=new RequestAuthEmail(email);
+        APIInterface apiInterface=APIClient.getClient().create(APIInterface.class);
+        Call<NguoiDung> call=apiInterface.authEmail(requestAuthEmail);
+        call.enqueue(new Callback<NguoiDung>() {
+            @Override
+            public void onResponse(Call<NguoiDung> call, Response<NguoiDung> response) {
+                dismissProgressDialog();
+                if(response.isSuccessful()){
+                    dialogOTP();
+                } else {
+                    try {
+                        String errorBody = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(errorBody);
+                        String errorMessage = jsonObject.getString("message");
+                        showSnackbar(""+errorMessage);
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<NguoiDung> call, Throwable t) {
+                Log.i("Lỗi",t.getMessage());
+
+            }
+        });
+    }
+    private void registerUser(RequestAuthEmail requestAuthEmail){
         APIInterface apiInterface= APIClient.getClient().create(APIInterface.class);
-        Call<ResponseBody>call=apiInterface.regiserUser(nguoiDung);
+        Call<ResponseBody>call=apiInterface.regiserUser(requestAuthEmail);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Intent iLogin = new Intent(DangKyActivity.this, DangNhapActivity.class);
                     startActivity(iLogin);
-                    //Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                    showSnackBar(mLayout, "Đăng ký thành công");
-                    finish();
+                    new Handler().postDelayed(() -> finish(), 1500);
+                    showSnackbar("Đăng ký thành công");
 
                 } else {
                     try {
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
                         String errorMessage = jsonObject.getString("message");
-                        //Toast.makeText(DangKyActivity.this, "" + errorMessage, Toast.LENGTH_SHORT).show();
-                        showSnackBar(mLayout, errorMessage);
+                        showSnackbar(""+errorMessage);
 
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -145,16 +259,23 @@ public class DangKyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //Toast.makeText(DangKyActivity.this, "Lôi" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                showSnackBar(mLayout,"Lỗi " + t.getMessage() );
+                showSnackbar("Lỗi"+t.getMessage());
                 Log.i("Lỗi",t.getMessage());
 
             }
         });
 
     }
-    private void showSnackBar(View view,String message){
-        Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
-        snackbar.show();
+
+    private void showSnackbar(String message){
+        Snackbar.make(coordinatorLayout,message, Snackbar.LENGTH_SHORT)
+                .show();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }

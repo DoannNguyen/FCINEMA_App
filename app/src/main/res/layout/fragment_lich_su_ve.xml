@@ -54,9 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Không có mục nào để hiển thị"
-            android:textColor="#C0C0C0"
-            android:visibility="gone"
-            android:textSize="16dp" />
+            android:textColor="#050505"
+            android:textSize="14dp"
+            android:visibility="gone" />
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

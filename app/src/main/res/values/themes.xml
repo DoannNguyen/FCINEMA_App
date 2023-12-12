@@ -5,7 +5,7 @@
          <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:navigationBarColor">?android:attr/colorPrimaryDark</item>
-        <item name="android:windowBackground">?android:attr/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/l_grey</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:textColor">@color/primary</item>
         <item name="android:textColorPrimary">@color/primary</item>
@@ -20,5 +20,19 @@
     </style>
     <style name="FontFamilySolgant">
         <item name="android:fontFamily">@font/merienda_regular</item> <!-- Adjust the text size as per your preference -->
+    </style>
+
+    <style name="customTextInputLayout" parent="Widget.Design.TextInputEditText">
+        <item name="enforceMaterialTheme">true</item>
+        <item name="enforceTextAppearance">true</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textAppearance">?attr/textAppearanceSubtitle1</item>
+        <item name="textInputLayoutFocusedRectEnabled">true</item>
+    </style>
+
+    <!-- date picker -->
+    <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?android:attr/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 </resources>
