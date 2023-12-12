@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.fcinema_app.MainActivity;
@@ -23,6 +24,7 @@ import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.Utils.NguoiDungCallback;
 import com.example.fcinema_app.models.NguoiDung;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.ByteArrayOutputStream;
@@ -50,6 +52,7 @@ public class DoiThongTinActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd");
     private String base64Image,imgOld;
+    private LinearLayout mLayout;
 
     int mYear,mMonth,mDate;
     @SuppressLint("MissingInflatedId")
@@ -66,6 +69,7 @@ public class DoiThongTinActivity extends AppCompatActivity {
         edDienThoai=findViewById(R.id.tnpDienThoai);
         edDiaChi=findViewById(R.id.tnpDiaChi);
         imgPicker=findViewById(R.id.imgThemAnh);
+        mLayout = findViewById(R.id.layout_DoiThongTin);
 
         imgBack.setOnClickListener(v -> {
             finish();
@@ -127,7 +131,8 @@ public class DoiThongTinActivity extends AppCompatActivity {
         String dienThoai=edDienThoai.getText().toString().trim();
         String diaChi=edDiaChi.getText().toString().trim();
         if(hoTen.isEmpty() || ngaySinh.isEmpty() || dienThoai.isEmpty() || diaChi.isEmpty()){
-            Toast.makeText(DoiThongTinActivity.this, "Vui lòng nhập đủ các trường" , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DoiThongTinActivity.this, "Vui lòng nhập đủ các trường" , Toast.LENGTH_SHORT).show();
+            showSnackBar(mLayout, "Vui lòng nhập đủ các trường");
             check=-1;
         }
         return check;
@@ -140,7 +145,8 @@ public class DoiThongTinActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(DoiThongTinActivity.this, "Cập nhật thông tin thành công" , Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(DoiThongTinActivity.this, "Cập nhật thông tin thành công" , Toast.LENGTH_SHORT).show();
+                    showSnackBar(mLayout, "Cập nhật thông tin thành công");
                 }
             }
 
@@ -250,5 +256,8 @@ public class DoiThongTinActivity extends AppCompatActivity {
         return email;
     }
 
-
+    private void showSnackBar(View view,String message){
+        Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
 }

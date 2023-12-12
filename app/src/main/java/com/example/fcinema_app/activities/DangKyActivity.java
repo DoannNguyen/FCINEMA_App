@@ -1,6 +1,7 @@
 package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import com.example.fcinema_app.R;
 import com.example.fcinema_app.Utils.APIClient;
 import com.example.fcinema_app.Utils.APIInterface;
 import com.example.fcinema_app.models.NguoiDung;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -37,6 +39,7 @@ public class DangKyActivity extends AppCompatActivity {
 
     private TextView tvDangNhap;
     private TextInputEditText edEmail,edPassword,edRePass;
+    private ConstraintLayout mLayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,7 +51,7 @@ public class DangKyActivity extends AppCompatActivity {
         edEmail=findViewById(R.id.edEmailDangKy);
         edPassword=findViewById(R.id.edPassDangKy);
         edRePass=findViewById(R.id.edReturnPassDangKy);
-
+        mLayout = findViewById(R.id.layout_DangKy);
 
         findViewById(R.id.btnRegister).setOnClickListener(v -> {
             if(validateRegis()>0){
@@ -91,15 +94,18 @@ public class DangKyActivity extends AppCompatActivity {
         String password=edPassword.getText().toString().trim();
         String rePass=edRePass.getText().toString().trim();
         if(email.isEmpty() || password.isEmpty() ||rePass.isEmpty()){
-            Toast.makeText(DangKyActivity.this, "Vui lòng nhập đủ các trường" , Toast.LENGTH_SHORT).show();
+           // Toast.makeText(DangKyActivity.this, "Vui lòng nhập đủ các trường" , Toast.LENGTH_SHORT).show();
+            showSnackBar(mLayout, "Vui lòng nhập đủ các trường");
             check=-1;
         }else{
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                Toast.makeText(DangKyActivity.this, "Email định dạng không đúng" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DangKyActivity.this, "Email định dạng không đúng" , Toast.LENGTH_SHORT).show();
+                showSnackBar(mLayout, "Email định dạng không đúng");
                 check=-1;
             }
             if(!password.equals(rePass)){
-                Toast.makeText(DangKyActivity.this, "Xác nhận mật khẩu không trùng" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DangKyActivity.this, "Xác nhận mật khẩu không trùng" , Toast.LENGTH_SHORT).show();
+                showSnackBar(mLayout, "Xác nhận mật khẩu không trùng");
                 check=-1;
             }
         }
@@ -115,7 +121,8 @@ public class DangKyActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Intent iLogin = new Intent(DangKyActivity.this, DangNhapActivity.class);
                     startActivity(iLogin);
-                    Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    showSnackBar(mLayout, "Đăng ký thành công");
                     finish();
 
                 } else {
@@ -123,7 +130,8 @@ public class DangKyActivity extends AppCompatActivity {
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
                         String errorMessage = jsonObject.getString("message");
-                        Toast.makeText(DangKyActivity.this, "" + errorMessage, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(DangKyActivity.this, "" + errorMessage, Toast.LENGTH_SHORT).show();
+                        showSnackBar(mLayout, errorMessage);
 
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -137,11 +145,16 @@ public class DangKyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(DangKyActivity.this, "Lôi" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DangKyActivity.this, "Lôi" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                showSnackBar(mLayout,"Lỗi " + t.getMessage() );
                 Log.i("Lỗi",t.getMessage());
 
             }
         });
 
+    }
+    private void showSnackBar(View view,String message){
+        Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }
