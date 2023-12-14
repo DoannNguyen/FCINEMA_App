@@ -152,18 +152,13 @@ public class DangKyActivity extends AppCompatActivity {
         String password=edPassword.getText().toString().trim();
         String hoten="";
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user1);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-
-        String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        String anh = "";
 
         String dienThoai="";
         Date ngaySinh=new Date();
         String diaChi="";
         Integer hienThi=1;
-        NguoiDung values=new NguoiDung(email,hoten,password,dienThoai,base64Image,ngaySinh,diaChi,hienThi);
+        NguoiDung values=new NguoiDung(email,hoten,password,dienThoai,anh,ngaySinh,diaChi,hienThi);
         RequestAuthEmail requestAuthEmail=new RequestAuthEmail(otp,values);
         registerUser(requestAuthEmail);
     }
