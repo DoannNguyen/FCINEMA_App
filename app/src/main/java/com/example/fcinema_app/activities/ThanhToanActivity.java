@@ -86,7 +86,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         setupProgressDialog(mProgressDialog, dialog);
         ListView listView = findViewById(R.id.lvDoAn2);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         Bundle bundle = getIntent().getBundleExtra("value");
         assert bundle != null;
@@ -197,7 +197,6 @@ public class ThanhToanActivity extends AppCompatActivity {
         rdoTienMat = findViewById(R.id.rdoTienMat);
         rdoZalopay = findViewById(R.id.rdoZaloPay);
         imgPoster=findViewById(R.id.imgPosterPayment);
-        LinearLayout layout = findViewById(R.id.layout_thanhToan);
         tvNoFood = findViewById(R.id.tvNoFood);
         tvTienDoAn = findViewById(R.id.tvTienDoAnTT);
     }
