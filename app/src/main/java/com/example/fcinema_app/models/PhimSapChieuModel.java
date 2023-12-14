@@ -24,6 +24,8 @@ public class PhimSapChieuModel implements Serializable {
     private String daoDien;
     @SerializedName("moTa")
     private String moTa;
+    @SerializedName("dienVien")
+    private String dienVien;
 
     public PhimSapChieuModel() {
     }
@@ -38,6 +40,14 @@ public class PhimSapChieuModel implements Serializable {
         this.ngonNgu = ngonNgu;
         this.daoDien = daoDien;
         this.moTa = moTa;
+    }
+
+    public String getDienVien() {
+        return dienVien;
+    }
+
+    public void setDienVien(String dienVien) {
+        this.dienVien = dienVien;
     }
 
     public String getImage() {

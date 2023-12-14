@@ -127,7 +127,7 @@ public class CaiDatFragment extends Fragment {
                 Glide.with(imgUser.getContext())
                         .load(anh)
                         .centerCrop()
-                        .placeholder(R.drawable.img_default)
+                        .placeholder(R.drawable.user_default)
                         .into(imgUser);
             }
 

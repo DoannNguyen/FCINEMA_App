@@ -9,41 +9,44 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PhimModel implements Serializable {
-    @SerializedName("anh") String image;
+    @SerializedName("anh")
+    private String image;
     @SerializedName("idPhim")
-    String idPhim;
+    private String idPhim;
     @SerializedName("tenPhim")
-    String tenPhim;
+    private String tenPhim;
     @SerializedName("ngonNgu")
-    String ngonNgu;
+    private String ngonNgu;
     @SerializedName("moTa")
-    String moTa;
+    private String moTa;
     @SerializedName("hangSX")
-    String hangSX;
+    private String hangSX;
     @SerializedName("nuocSX")
-    String nuocSX;
+    private String nuocSX;
     @SerializedName("namSX")
-    String namSX;
+    private String namSX;
     @SerializedName("thoiLuong")
-    String thoiLuong;
+    private String thoiLuong;
     @SerializedName("daoDien")
-    String daoDien;
+    private String daoDien;
     @SerializedName("trangThai")
-    String trangThai;
+    private String trangThai;
     @SerializedName("ngayChieu")
-    Date ngayChieu;
+    private Date ngayChieu;
     @SerializedName("caChieu")
-    String caChieu;
+    private String caChieu;
     @SerializedName("giaPhim")
-    String giaPhim;
+    private String giaPhim;
     @SerializedName("tenPhongChieu")
-    String tenPhong;
+    private String tenPhong;
     @SerializedName("tenTheLoai")
-    String theLoai;
+    private String theLoai;
     @SerializedName("idLichChieu")
-    int idLichChieu;
+    private int idLichChieu;
     @SerializedName("idPhongChieu")
-    int idPhongChieu;
+    private int idPhongChieu;
+    @SerializedName("dienVien")
+    private String dienVien;
 
     public int getIdPhongChieu() {
         return idPhongChieu;
@@ -236,5 +239,13 @@ public class PhimModel implements Serializable {
 
     public void setIdLichChieu(int idLichChieu) {
         this.idLichChieu = idLichChieu;
+    }
+
+    public String getDienVien() {
+        return dienVien;
+    }
+
+    public void setDienVien(String dienVien) {
+        this.dienVien = dienVien;
     }
 }

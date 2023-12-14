@@ -150,7 +150,7 @@
                             android:id="@+id/tvTenPhimXNDV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLines="2"
+                            android:maxLines="1"
                             android:text="Ký sinh trùng"
                             android:textAlignment="textEnd"
                             android:textSize="13dp"
@@ -242,12 +242,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ListView
-                        android:id="@+id/lvDoAn2"
+                    <androidx.coordinatorlayout.widget.CoordinatorLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@null"
-                        android:dividerHeight="0dp" />
+                        >
+                        <ListView
+                            android:id="@+id/lvDoAn2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp" />
+                        <TextView
+                            android:id="@+id/tvNoFood"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Không có đồ ăn nào được chọn"
+                            android:textSize="12dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/silver"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+                    </androidx.coordinatorlayout.widget.CoordinatorLayout>
                 </ScrollView>
 
                 <View
@@ -320,7 +335,7 @@
                                 android:layout_gravity="center"
                                 android:paddingLeft="10dp"
                                 android:text="ZaloPay"
-                                android:textSize="13dp" />
+                                android:textSize="13sp" />
 
                         </LinearLayout>
 
@@ -386,7 +401,12 @@
                             android:layout_marginStart="18dp"
                             android:text="Phí thanh toán"
                             android:textSize="13dp" />
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="18dp"
+                            android:text="Tiền đồ ăn:"
+                            android:textSize="13dp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -410,7 +430,16 @@
                             android:layout_marginEnd="18dp"
                             android:text="Miễn phí"
                             android:textSize="13dp" />
-
+                        <TextView
+                            android:id="@+id/tvTienDoAnTT"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginEnd="18dp"
+                            android:text="150 000"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
                         <TextView
                             android:id="@+id/tvTongThanhToanXNDV"
                             android:layout_width="wrap_content"

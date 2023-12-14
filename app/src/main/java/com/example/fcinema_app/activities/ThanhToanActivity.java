@@ -53,27 +53,21 @@ import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class ThanhToanActivity extends AppCompatActivity {
 
-    private androidx.appcompat.widget.Toolbar mToolbar;
-    private TextView tvTenPhim, tvThoiLuong, tvNgayChieu, tvPhongChieu, tvCaChieu, tvViTri, tvGia, tvSoLuong, tvTongTT;
-    private SimpleDateFormat mSimpleDateFormat;
+    private TextView tvTenPhim, tvThoiLuong, tvNgayChieu, tvPhongChieu, tvCaChieu, tvViTri, tvGia;
+    private TextView tvSoLuong, tvTongTT, tvNoFood, tvTienDoAn;
     private VeModel veModel;
     private ViTriGheModel viTriGheModel;
     private Button btnXacNhan;
-    private JsonArray jsonArray;
     private RadioButton rdoTienMat, rdoZalopay;
     private ImageView imgPoster;
     private String token;
-    private String[] jsonObject;
-    private StringBuilder stringBuilder = new StringBuilder();
+    private final StringBuilder stringBuilder = new StringBuilder();
     private String email;
-    private Dialog mDialog;
     private ProgressDialog mProgressDialog;
     DecimalFormat decimalFormat=new DecimalFormat("###,###");
     private List<DoAnModel> models;
-    private DoAnAdapter2 mAnAdapter2;
-    private LinearLayout mLayout;
 
-    @SuppressLint({"MissingInflatedId", "SimpleDateFormat"})
+    @SuppressLint({"MissingInflatedId", "SimpleDateFormat", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,33 +79,14 @@ public class ThanhToanActivity extends AppCompatActivity {
         // ZaloPay SDK Init
         ZaloPaySDK.init(553, Environment.SANDBOX);
 
-        tvTenPhim =findViewById(R.id.tvTenPhimXNDV);
-        tvThoiLuong = findViewById(R.id.tvThoiLuongXNDV);
-        tvNgayChieu = findViewById(R.id.tvNgayChieuXNDV);
-        tvPhongChieu = findViewById(R.id.tvPhongChieuXNDV);
-        tvCaChieu = findViewById(R.id.tvCaChieuXNDV);
-        tvViTri = findViewById(R.id.tvVidTriGhe);
-        tvGia = findViewById(R.id.tvGIaiVeXNDV);
-        tvSoLuong = findViewById(R.id.tvSoLuongXNDV);
-        tvTongTT = findViewById(R.id.tvTongThanhToanXNDV);
-        btnXacNhan = findViewById(R.id.btnXacNhanDatVe);
-        rdoTienMat = findViewById(R.id.rdoTienMat);
-        rdoZalopay = findViewById(R.id.rdoZaloPay);
-        imgPoster=findViewById(R.id.imgPosterPayment);
-        mDialog = new Dialog(ThanhToanActivity.this);
-        mDialog.setContentView(R.layout.progress_dialog);
-        mLayout = findViewById(R.id.layout_thanhToan);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = 400;
-        mDialog.getWindow().setAttributes(lp);
-        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mDialog.getWindow().setDimAmount(0.7f);
-        mProgressDialog = new ProgressDialog(mDialog, "Đang tải...");
-        mProgressDialog.setCancelable(false);
+        onBindView();
+        Dialog dialog = new Dialog(ThanhToanActivity.this);
+        dialog.setContentView(R.layout.progress_dialog);
+        mProgressDialog = new ProgressDialog(dialog, "Đang tải...");
+        setupProgressDialog(mProgressDialog, dialog);
         ListView listView = findViewById(R.id.lvDoAn2);
 
-        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Bundle bundle = getIntent().getBundleExtra("value");
         assert bundle != null;
@@ -120,27 +95,27 @@ public class ThanhToanActivity extends AppCompatActivity {
         email = bundle.getString("email");
         ArrayList<Integer> ghe = bundle.getIntegerArrayList("ghe");
          models = (List<DoAnModel>) bundle.getSerializable("doAn");
-        mAnAdapter2 = new DoAnAdapter2(ThanhToanActivity.this, models);
-        listView.setAdapter(mAnAdapter2);
+        DoAnAdapter2 anAdapter2 = new DoAnAdapter2(ThanhToanActivity.this, models);
+        listView.setAdapter(anAdapter2);
 
-        jsonArray = new JsonArray();
+        JsonArray jsonArray = new JsonArray();
         for (Integer value : ghe) {
             stringBuilder.append(MuaVeActivity.ConverterChairName(value)).append(", ");
             jsonArray.add(MuaVeActivity.ConverterChairName(value));
         }
         if (stringBuilder.length() > 0) {
             stringBuilder.setLength(stringBuilder.length() - 2);
-            jsonObject = stringBuilder.toString().split(", ");
+            String[] jsonObject = stringBuilder.toString().split(", ");
         }
-        Log.e("TAG", "onCreate: "+ stringBuilder.toString());
         int giaDoAn = 0;
 
-        if(models != null){
+        if(models.size() != 0){
             for( int i = 0 ; i < models.size() ; i++){
                 giaDoAn += (models.get(i).getSoLuong()* models.get(i).getGiaDoAn());
             }
+            tvNoFood.setVisibility(View.GONE);
         }
-
+        tvTienDoAn.setText(decimalFormat.format(giaDoAn)+"đ");
        if(model != null && soLuongGhe != 0){
            String formatGiaVe=decimalFormat.format(Float.parseFloat(model.getGiaPhim()));
            String formatTong=decimalFormat.format((soLuongGhe*Integer.parseInt(model.getGiaPhim())+giaDoAn));
@@ -154,7 +129,7 @@ public class ThanhToanActivity extends AppCompatActivity {
 
            tvTenPhim.setText(model.getTenPhim());
            tvThoiLuong.setText(model.getThoiLuong());
-           tvNgayChieu.setText(mSimpleDateFormat.format(model.getNgayChieu()));
+           tvNgayChieu.setText(simpleDateFormat.format(model.getNgayChieu()));
            tvPhongChieu.setText(model.getTenPhong());
            tvCaChieu.setText(model.getCaChieu());
            tvViTri.setText(stringBuilder.toString());
@@ -166,7 +141,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         CreateOrder orderApi = new CreateOrder();
         try {
             assert model != null;
-            JSONObject data = orderApi.createOrder(""+(soLuongGhe*Integer.parseInt(model.getGiaPhim())));
+            JSONObject data = orderApi.createOrder(""+(soLuongGhe*Integer.parseInt(model.getGiaPhim())+giaDoAn));
             String code = data.getString("returncode");
             if (code.equals("1")) {
                 token = data.getString("zptranstoken").toString();
@@ -179,7 +154,7 @@ public class ThanhToanActivity extends AppCompatActivity {
        veModel = new VeModel();
        veModel.setIdVe("VIE"+ new Date().getTime());
         veModel.setSoVe(soLuongGhe);
-        veModel.setNgayMua(mSimpleDateFormat.format(Calendar.getInstance().getTime()));
+        veModel.setNgayMua(simpleDateFormat.format(Calendar.getInstance().getTime()));
         veModel.setTongTien((soLuongGhe*Integer.parseInt(model.getGiaPhim()))+giaDoAn);
         veModel.setIdLichChieu(model.getIdLichChieu());
         veModel.setTrangThai(1);
@@ -190,8 +165,6 @@ public class ThanhToanActivity extends AppCompatActivity {
         viTriGheModel.setTenGhe(stringBuilder.toString());
         viTriGheModel.setIdPhongChieu(model.getIdPhongChieu());
         viTriGheModel.setIdVe(veModel.getIdVe());
-
-        mToolbar = findViewById(R.id.toolbarTT);
 
         findViewById(R.id.imgBackFromPaymentRequest).setOnClickListener(v -> {
             finish();
@@ -208,6 +181,25 @@ public class ThanhToanActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void onBindView() {
+        tvTenPhim =findViewById(R.id.tvTenPhimXNDV);
+        tvThoiLuong = findViewById(R.id.tvThoiLuongXNDV);
+        tvNgayChieu = findViewById(R.id.tvNgayChieuXNDV);
+        tvPhongChieu = findViewById(R.id.tvPhongChieuXNDV);
+        tvCaChieu = findViewById(R.id.tvCaChieuXNDV);
+        tvViTri = findViewById(R.id.tvVidTriGhe);
+        tvGia = findViewById(R.id.tvGIaiVeXNDV);
+        tvSoLuong = findViewById(R.id.tvSoLuongXNDV);
+        tvTongTT = findViewById(R.id.tvTongThanhToanXNDV);
+        btnXacNhan = findViewById(R.id.btnXacNhanDatVe);
+        rdoTienMat = findViewById(R.id.rdoTienMat);
+        rdoZalopay = findViewById(R.id.rdoZaloPay);
+        imgPoster=findViewById(R.id.imgPosterPayment);
+        LinearLayout layout = findViewById(R.id.layout_thanhToan);
+        tvNoFood = findViewById(R.id.tvNoFood);
+        tvTienDoAn = findViewById(R.id.tvTienDoAnTT);
     }
 
     private void AddVeAndViTriGhe(){
@@ -262,5 +254,14 @@ public class ThanhToanActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
+    }
+    private void setupProgressDialog(ProgressDialog progressDialog,Dialog dialog){
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = 300;
+        dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setDimAmount(0.7f);
+        progressDialog.setCancelable(false);
     }
 }

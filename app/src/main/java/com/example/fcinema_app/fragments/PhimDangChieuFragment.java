@@ -39,13 +39,12 @@ import com.example.fcinema_app.models.BanerModel;
 import com.example.fcinema_app.models.NguoiDung;
 import com.example.fcinema_app.models.PhimModel;
 import com.example.fcinema_app.models.ProgressDialog;
-import com.example.fcinema_app.models.TheLoaiModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -61,15 +60,14 @@ public class PhimDangChieuFragment extends Fragment {
         private CircleIndicator circleIndicator;
         private ImageSlideShowAdapter imageSlideShowAdapter;
         private List<PhimModel> mModelList=new ArrayList<>();
-        private List<PhimModel> imageUrlList = new ArrayList<>();
-        private List<BanerModel>banerModelList=new ArrayList<>();
-        //private List<BannerModel> imageUrlList = new ArrayList<>();
+        private final List<BanerModel>banerModelList=new ArrayList<>();
 
         private PhimAdapter mAdapter;
-        private TextView tvHelloUser, tvNoItem, tvSeeAll;
-        private APIInterface mAPIInterface;
+        private TextView tvHelloUser;
+    private TextView tvNoItem;
+    private APIInterface mAPIInterface;
         private LinearLayout mLayout;
-        private List<TextView> textViews = new ArrayList<>();
+        private final List<TextView> textViews = new ArrayList<>();
         private Timer timer;
         private List<String> listDate;
         private ProgressDialog mProgressDialog;
@@ -92,24 +90,17 @@ public class PhimDangChieuFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_phim_dang_chieu, container, false);
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mModelList = new ArrayList<>();
-        List<TheLoaiModel> list2 = new ArrayList<>();
         listDate = new ArrayList<>();
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.progress_dialog);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = 400;
-        dialog.getWindow().setAttributes(lp);
-        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.getWindow().setDimAmount(0.7f);
         mProgressDialog = new ProgressDialog(dialog,"Đang tải...");
-        mProgressDialog.setCancelable(false);
+        setupProgressDialog(mProgressDialog, dialog);
 
         viewPager=view.findViewById(R.id.viewPagerSlider);
         circleIndicator=view.findViewById(R.id.circle_indicator);
@@ -118,7 +109,7 @@ public class PhimDangChieuFragment extends Fragment {
         tvHelloUser=view.findViewById(R.id.tvHelloUser);
         mLayout = view.findViewById(R.id.buttonContainer2);
         tvNoItem = view.findViewById(R.id.tvNoItemPhim);
-        tvSeeAll = view.findViewById(R.id.tvSeeAll);
+        TextView tvSeeAll = view.findViewById(R.id.tvSeeAll);
         mAPIInterface = APIClient.getClient().create(APIInterface.class);
         getTime();
 
@@ -147,6 +138,7 @@ public class PhimDangChieuFragment extends Fragment {
                 Intent intent = new Intent(getContext(), ChiTietPhimActivity.class);
                 intent.putExtra("phim", mModelList.get(i));
                 intent.putExtra("email", getEmail());
+                Log.e("TAG", "onItemClick: "+mModelList.get(i).getDienVien());
                 startActivity(intent);
             }
         });
@@ -201,7 +193,6 @@ public class PhimDangChieuFragment extends Fragment {
     }
     private void setupImageSlideShow() {
         imageSlideShowAdapter=new ImageSlideShowAdapter(getContext(),banerModelList);
-        imageUrlList.clear();
 
         viewPager.setAdapter(imageSlideShowAdapter);
         circleIndicator.setViewPager(viewPager);
@@ -243,9 +234,10 @@ public class PhimDangChieuFragment extends Fragment {
         Call<List<BanerModel>>call=mAPIInterface.getBaners();
         call.enqueue(new Callback<List<BanerModel>>() {
             @Override
-            public void onResponse(Call<List<BanerModel>> call, Response<List<BanerModel>> response) {
+            public void onResponse(@NonNull Call<List<BanerModel>> call, @NonNull Response<List<BanerModel>> response) {
                 if(response.isSuccessful()){
                     banerModelList.clear();
+                    assert response.body() != null;
                     banerModelList.addAll(response.body());
                     if (imageSlideShowAdapter != null) {
                         imageSlideShowAdapter.notifyDataSetChanged();
@@ -256,7 +248,7 @@ public class PhimDangChieuFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<BanerModel>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<BanerModel>> call, @NonNull Throwable t) {
 
             }
         });
@@ -360,13 +352,20 @@ public class PhimDangChieuFragment extends Fragment {
                     view.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.radius_fill));
                 }
             });
-            Log.e("TAG", "getTime: "+(new SimpleDateFormat("EE", Locale.ENGLISH).format(calendar.getTime())) );
-            Log.e("TAG", "getTime: "+ (new SimpleDateFormat("dd/MM").format(calendar.getTime())));
             listDate.add(new SimpleDateFormat("yyyy/MM/dd").format(calendar.getTime()));
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             mLayout.addView(textView);
             textViews.add(textView);
         }
 
+    }
+    private void setupProgressDialog(ProgressDialog progressDialog,Dialog dialog){
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = 300;
+        Objects.requireNonNull(dialog.getWindow()).setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setDimAmount(0.7f);
+        progressDialog.setCancelable(false);
     }
 }
