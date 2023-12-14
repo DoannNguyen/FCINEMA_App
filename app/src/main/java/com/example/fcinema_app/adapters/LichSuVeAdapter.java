@@ -1,8 +1,7 @@
 package com.example.fcinema_app.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,15 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.example.fcinema_app.R;
-import com.example.fcinema_app.activities.MuaVeActivity;
 import com.example.fcinema_app.models.LichSuVeModel;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LichSuVeAdapter extends BaseAdapter {
 
-    private SimpleDateFormat mSimpleDateFormat;
+    private final SimpleDateFormat mSimpleDateFormat;
 
 
     @Override
@@ -45,10 +41,11 @@ public class LichSuVeAdapter extends BaseAdapter {
         return 0;
     }
 
-    public class ViewHolder{
+    public static class ViewHolder{
         TextView tvMaVe, tvTrangThai, tvTenPhim, tvSoLuongVe, tvNgayChieu, tvCaChieu, tvTenGhe,tvNgayMua,tvTongTien;
     }
 
+    @SuppressLint({"InflateParams", "SetTextI18n"})
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
@@ -98,27 +95,14 @@ public class LichSuVeAdapter extends BaseAdapter {
     }
 
 
-   private Context context;
+   private final Context context;
 
-    private List<LichSuVeModel> list;
+    private final List<LichSuVeModel> list;
 
+    @SuppressLint("SimpleDateFormat")
     public LichSuVeAdapter(Context context, List<LichSuVeModel> list) {
         this.context = context;
         this.list = list;
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
-
-//    public static String ConverterChair(String data){
-//        String newData = data.replace("[","").replace("]","");
-//        String[] convert = newData.split(",");
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (String value : convert){
-//            stringBuilder.append(MuaVeActivity.ConverterChairName(Integer.parseInt(value)) +",");
-//        }
-//        if(stringBuilder.length() > 0){
-//            stringBuilder.setLength(stringBuilder.length() - 1);
-//        }
-//        return stringBuilder.toString();
-//    }
-
 }

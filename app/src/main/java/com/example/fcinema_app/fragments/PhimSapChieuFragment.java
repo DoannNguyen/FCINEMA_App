@@ -51,10 +51,9 @@ public class PhimSapChieuFragment extends Fragment {
     private APIInterface mAPIInterface;
     private List<TheLoaiModel> mList;
     private LinearLayout mLayout;
-    private List<TextView> textViews = new ArrayList<>();
+    private final List<TextView> textViews = new ArrayList<>();
     private TextView tvNoItem;
     private ProgressDialog mProgressDialog;
-    private Dialog mDialog;
 
     public PhimSapChieuFragment() {
         // Required empty public constructor
@@ -83,16 +82,10 @@ public class PhimSapChieuFragment extends Fragment {
         tvNoItem = view.findViewById(R.id.tvNoItemPSC);
         tvNoItem.setVisibility(View.GONE);
 
-        mDialog = new Dialog(getContext());
-        mDialog.setContentView(R.layout.progress_dialog);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height =  400;
-        mDialog.getWindow().setAttributes(lp);
-        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mDialog.getWindow().setDimAmount(0.7f);
-        mProgressDialog = new ProgressDialog(mDialog, "Đang tải...");
-        mProgressDialog.setCancelable(false);
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.progress_dialog);
+        mProgressDialog = new ProgressDialog(dialog, "Đang tải...");
+        setupProgressDialog(mProgressDialog, dialog);
         list = new ArrayList<>();
         mList = new ArrayList<>();
         mAPIInterface = APIClient.getClient().create(APIInterface.class);
@@ -150,7 +143,7 @@ public class PhimSapChieuFragment extends Fragment {
                         assert response.body() != null;
                         mList.addAll(response.body());
                         for(int i = 0 ; i <= mList.size() ; i ++){
-                            TextView textView = new TextView(getContext());
+                            TextView textView = new TextView(requireContext());
                             textView.setTag(i);
                             textView.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.radius));
                             textView.setTextSize(13);
@@ -227,5 +220,13 @@ public class PhimSapChieuFragment extends Fragment {
             }
         });
     }
-
+    private void setupProgressDialog(ProgressDialog progressDialog,Dialog dialog){
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = 300;
+        dialog.getWindow().setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setDimAmount(0.7f);
+        progressDialog.setCancelable(false);
+    }
 }

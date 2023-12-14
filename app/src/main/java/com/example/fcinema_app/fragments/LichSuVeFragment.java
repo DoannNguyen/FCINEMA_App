@@ -88,14 +88,8 @@ public class LichSuVeFragment extends Fragment {
 
         mDialog = new Dialog(requireContext());
         mDialog.setContentView(R.layout.progress_dialog);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height =  400;
-        mDialog.getWindow().setAttributes(lp);
-        mDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        mDialog.getWindow().setDimAmount(0.7f);
         mProgressDialog = new ProgressDialog(mDialog, "Đang tải...");
-        mProgressDialog.setCancelable(false);
+        setupProgressDialog(mProgressDialog,mDialog);
         mProgressDialog.DialogShowing();
         getVeDat();
         lichSuVeAdapter = new LichSuVeAdapter(getContext(),list);
@@ -189,8 +183,9 @@ public class LichSuVeFragment extends Fragment {
         Call<List<LichSuVeModel>> call = apiInterface.getVeDat(getEmail());
         call.enqueue(new Callback<List<LichSuVeModel>>() {
             @Override
-            public void onResponse(Call<List<LichSuVeModel>> call, Response<List<LichSuVeModel>> response) {
+            public void onResponse(@NonNull Call<List<LichSuVeModel>> call, @NonNull Response<List<LichSuVeModel>> response) {
                 if(response.isSuccessful()){
+                    assert response.body() != null;
                     if(response.body().size() != 0){
                         list.clear();
                         assert response.body() != null;
@@ -206,7 +201,7 @@ public class LichSuVeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<LichSuVeModel>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<LichSuVeModel>> call, @NonNull Throwable t) {
                 Log.e("TAG", "onFailure: "+t.getMessage() );
             }
         });
@@ -217,5 +212,14 @@ public class LichSuVeFragment extends Fragment {
            return activity.getEmail();
         }
         return null;
+    }
+    private void setupProgressDialog(ProgressDialog progressDialog,Dialog dialog){
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.width =  WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = 300;
+        Objects.requireNonNull(dialog.getWindow()).setAttributes(lp);
+        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.getWindow().setDimAmount(0.7f);
+        progressDialog.setCancelable(false);
     }
 }

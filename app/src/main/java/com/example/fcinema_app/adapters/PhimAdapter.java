@@ -1,11 +1,6 @@
 package com.example.fcinema_app.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
@@ -22,13 +15,12 @@ import com.example.fcinema_app.models.PhimModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class PhimAdapter extends BaseAdapter implements Filterable {
 
-    private Context mContext;
+    private final Context mContext;
     private List<PhimModel> mList;
-    private List<PhimModel> list;
+    private final List<PhimModel> list;
     Costumfilter mCostumfilter;
 
     public PhimAdapter(Context context, List<PhimModel> list) {
@@ -63,9 +55,8 @@ public class PhimAdapter extends BaseAdapter implements Filterable {
         return mCostumfilter;
     }
 
-    private class PhimViewHolder{
+    private static class PhimViewHolder{
         ImageView mImageView;
-        TextView tv;
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -95,7 +86,7 @@ public class PhimAdapter extends BaseAdapter implements Filterable {
             FilterResults results = new FilterResults();
                 constraint = constraint.toString().toLowerCase();
                 ArrayList<PhimModel> filters = new ArrayList<>();
-                if(constraint != null && constraint.length() != 0){
+                if(constraint.length() != 0){
                     for (int i = 0; i < list.size(); i++) {
                         //probleme peut etre ici
                         if (list.get(i).getTenPhim().toLowerCase().contains(constraint.toString().toLowerCase())) {

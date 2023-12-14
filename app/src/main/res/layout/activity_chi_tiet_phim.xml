@@ -163,29 +163,6 @@
                             android:textSize="13dp"
                             android:textStyle="bold" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"
-                            android:text="Diễn viên:  "
-                            android:textSize="13dp"
-                            android:textStyle="italic" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bong Jong-ho"
-                            android:id="@+id/tvDienVienCTP"
-                            android:textSize="13dp"
-                            android:textStyle="bold"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginTop="5dp"/>
-                    </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -265,8 +242,33 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Diễn viên:  "
+                    android:textSize="13dp"
+                    android:textStyle="italic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bong Jong-ho"
+                    android:id="@+id/tvDienVienCTP"
+                    android:textSize="13dp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="2"/>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"

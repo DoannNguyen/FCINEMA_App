@@ -26,7 +26,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
 
     ImageView mImageView;
     TextView tvTenPhim, tvGiaPhim, tvTheLoai, tvQuocGia, tvNamSX, tvThoiLuong, tvNgonNgu, tvDaoDien,
-            tvNgayChieu, tvCaChieu, tvPhongchieu, tvMoTa;
+            tvNgayChieu, tvCaChieu, tvPhongchieu, tvMoTa, tvDienVien;
     androidx.appcompat.widget.Toolbar mToolbar;
     Button  btnChonSuatChieu;
     private SimpleDateFormat mSimpleDateFormat;
@@ -50,6 +50,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
         tvCaChieu = findViewById(R.id.tvCaChieuCTP);
         tvPhongchieu = findViewById(R.id.tvPhongChieuCTP);
         tvMoTa = findViewById(R.id.tvMotaCTP);
+        tvDienVien = findViewById(R.id.tvDienVienCTP);
         mToolbar = findViewById(R.id.toolbarCTV);
         btnChonSuatChieu = findViewById(R.id.btnChonSUatChieu);
 
@@ -81,6 +82,11 @@ public class ChiTietPhimActivity extends AppCompatActivity {
             tvCaChieu.setText(phimModel.getCaChieu());
             tvPhongchieu.setText(phimModel.getTenPhong());
             tvMoTa.setText(phimModel.getMoTa());
+            if (phimModel.getDienVien() != null){
+                tvDienVien.setText(phimModel.getDienVien().replace("\"","").replace("\\",""));
+            }else{
+                tvDienVien.setText("");
+            }
         }
 
         btnChonSuatChieu.setOnClickListener(new View.OnClickListener() {
