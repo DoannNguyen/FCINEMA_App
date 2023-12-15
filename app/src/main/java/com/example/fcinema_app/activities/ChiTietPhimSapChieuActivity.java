@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
 public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
 
     private ImageView image;
-    private TextView tenPhim, theLoai, quocGia, namSX, thoiLuong, ngonNgu, daoDien, moTa;
+    private TextView tenPhim, theLoai, quocGia, namSX, thoiLuong, ngonNgu, daoDien, moTa, tvDienVien;
     private androidx.appcompat.widget.Toolbar mToolbar;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -38,6 +38,7 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
         daoDien = findViewById(R.id.DaoDienCTPSC);
         moTa = findViewById(R.id.motaCTPSC);
         mToolbar = findViewById(R.id.toolbarPSC);
+        tvDienVien = findViewById(R.id.DienVienCTPSC);
 
 
         findViewById(R.id.imgBackFromDetailPSC).setOnClickListener(v -> {
@@ -60,7 +61,11 @@ public class ChiTietPhimSapChieuActivity extends AppCompatActivity {
             ngonNgu.setText(phimSapChieuModel.getNgonNgu());
             daoDien.setText(phimSapChieuModel.getDaoDien());
             moTa.setText(phimSapChieuModel.getMoTa());
-
+            if(phimSapChieuModel.getDienVien() != null){
+                tvDienVien.setText(phimSapChieuModel.getDienVien().replace("\"","").replace("\\",""));
+            }else {
+                tvDienVien.setText("");
+            }
         }
     }
 }

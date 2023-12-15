@@ -49,7 +49,6 @@ public class DangNhapActivity extends AppCompatActivity {
     private ImageView imgLogingWithGG;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 35;
-    private ConstraintLayout mLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +61,6 @@ public class DangNhapActivity extends AppCompatActivity {
         edPassword=findViewById(R.id.edPassDangNhap);
         ckRember=findViewById(R.id.ckRemember);
         imgLogingWithGG = findViewById(R.id.imgLogingWithGG);
-        mLayout = findViewById(R.id.img);
 
         btnLogin.setOnClickListener(v -> {
             showProgressDialog();
@@ -121,8 +119,7 @@ public class DangNhapActivity extends AppCompatActivity {
                         iLogin.putExtra("email", email);
                         startActivity(iLogin);
                         rememberUser(email,password,ckRember.isChecked());
-                        //Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                        showSnackBar(mLayout,"Đăng nhập thành công");
+                        Toast.makeText(DangNhapActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                         finish();
 
                     } else {
@@ -156,13 +153,11 @@ public class DangNhapActivity extends AppCompatActivity {
         String password=edPassword.getText().toString().trim();
 
         if(email.isEmpty() || password.isEmpty()){
-            //Toast.makeText(DangNhapActivity.this, "Vui lòng nhập đủ các trường", Toast.LENGTH_SHORT).show();
-            showSnackBar(mLayout,"Vui lòng nhập đủ các trường");
+            Toast.makeText(DangNhapActivity.this, "Vui lòng nhập đủ các trường", Toast.LENGTH_SHORT).show();
             check=-1;
         }else{
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                 Toast.makeText(DangNhapActivity.this, "Email định dạng không đúng", Toast.LENGTH_SHORT).show();
-                showSnackBar(mLayout,"Email định dạng không đúng" );
                 check=-1;
             }
         }
@@ -254,9 +249,5 @@ public class DangNhapActivity extends AppCompatActivity {
 
             }
         });
-    }
-    private void showSnackBar(View view,String message){
-        Snackbar snackbar = Snackbar.make(view,message,Snackbar.LENGTH_SHORT);
-        snackbar.show();
     }
 }

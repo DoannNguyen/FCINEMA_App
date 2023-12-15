@@ -19,8 +19,8 @@ import java.util.List;
 
 public class PhimSapChieuAdapter  extends BaseAdapter {
 
-    private Context context;
-    private List<PhimSapChieuModel> list;
+    private final Context context;
+    private final List<PhimSapChieuModel> list;
 
     public PhimSapChieuAdapter(Context context, List<PhimSapChieuModel> list) {
         this.context = context;
@@ -45,7 +45,7 @@ public class PhimSapChieuAdapter  extends BaseAdapter {
         return 0;
     }
 
-    public class ViewHolder{
+    public static class ViewHolder{
         ImageView image;
     }
 

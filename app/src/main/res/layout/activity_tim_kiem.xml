@@ -21,6 +21,7 @@
             />
         <androidx.appcompat.widget.SearchView
             android:id="@+id/edSearch"
+            app:queryHint="Tìm kiếm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"

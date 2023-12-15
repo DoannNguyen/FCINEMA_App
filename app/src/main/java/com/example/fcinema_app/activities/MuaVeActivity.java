@@ -1,6 +1,7 @@
 package com.example.fcinema_app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
@@ -51,7 +52,6 @@ public class MuaVeActivity extends AppCompatActivity {
     private ArrayList<Integer> in2;
     private List<ToggleButton> toggleButtonList ;
     DecimalFormat decimalFormat=new DecimalFormat("###,###");
-    private LinearLayout mLayout;
     @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,6 @@ public class MuaVeActivity extends AppCompatActivity {
         tvSoLuong = findViewById(R.id.tvSoLuongDV);
         tvTongThanhToan = findViewById(R.id.tvTongThanhToanDV);
         imgPoster=findViewById(R.id.imgPosterMV);
-        mLayout = findViewById(R.id.layout_MuaVe);
 
         mSimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         in = new ArrayList<>();
@@ -104,7 +103,7 @@ public class MuaVeActivity extends AppCompatActivity {
         for (int i = 0 ; i <= 19 ; i++){
             ToggleButton button = new ToggleButton(MuaVeActivity.this);
 
-            button.setTextSize(13);
+//            button.setTextSize(13);
 
             button.setText(ConverterChairName(i));
             button.setTextOn(ConverterChairName(i));
@@ -139,8 +138,7 @@ public class MuaVeActivity extends AppCompatActivity {
                 if(clickedButtonCount != 0){
                     startActivity(intent);
                 }else{
-//                    Toast.makeText(MuaVeActivity.this, "Bạn phải chọn ghế trước khi xác nhận", Toast.LENGTH_SHORT).show();
-                    showSnackBar("Bạn phải chọn ghế trước khi xác nhận");
+                    Toast.makeText(MuaVeActivity.this, "Bạn phải chọn ghế trước khi xác nhận", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -246,9 +244,5 @@ public class MuaVeActivity extends AppCompatActivity {
             D = 15 + Integer.parseInt(String.valueOf(chair.charAt(1))) - 1;
         }
         return D;
-    }
-    private void showSnackBar(String message){
-        Snackbar snackbar = Snackbar.make(mLayout,message,Snackbar.LENGTH_SHORT);
-        snackbar.show();
     }
 }

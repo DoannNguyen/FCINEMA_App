@@ -1,16 +1,13 @@
 package com.example.fcinema_app.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
@@ -18,14 +15,17 @@ import com.example.fcinema_app.Utils.OnMinusItemClick;
 import com.example.fcinema_app.Utils.OnPlusItemClick;
 import com.example.fcinema_app.models.DoAnModel;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class DoAnAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private List<DoAnModel> mList;
+    private final Context mContext;
+    private final List<DoAnModel> mList;
     private OnMinusItemClick mOnMinusItemClick;
     private OnPlusItemClick mOnPlusItemClick;
+    private final NumberFormat formatter = new DecimalFormat("###,###,##0");
 
     public void setOnMinusItemClick(OnMinusItemClick onMinusItemClick) {
         mOnMinusItemClick = onMinusItemClick;
@@ -63,11 +63,12 @@ public class DoAnAdapter extends BaseAdapter {
         return mList.get(i).getIdDoAn();
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         ImageView imgAnh, imgMinus, imgPlus;
         TextView tvTen, tvGia, tvSoLuong;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder = null;
@@ -85,7 +86,7 @@ public class DoAnAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.tvTen.setText(mList.get(i).getTenDoAn());
-        viewHolder.tvGia.setText(mList.get(i).getGiaDoAn()+"");
+        viewHolder.tvGia.setText(formatter.format(mList.get(i).getGiaDoAn())+"đ");
         String imageUrl = mList.get(i).getAnh();
         Glide.with(mContext)
                 .load(imageUrl)
