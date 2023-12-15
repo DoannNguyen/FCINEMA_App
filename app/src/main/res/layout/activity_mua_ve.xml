@@ -271,7 +271,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
-                            android:background="@drawable/custom_toggle_button_focus"/>
+                            android:background="@drawable/custom_toggle_button_checked"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -290,7 +290,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="10dp"
-                            android:background="@drawable/custom_toggle_button_checked"/>
+                            android:background="@drawable/custom_toggle_button_focus"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

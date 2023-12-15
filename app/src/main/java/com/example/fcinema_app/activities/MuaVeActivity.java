@@ -159,7 +159,7 @@ public class MuaVeActivity extends AppCompatActivity {
             boolean isChecked = button.isChecked();
 
             if(isChecked){
-                button.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button_focus));
+                button.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button_checked));
                 clickedButtonCount++;
                 in.add(buttonIndex);
                 tvSoLuong.setText(""+clickedButtonCount);
@@ -197,7 +197,7 @@ public class MuaVeActivity extends AppCompatActivity {
                         if (in2.contains(i)) {
                             toggleButton.setEnabled(false);
                             toggleButton.setChecked(true);
-                            toggleButton.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button_checked));
+                            toggleButton.setBackground(ContextCompat.getDrawable(MuaVeActivity.this,R.drawable.custom_toggle_button_focus));
                         } else {
                             toggleButton.setEnabled(true);
                         }
