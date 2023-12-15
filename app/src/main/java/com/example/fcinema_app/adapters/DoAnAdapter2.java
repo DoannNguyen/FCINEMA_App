@@ -1,13 +1,14 @@
 package com.example.fcinema_app.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fcinema_app.R;
@@ -17,69 +18,57 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-public class DoAnAdapter2 extends BaseAdapter {
+public class DoAnAdapter2 extends RecyclerView.Adapter<DoAnAdapter2.ViewHolder> {
     private final Context mContext;
     private final List<DoAnModel> mList;
-    private final NumberFormat formatter = new DecimalFormat("###,###,##0");
+    private static final NumberFormat formatter = new DecimalFormat("###,###,##0");
 
     public DoAnAdapter2(Context context, List<DoAnModel> list) {
         mContext = context;
         mList = list;
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        if(mList != null){
-            return mList.size();
-        }
-        return 0;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.do_an_item_layout2, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public Object getItem(int i) {
-        return mList.get(i);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        DoAnModel item = mList.get(position);
+        holder.bind(item);
     }
 
     @Override
-    public long getItemId(int i) {
-        return mList.get(i).getIdDoAn();
+    public int getItemCount() {
+        return mList.size();
     }
 
-    private static class  ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView tvTen, tvSoLuong, tvGia;
-    }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder = null;
-        if(view == null){
-            view = LayoutInflater.from(mContext).inflate(R.layout.do_an_item_layout2, viewGroup, false);
-            viewHolder = new ViewHolder();
-            viewHolder.tvTen = view.findViewById(R.id.tvTenDoAn2);
-            viewHolder.tvSoLuong = view.findViewById(R.id.tvSoLuong2);
-            viewHolder.img = view.findViewById(R.id.imgeAnhDoAn2);
-            viewHolder.tvGia = view.findViewById(R.id.tvGiaDoAn2);
-            view.setTag(viewHolder);
-        }else{
-            viewHolder = (ViewHolder) view.getTag();
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvTen = itemView.findViewById(R.id.tvTenDoAn2);
+            tvSoLuong = itemView.findViewById(R.id.tvSoLuong2);
+            img = itemView.findViewById(R.id.imgeAnhDoAn2);
+            tvGia = itemView.findViewById(R.id.tvGiaDoAn2);
         }
-        viewHolder.tvTen.setText(mList.get(i).getTenDoAn());
-        viewHolder.tvSoLuong.setText("SL: "+mList.get(i).getSoLuong()+"");
-        viewHolder.tvGia.setText(formatter.format(mList.get(i).getGiaDoAn())+"đ");
-        String imageUrl = mList.get(i).getAnh();
-        Glide.with(mContext)
-                .load(imageUrl)
-                .placeholder(R.drawable.img_default)
-                .error(R.drawable.img_default)
-                .into(viewHolder.img);
 
-        return view;
-    }
+        public void bind(DoAnModel item) {
+            tvTen.setText(item.getTenDoAn());
+            tvSoLuong.setText("SL: " + item.getSoLuong());
+            tvGia.setText(formatter.format(item.getGiaDoAn()) + "đ");
 
-    @Override
-    public boolean isEnabled(int position) {
-        return false;
+            String imageUrl = item.getAnh();
+            Glide.with(itemView.getContext())
+                    .load(imageUrl)
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(img);
+        }
     }
 }

@@ -11,7 +11,8 @@
         android:id="@+id/toolbarCTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryDark">
+        android:background="?attr/colorPrimaryDark"
+        >
 
         <ImageView
             android:id="@+id/imgBackFromDetailVe"
@@ -258,14 +259,30 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <ListView
-            android:id="@+id/lvDoAn3"
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="150dp"
-            tools:itemCount="2"
-            tools:listitem="@layout/do_an_item_layout2"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lvDoAn3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints"
+                tools:itemCount="2"
+                android:minHeight="100dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp"
+                tools:listitem="@layout/do_an_item_layout2" />
+            <TextView
+                android:id="@+id/tvNoProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không có sản phẩm nào"
+                android:textColor="@color/silver"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
