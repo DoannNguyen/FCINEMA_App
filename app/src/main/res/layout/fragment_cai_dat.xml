@@ -146,22 +146,6 @@
 
 
         <TextView
-            android:id="@+id/tvContact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:drawableLeft="@drawable/question"
-            android:drawableRight="@drawable/arrow_srg"
-            android:drawablePadding="12dp"
-            android:gravity="center|left"
-            android:padding="12dp"
-            android:text="Trung tâm trợ giúp"
-            android:textColor="@color/black"
-            android:textSize="14dp" />
-
-        <TextView
             android:id="@+id/tvAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

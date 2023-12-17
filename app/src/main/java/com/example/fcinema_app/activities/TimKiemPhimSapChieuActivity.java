@@ -49,6 +49,7 @@ public class TimKiemPhimSapChieuActivity extends AppCompatActivity {
         edSearch=findViewById(R.id.edSearchNewFilm);
         gridViewSearch=findViewById(R.id.gridViewSearchNewFilm);
         tvHidden=findViewById(R.id.tvNotificationSearchNewFilm);
+        imgBack=findViewById(R.id.imgBackFromSearchNewFilm);
 
         adapter=new PhimSapChieuAdapter(this,list);
         gridViewSearch.setAdapter(adapter);
@@ -61,6 +62,10 @@ public class TimKiemPhimSapChieuActivity extends AppCompatActivity {
                 finish();
 
             }
+        });
+
+        imgBack.setOnClickListener(v -> {
+            finish();
         });
 
         getAllPhimSC();

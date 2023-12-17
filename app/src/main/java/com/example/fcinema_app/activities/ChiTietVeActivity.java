@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 public class ChiTietVeActivity extends AppCompatActivity {
 
-    private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, soGhe;
+    private TextView tenPhim, giaTien, trangThai, thoiGian, maVe, phongChieu, ngayChieu, soGhe, tongSP,tongVe;
     private TextView hinhThucTT, tongTT,tvCaChieu, tvNoProduct;
     private ImageView imgPoster;
     private androidx.appcompat.widget.Toolbar mToolbar;
@@ -69,6 +69,8 @@ public class ChiTietVeActivity extends AppCompatActivity {
         mListView = findViewById(R.id.lvDoAn3);
         mAnAdapter2 = new DoAnAdapter2(this,mList);
         tvNoProduct = findViewById(R.id.tvNoProduct);
+        tongVe=findViewById(R.id.tongTienVeCTV);
+        tongSP=findViewById(R.id.tongTienSPCTV);
 
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -91,9 +93,12 @@ public class ChiTietVeActivity extends AppCompatActivity {
             if(lichSuVeModel.getTrangThai() == 1){
                 trangThai.setText("Chưa thanh toán");
                 trangThai.setTextColor(ContextCompat.getColor(ChiTietVeActivity.this,R.color.darkRed));
-            }else{
+            }else if(lichSuVeModel.getTrangThai()==0){
                 trangThai.setText("Đã thanh toán");
                 trangThai.setTextColor(ContextCompat.getColor(ChiTietVeActivity.this,R.color.darKGreen));
+            }else{
+                trangThai.setText("Đã hết hạn");
+                trangThai.setTextColor(ContextCompat.getColor(ChiTietVeActivity.this,R.color.earthy));
             }
             hinhThucTT.setText(lichSuVeModel.getPhuongThucTT());
             thoiGian.setText(mSimpleDateFormat.format(lichSuVeModel.getNgayMua()));
@@ -102,8 +107,16 @@ public class ChiTietVeActivity extends AppCompatActivity {
             ngayChieu.setText(mSimpleDateFormat.format(lichSuVeModel.getNgayChieu()));
             Float tongTien= Float.valueOf(lichSuVeModel.getTongTT());
 
-            String formatTongTien = decimalFormat.format(tongTien);
+            Float soLuongGhe= Float.valueOf(lichSuVeModel.getSoluongVe());
+            Float tongTienVe=giaVe*soLuongGhe;
+            Float tongTienSanPham=tongTien-tongTienVe;
 
+            String formatTongTien = decimalFormat.format(tongTien);
+            String formatTienve=decimalFormat.format(tongTienVe);
+            String formatTienSP=decimalFormat.format(tongTienSanPham);
+
+            tongSP.setText(""+formatTienSP+"đ");
+            tongVe.setText(""+formatTienve+"đ");
             tongTT.setText(formatTongTien+" đ");
             soGhe.setText((lichSuVeModel.getSoGhe().replace("\"","")));
             tvCaChieu.setText(lichSuVeModel.getCaChieu());

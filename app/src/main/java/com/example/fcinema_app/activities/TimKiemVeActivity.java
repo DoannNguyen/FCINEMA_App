@@ -45,6 +45,7 @@ public class TimKiemVeActivity extends AppCompatActivity {
         edSearch=findViewById(R.id.edSearchTicket);
         tvHidden=findViewById(R.id.tvNotificationSearchTicket);
         gridViewSearch=findViewById(R.id.gridViewSearchTicket);
+        imgBack=findViewById(R.id.imgBackFromSearchTicket);
 
         adapter=new LichSuVeAdapter(this,list);
         gridViewSearch.setAdapter(adapter);
@@ -57,6 +58,10 @@ public class TimKiemVeActivity extends AppCompatActivity {
                 finish();
 
             }
+        });
+
+        imgBack.setOnClickListener(v -> {
+            finish();
         });
 
 

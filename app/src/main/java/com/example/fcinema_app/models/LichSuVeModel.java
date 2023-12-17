@@ -33,7 +33,6 @@ public class LichSuVeModel implements Serializable {
     @SerializedName("anh")
 
     private String anh;
-
     public LichSuVeModel() {
     }
 
