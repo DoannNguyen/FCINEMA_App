@@ -169,19 +169,19 @@ public class DangKyActivity extends AppCompatActivity {
         String password=edPassword.getText().toString().trim();
         String rePass=edRePass.getText().toString().trim();
         if(email.isEmpty() || password.isEmpty() ||rePass.isEmpty()){
-            showSnackbar("Vui lòng nhập đủ các trường");
+            Toast.makeText(this, "Vui lòng nhập đủ các trường", Toast.LENGTH_SHORT).show();
             check=-1;
         }else{
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                showSnackbar("Email định dạng không đúng");
+                Toast.makeText(this, "Email định dạng không đúng", Toast.LENGTH_SHORT).show();
                 check=-1;
             }
             if(!password.equals(rePass)){
-                showSnackbar("Xác nhận mật khẩu không trùng");
+                Toast.makeText(this, "Xác nhận mật khẩu không trùng", Toast.LENGTH_SHORT).show();
                 check=-1;
             }
             if(password.length()<6){
-                showSnackbar("Mật khẩu phải trên 6 ký tự");
+                Toast.makeText(this, "Mật khẩu phải trên 6 ký tự", Toast.LENGTH_SHORT).show();
                 check=-1;
             }
         }
@@ -205,7 +205,7 @@ public class DangKyActivity extends AppCompatActivity {
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
                         String errorMessage = jsonObject.getString("message");
-                        showSnackbar(""+errorMessage);
+                        Toast.makeText(DangKyActivity.this, ""+errorMessage, Toast.LENGTH_SHORT).show();
 
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -233,14 +233,14 @@ public class DangKyActivity extends AppCompatActivity {
                     Intent iLogin = new Intent(DangKyActivity.this, DangNhapActivity.class);
                     startActivity(iLogin);
                     new Handler().postDelayed(() -> finish(), 1500);
-                    showSnackbar("Đăng ký thành công");
+                    Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
 
                 } else {
                     try {
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
                         String errorMessage = jsonObject.getString("message");
-                        showSnackbar(""+errorMessage);
+                        Toast.makeText(DangKyActivity.this, ""+errorMessage, Toast.LENGTH_SHORT).show();
 
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -254,7 +254,7 @@ public class DangKyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                showSnackbar("Lỗi"+t.getMessage());
+                Toast.makeText(DangKyActivity.this, "Lỗi: "+t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.i("Lỗi",t.getMessage());
 
             }
@@ -262,10 +262,6 @@ public class DangKyActivity extends AppCompatActivity {
 
     }
 
-    private void showSnackbar(String message){
-        Snackbar.make(coordinatorLayout,message, Snackbar.LENGTH_SHORT)
-                .show();
-    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

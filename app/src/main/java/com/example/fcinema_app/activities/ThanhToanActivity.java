@@ -2,6 +2,8 @@ package com.example.fcinema_app.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -54,7 +56,7 @@ import vn.zalopay.sdk.listeners.PayOrderListener;
 public class ThanhToanActivity extends AppCompatActivity {
 
     private TextView tvTenPhim, tvThoiLuong, tvNgayChieu, tvPhongChieu, tvCaChieu, tvViTri, tvGia;
-    private TextView tvSoLuong, tvTongTT, tvNoFood, tvTienDoAn;
+    private TextView tvSoLuong, tvTongTT, tvNoFood, tvTienDoAn, tvTienVe;
     private VeModel veModel;
     private ViTriGheModel viTriGheModel;
     private Button btnXacNhan;
@@ -84,7 +86,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.progress_dialog);
         mProgressDialog = new ProgressDialog(dialog, "Đang tải...");
         setupProgressDialog(mProgressDialog, dialog);
-        ListView listView = findViewById(R.id.lvDoAn2);
+        RecyclerView listView = findViewById(R.id.lvDoAn2);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
@@ -96,6 +98,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         ArrayList<Integer> ghe = bundle.getIntegerArrayList("ghe");
          models = (List<DoAnModel>) bundle.getSerializable("doAn");
         DoAnAdapter2 anAdapter2 = new DoAnAdapter2(ThanhToanActivity.this, models);
+        listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(anAdapter2);
 
         JsonArray jsonArray = new JsonArray();
@@ -119,7 +122,7 @@ public class ThanhToanActivity extends AppCompatActivity {
        if(model != null && soLuongGhe != 0){
            String formatGiaVe=decimalFormat.format(Float.parseFloat(model.getGiaPhim()));
            String formatTong=decimalFormat.format((soLuongGhe*Integer.parseInt(model.getGiaPhim())+giaDoAn));
-
+            tvTienVe.setText(decimalFormat.format((soLuongGhe*Integer.parseInt(model.getGiaPhim())))+"đ");
            String imageUrl = model.getImage();
            Glide.with(this)
                    .load(imageUrl)
@@ -127,9 +130,13 @@ public class ThanhToanActivity extends AppCompatActivity {
                    .error(R.drawable.img_default)
                    .into(imgPoster);
 
-           tvTenPhim.setText(model.getTenPhim());
+           if(model.getTenPhim().length() < 12){
+               tvTenPhim.setText(model.getTenPhim());
+           }else{
+               tvTenPhim.setText(model.getTenPhim()+"...");
+           }
            tvThoiLuong.setText(model.getThoiLuong());
-           tvNgayChieu.setText(simpleDateFormat.format(model.getNgayChieu()));
+           tvNgayChieu.setText(new SimpleDateFormat("yyyy-MM-dd").format(model.getNgayChieu()));
            tvPhongChieu.setText(model.getTenPhong());
            tvCaChieu.setText(model.getCaChieu());
            tvViTri.setText(stringBuilder.toString());
@@ -199,6 +206,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         imgPoster=findViewById(R.id.imgPosterPayment);
         tvNoFood = findViewById(R.id.tvNoFood);
         tvTienDoAn = findViewById(R.id.tvTienDoAnTT);
+        tvTienVe = findViewById(R.id.tvTienVe);
     }
 
     private void AddVeAndViTriGhe(){
