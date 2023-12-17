@@ -48,6 +48,7 @@ public class DoiMatKhauActivity extends AppCompatActivity {
         findViewById(R.id.btnSaveChangePass).setOnClickListener(v -> {
             if(validate()>0) {
                 updatePassword();
+                finish();
             }
         });
 

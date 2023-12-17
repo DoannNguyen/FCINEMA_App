@@ -106,6 +106,7 @@ public class DoiThongTinActivity extends AppCompatActivity {
         findViewById(R.id.btnUpdateUser).setOnClickListener(v -> {
             try {
                 saveUpdateNguoiDung();
+                finish();
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }

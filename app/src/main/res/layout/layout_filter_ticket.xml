@@ -119,7 +119,7 @@
                         android:drawablePadding="16dp"
                         android:padding="10dp"
                         android:paddingStart="20dp"
-                        android:text="Vé hết hạn"
+                        android:text="Đã hết hạn"
                         android:textAlignment="textStart"
                         android:textColor="@color/earthy"
                         android:textSize="15sp"

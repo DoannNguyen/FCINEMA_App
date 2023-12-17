@@ -75,7 +75,7 @@ public class LichSuVeAdapter extends BaseAdapter {
             holder.tvTrangThai.setTextColor(ContextCompat.getColor(context, R.color.darKGreen));
         }
         if(list.get(i).getTrangThai() == 2){
-            holder.tvTrangThai.setText("Hết hạn");
+            holder.tvTrangThai.setText("Đã hết hạn");
             holder.tvTrangThai.setTextColor(ContextCompat.getColor(context, R.color.earthy));
         }
         DecimalFormat decimalFormat = new DecimalFormat("###,###");

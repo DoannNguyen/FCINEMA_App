@@ -39,7 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CaiDatFragment extends Fragment {
 
     private LinearLayout lnSettings;
-    private TextView tvNameUser,tvEmailUser,tvChangeInfor,tvChangePass,tvAbout,tvLogout,tvAlert,tvContact;
+    private TextView tvNameUser,tvEmailUser,tvChangeInfor,tvChangePass,tvAbout,tvLogout,tvAlert;
     private ImageView imgUser;
     private String oldPass;
 
@@ -72,7 +72,6 @@ public class CaiDatFragment extends Fragment {
         tvChangePass=view.findViewById(R.id.tvChangePass);
         tvAbout=view.findViewById(R.id.tvAbout);
         tvAlert=view.findViewById(R.id.tvNotification);
-        tvContact=view.findViewById(R.id.tvContact);
         tvLogout=view.findViewById(R.id.tvLogout);
 
         tvChangeInfor.setOnClickListener(v -> {
@@ -91,9 +90,7 @@ public class CaiDatFragment extends Fragment {
                     snackbar.setAnchorView(R.id.nav_view)
                     .show();
         });
-        tvContact.setOnClickListener(v -> {
 
-        });
 
         tvLogout.setOnClickListener(v -> {
             Intent iLogout=new Intent(getActivity(), DangNhapActivity.class);
