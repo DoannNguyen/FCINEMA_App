@@ -1,6 +1,7 @@
 # FALL23/PRO2052/PRO2052-TRI-FORCE
 # FCinema Booking App
 Ứng dụng đặt vé xem phim. Công nghệ sử dụng Android: Java. Server: Node.JS, Handlebars template, Bootstrap 5. Database: MySQL
+Web server: 
 
 ## Thành viên
 
