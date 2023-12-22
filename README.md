@@ -1,6 +1,6 @@
 # FALL23/PRO2052/PRO2052-TRI-FORCE
 # FCinema Booking App
-FCinema Booking App là một ứng dụng đặt vé xem phim. Ứng dụng được xây dựng trên nền tảng Android, sử dụng ngôn ngữ Java cho phía client và Node.js, Handlebars template, Bootstrap 5 cho phía [server](https://github.com/FA2023-PRO2052-TRI-FORCE/CINEMA_SEVER). Database sử dụng là MySQL.
+FCinema Booking App là một ứng dụng đặt vé xem phim. Ứng dụng được xây dựng trên nền tảng Android, sử dụng ngôn ngữ Java và REST API sử dụng Retrofit cho phía client và Node.js, Handlebars template, Bootstrap 5 cho phía [server](https://github.com/FA2023-PRO2052-TRI-FORCE/CINEMA_SEVER). Database sử dụng là MySQL.
 
 ## Thành viên
 
