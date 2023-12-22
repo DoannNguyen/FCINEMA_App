@@ -1,6 +1,6 @@
 # FALL23/PRO2052/PRO2052-TRI-FORCE
 # FCinema Booking App
-Đề tài gồm 2 phần là: [Web server](https://github.com/FA2023-PRO2052-TRI-FORCE/CINEMA_SERVER) và ứng dụng đặt vé xem phim. Công nghệ sử dụng Android: Java. Server: Node.JS, Handlebars template, Bootstrap 5. Database: MySQL.
+Đề tài gồm 2 phần là: [Web server](https://github.com/FA2023-PRO2052-TRI-FORCE/CINEMA_SEVER) và ứng dụng đặt vé xem phim. Công nghệ sử dụng Android: Java. Server: Node.JS, Handlebars template, Bootstrap 5. Database: MySQL.
 
 
 ## Thành viên
