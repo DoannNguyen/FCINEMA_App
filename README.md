@@ -21,4 +21,47 @@
 7. Đặt vé (chọn ghế, chọn đồ ăn)
 8. Thanh toán bằng Zalo Pay
 9. Xem danh sách, xem chi tiết, tìm kiếm, lọc theo trạng thái vé đã đặt.
-## Giao diện
+## Một số giao diện
+![Giao diện màn hình chào](./img/1.jpg)
+
+<h4 align="center">Giao diện màn hình chào</h4>
+
+![Giao diện đăng nhập](./img/login.jpeg)
+
+<h4 align="center">Đăng nhập</h4>
+
+![Giao diện tổng quan](./img/tongquan.jpeg)
+
+<h4 align="center">Tổng quan</h4>
+
+![Giao diện câu hỏi](./img/cauhoi.jpeg)
+
+<h4 align="center">Câu hỏi</h4>
+
+![Giao diện thêm câu hỏi](./img/themcauhoi.jpeg)
+
+<h4 align="center">Thêm câu hỏi</h4>
+
+![Giao diện thêm câu hỏi từ file](./img/themcauhoitufile.jpeg)
+
+<h4 align="center">Thêm câu hỏi từ file</h4>
+
+![Giao diện thêm câu hỏi từ file](./img/dekiemtra.jpeg)
+
+<h4 align="center">Đề kiểm tra</h4>
+
+![Giao diện thêm câu hỏi từ file](./img/themdekiemtra.jpeg)
+
+<h4 align="center">Thêm đề kiểm tra</h4>
+
+![Giao diện thêm câu hỏi từ file](./img/diemthi.jpeg)
+
+<h4 align="center">Điểm thi</h4>
+
+![Giao diện nhóm học phần](./img/diemthi.jpeg)
+
+<h4 align="center">Nhóm học phần</h4>
+
+![Giao diện nhóm học phần](./img/chitietnhomhocphan.jpeg)
+
+<h4 align="center">Chi tiết nhóm học phần</h4>
