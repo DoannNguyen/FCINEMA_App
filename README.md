@@ -27,6 +27,7 @@ FCinema Booking App là một ứng dụng đặt vé xem phim. Ứng dụng đ�
 | |  |
 |---|---|
 |![Giao diện màn hình chào](./img/1.jpg)<h4 align="center">Giao diện màn hình chào</h4> |![Giao diện đăng nhập](./img/2.jpg)<h4 align="center">Giao diện màn hình đăng nhập</h4> |
+|![Giao diện đăng ký](./img/4.jpg)<h4 align="center">Giao diện đăng ký</h4> |![Giao diện quên mật khẩu](./img/3.jpg)<h4 align="center">Giao diện màn quên mật khẩu</h4> |
 |![Giao diện màn hình chính](./img/5.jpg)<h4 align="center">Màn hình chính</h4> |![Giao diện chi tiết phim](./img/6.jpg)<h4 align="center">Chi tiết phim đang chiếu </h4> |
 |![Giao diện chọn ghế](./img/7.jpg)<h4 align="center">Màn hình Chọn ghế </h4> |![Giao diện thanh toán](./img/8.jpg)<h4 align="center">Thanh toán</h4> |
 | ![Giao diện danh sách vé đã đặt](./img/9.jpg) <h4 align="center"> Danh sách vé đã đặt</h4> | ![Giao diện cài đặt](./img/11.jpg)<h4 align="center">Cài đặt</h4> |
